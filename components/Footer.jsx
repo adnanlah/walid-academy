@@ -3,7 +3,10 @@ import {createStyles} from '@mantine/core'
 const useStyles = createStyles(theme => {
   return {
     wrapper: {
-      background: theme.colors.gray[9],
+      background:
+        theme.colorScheme === 'light'
+          ? theme.colors.blue[9]
+          : theme.colors.dark[9],
       height: 400,
     },
   }

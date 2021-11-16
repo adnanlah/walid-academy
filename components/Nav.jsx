@@ -1,26 +1,41 @@
 import Link from 'next/link'
 
-import {createStyles, Autocomplete, Button, Title, Divider} from '@mantine/core'
-
-import {MagnifyingGlassIcon} from '@modulz/radix-icons'
+import {
+  createStyles,
+  Anchor,
+  Box,
+  Autocomplete,
+  Button,
+  Title,
+  Divider,
+  Menu,
+  MenuItem,
+  MenuLabel,
+  Text,
+  ActionIcon,
+  Input,
+  InputWrapper,
+  useMantineColorScheme,
+} from '@mantine/core'
+import {MagnifyingGlassIcon, SunIcon, MoonIcon} from '@modulz/radix-icons'
+import {useState} from 'react'
 
 const useStyles = createStyles(theme => {
   return {
     wrapper: {
-      padding: `${theme.spacing.xs}px  15%`,
+      backgroundColor:
+        theme.colorScheme === 'light'
+          ? theme.colors.gray[0]
+          : theme.colors.dark[9],
+      padding: `${theme.spacing.md}px 15%`,
       display: 'flex',
       justifyContent: 'space-between',
-      alignItems: 'center',
-      color: 'red',
+      alignItems: `center`,
       boxShadow: theme.shadows.xs,
       position: `relative`,
       '& > div': {
-        flexGrow: 1,
+        width: `33%`,
       },
-    },
-    logo: {
-      fontWeight: 'bold',
-      textAlign: 'center',
     },
     navLinks: {
       display: 'flex',
@@ -28,28 +43,36 @@ const useStyles = createStyles(theme => {
     },
     navLinksStart: {
       justifyContent: 'flex-end',
-      color: 'red',
     },
     navLinksEnd: {
       justifyContent: 'flex-start',
-      color: 'blue',
-    },
-    navLink: {
-      margin: `0 ${theme.spacing.sm}px`,
-      textDecoration: 'none',
     },
   }
 })
 
+function NavLink(props) {
+  return (
+    <Box mx="xs">
+      <Link href={props.link}>
+        <Anchor href={props.link}>{props.children}</Anchor>
+      </Link>
+    </Box>
+  )
+}
+
 function Nav() {
+  const [opened, setOpened] = useState(false)
   const {classes, cx} = useStyles()
+  const {colorScheme, toggleColorScheme} = useMantineColorScheme()
+  const dark = colorScheme === 'dark'
 
   return (
     <nav className={classes.wrapper}>
       <div className={cx(classes.navLinks, classes.navLinksEnd)}>
-        <Link href="/courses">
-          <a className={classes.navLink}>الدروس</a>
-        </Link>
+        <NavLink link="/courses">
+          <Text>الدروس</Text>
+        </NavLink>
+
         <Autocomplete
           styles={{
             input: {
@@ -59,31 +82,64 @@ function Nav() {
               textAlign: 'right',
             },
           }}
+          sx={_ => ({
+            width: '50%',
+          })}
           icon={<MagnifyingGlassIcon />}
           placeholder="ابحث في الموقع"
           data={['React', 'Angular', 'Svelte', 'Vue']}
         />
       </div>
 
-      <div className={classes.logo}>
-        <Link href="/">
-          <a className={classes.navLink}>
-            <Title order={3}>اكاديمية وليد</Title>
-          </a>
-        </Link>
-      </div>
+      <Box style={{textAlign: 'center'}}>
+        <NavLink link="/">
+          <Title order={3}>اكاديمية وليد</Title>
+        </NavLink>
+      </Box>
 
       <div className={cx(classes.navLinks, classes.navLinksStart)}>
-        <Link href="/courses">
-          <a className={classes.navLink}>المنتدى</a>
-        </Link>
+        <NavLink link="/blog">
+          <Text>المدونة</Text>
+        </NavLink>
 
-        <Divider orientation="vertical" mx="xs" size="xs" />
+        <NavLink link="/forum">
+          <Text>المنتدى</Text>
+        </NavLink>
 
-        <Link href="/courses">
-          <a className={classes.navLink}>تسحيل دخول</a>
-        </Link>
+        <Divider orientation="vertical" size="xs" />
+
+        <Menu
+          control={<Text>تسجيل دخول</Text>}
+          closeOnItemClick={false}
+          opened={opened}
+          onOpen={() => setOpened(true)}
+          onClose={() => setOpened(false)}
+        >
+          <Menu.Item component="div">
+            <InputWrapper
+              id="input-demo"
+              required
+              label="Credit card information"
+              description="Please enter your credit card information, we need some money"
+              error="Your credit card expired"
+            >
+              <Input id="input-demo" placeholder="Your email" />
+            </InputWrapper>
+          </Menu.Item>
+        </Menu>
+
         <Button color="dark">ابدا من هنا</Button>
+
+        <ActionIcon
+          mr="md"
+          size="lg"
+          variant="outline"
+          color={dark ? 'yellow' : 'blue'}
+          onClick={() => toggleColorScheme()}
+          title="Toggle color scheme"
+        >
+          {dark ? <SunIcon /> : <MoonIcon />}
+        </ActionIcon>
       </div>
     </nav>
   )

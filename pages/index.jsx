@@ -2,6 +2,7 @@ import Link from 'next/link'
 import {Input, Title, createStyles, SimpleGrid, Box} from '@mantine/core'
 import Signup from '../components/Signup'
 import Container from '../components/ِContainer'
+import Layout from '../components/Layout'
 
 const useStyles = createStyles(theme => {
   return {
@@ -38,7 +39,7 @@ const useStyles = createStyles(theme => {
 function CustomTitle(props) {
   return (
     <Title
-      order={2}
+      order={3}
       sx={theme => ({
         textAlign: `center`,
         marginBottom: `${theme.spacing.xl}px`,
@@ -61,12 +62,12 @@ export default function Home({content}) {
   }
 
   return (
-    <div>
+    <>
       <Container>
         <section className={classes.hero}>
           <figure></figure>
           <div className={classes.heroMessage}>
-            <Title order={2}>مادا تريد ان تدرس</Title>
+            <Title order={3}>مادا تريد ان تدرس</Title>
             <Input></Input>
           </div>
         </section>
@@ -128,8 +129,12 @@ export default function Home({content}) {
           </div>
         </section>
       </Container>
-    </div>
+    </>
   )
+}
+
+Home.getLayout = function getLayout(page) {
+  return <Layout>{page}</Layout>
 }
 
 export function getStaticProps() {
