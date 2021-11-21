@@ -3,10 +3,10 @@ import {StarFilledIcon, StarIcon} from '@modulz/radix-icons'
 export default function RatingStars({rating}) {
   const stars = []
   for (let idx = 0; idx < rating; idx++) {
-    stars.push(<StarFilledIcon />)
+    stars.push(<StarFilledIcon key={`filled` + idx} color="#FDCC0D" />)
   }
   for (let idx = 0; idx < 5 - rating; idx++) {
-    stars.push(<StarIcon />)
+    stars.push(<StarIcon key={`notfilled` + idx} color="#FDCC0D" />)
   }
   return stars
 }

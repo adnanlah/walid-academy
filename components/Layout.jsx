@@ -3,9 +3,9 @@ import {
   NormalizeCSS,
   Global,
   ColorSchemeProvider,
-  ColorScheme,
+  Portal,
 } from '@mantine/core'
-import {useState} from 'react'
+import {useState, useRef, useEffect} from 'react'
 import Nav from './Nav'
 import Footer from './Footer'
 
@@ -26,9 +26,27 @@ const baseSize = 14
 const marginSize = 3
 
 export default function Layout({children}) {
+  // const myContainer = useRef(null)
   const [colorScheme, setColorScheme] = useState('light')
   const toggleColorScheme = value =>
     setColorScheme(value || (colorScheme === 'dark' ? 'light' : 'dark'))
+
+  const [_document, set_document] = useState(null)
+
+  useEffect(() => {
+    set_document(document)
+  }, [])
+
+  // useEffect(() => {
+  //   myContainer.current = document.getElementById('main')
+  //   console.log(
+  //     'myContainer ref',
+  //     myContainer.current,
+  //     typeof myContainer.current,
+  //   )
+  //   return () => {}
+  // }, [myContainer])
+
   return (
     <>
       <ColorSchemeProvider
@@ -55,7 +73,13 @@ export default function Layout({children}) {
           <GlobalStyles />
 
           <Nav />
-          <main>{children}</main>
+
+          <main id="main">
+            {_document && (
+              <Portal target={_document.getElementsByTagName('main')[0]} />
+            )}
+            {children}
+          </main>
           <Footer />
         </MantineProvider>
       </ColorSchemeProvider>

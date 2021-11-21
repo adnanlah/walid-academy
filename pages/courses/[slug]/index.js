@@ -10,8 +10,8 @@ import {
   Col,
   Paper,
   Box,
-  createStyles,
   Divider,
+  Group,
 } from '@mantine/core'
 import {
   PlayIcon,
@@ -22,14 +22,16 @@ import {
   VideoIcon,
   FileIcon,
   GlobeIcon,
+  TimerIcon,
 } from '@modulz/radix-icons'
-import Layout from '../../components/Layout'
-import ContentLayout from '../../components/ContentLayout'
-import Container from '../../components/ِContainer'
-import VideoModal from '../../components/VideoModal'
-import RatingStars from '../../components/RatingStars'
-import MyBreadcrumbs from '../../components/MyBreadcrumbs'
+import Layout from '../../../components/Layout'
+import ContentLayout from '../../../components/ContentLayout'
+import MyContainer from '../../../components/MyContainer'
+import VideoModal from '../../../components/VideoModal'
+import RatingStars from '../../../components/RatingStars'
+import MyBreadcrumbs from '../../../components/MyBreadcrumbs'
 import {useState} from 'react'
+import Link from 'next/link'
 
 function LessonItem(props) {
   const [opened, setOpened] = useState(false)
@@ -54,14 +56,10 @@ function LessonItem(props) {
         <VideoModal url={'null'} />
       </Modal>
 
-      <Box
-        sx={t => ({
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        })}
+      <Group
+        position="apart"
         onClick={() => {
-          if (props.videoItem && props.url) setOpened(true)
+          if (props.url) setOpened(true)
         }}
         {...props}
       >
@@ -80,7 +78,7 @@ function LessonItem(props) {
           <span>{props.length}</span>
           <span> د</span>
         </Text>
-      </Box>
+      </Group>
     </>
   )
 }
@@ -120,6 +118,27 @@ function AttachItem(props) {
 
 export default function Course({course}) {
   const chaptersList = course.content.map((chapter, idx) => {
+    if (chapter.type === 'quiz') {
+      return (
+        <Paper
+          key={`quiz-${idx}`}
+          component="article"
+          shadow="xs"
+          radius="xs"
+          mb="md"
+          sx={theme => ({
+            padding: `${theme.spacing.lg}px ${theme.spacing.md}px`,
+          })}
+        >
+          <Title order={4} mb="md">
+            {chapter.title}
+          </Title>
+          <Text mb="md">{chapter.description}</Text>
+          <Button>ابدأ</Button>
+        </Paper>
+      )
+    }
+
     const lessonsList = chapter.lessonsList.map((lesson, idx) => {
       return (
         <LessonItem
@@ -127,7 +146,6 @@ export default function Course({course}) {
           icon={<PlayIcon />}
           content={lesson.title}
           url={lesson.url}
-          videoItem={true}
           length={lesson.length}
           mb={chapter.lessonsList.length === idx + 1 ? null : 'xs'}
         />
@@ -229,10 +247,12 @@ export default function Course({course}) {
 
   const ReviewElement = props => {
     return (
-      <Center inline>
-        {props.icon}
-        <Box mr="xs">{props.children}</Box>
-      </Center>
+      <Box>
+        <Center inline {...props}>
+          {props.icon}
+          <Box mr="xs">{props.children}</Box>
+        </Center>
+      </Box>
     )
   }
 
@@ -248,16 +268,16 @@ export default function Course({course}) {
           boxShadow: t.shadows.md,
         })}
       >
-        <Container>
+        <MyContainer>
           <Box mb="xs">
             <MyBreadcrumbs items={course.categories} />
           </Box>
           <Title order={2}>{course.title}</Title>
-        </Container>
+        </MyContainer>
       </Paper>
 
       <section>
-        <Container>
+        <MyContainer>
           <Grid columns={12}>
             <Col span={8}>
               <div>{chaptersList}</div>
@@ -272,47 +292,49 @@ export default function Course({course}) {
               <Paper component="aside" padding={0} radius="xs" shadow="xs">
                 <Box style={{height: '300px', backgroundColor: '#000'}}></Box>
                 <Paper padding="md">
-                  <Box mb="xs">
-                    <ReviewElement icon={<AvatarIcon />}>
-                      <Text>من تقديم الاستاد محمد علي</Text>
-                    </ReviewElement>
-                  </Box>
+                  <ReviewElement icon={<AvatarIcon />} mb="xs">
+                    <Text component="span" ml="xs">
+                      من تقديم الاستاد
+                    </Text>
+                    <Text component="span">
+                      <Link href="/users/1" passHref>
+                        <Anchor component="a" href="/users/1">
+                          {course.user.name}
+                        </Anchor>
+                      </Link>
+                    </Text>
+                  </ReviewElement>
 
-                  <Box mb="sm">
-                    <ReviewElement icon={<ChatBubbleIcon />}>
-                      <Text>
-                        التقييم: <RatingStars rating={course.rating} />
-                      </Text>
-                    </ReviewElement>
-                  </Box>
+                  <ReviewElement icon={<ChatBubbleIcon />} mb="xs">
+                    <Center inline>
+                      <Text ml="xs"> التقييم: </Text>
+                      <RatingStars rating={course.rating} />
+                    </Center>
+                  </ReviewElement>
 
-                  <Box mb="xs">
-                    <ReviewElement icon={<GlobeIcon />}>
-                      <Text>اللغة الانجليزية</Text>
-                    </ReviewElement>
-                  </Box>
+                  <ReviewElement icon={<GlobeIcon />} mb="sm">
+                    <Text>اللغة الانجليزية</Text>
+                  </ReviewElement>
 
                   <Box mb="sm">
                     <Text weight={700}>يحتوي الدرس على</Text>
                   </Box>
 
-                  <Box mb="xs">
-                    <ReviewElement icon={<VideoIcon />}>
-                      <Text>3 سا و15د</Text>
-                    </ReviewElement>
-                  </Box>
+                  <ReviewElement icon={<VideoIcon />} mb="xs">
+                    <Text>3 سا و15د</Text>
+                  </ReviewElement>
 
-                  <Box mb="xs">
-                    <ReviewElement icon={<FileIcon />}>
-                      <Text>5 ملقات</Text>
-                    </ReviewElement>
-                  </Box>
+                  <ReviewElement icon={<FileIcon />} mb="xs">
+                    <Text>5 ملقات</Text>
+                  </ReviewElement>
 
-                  <Box mb="xs">
-                    <ReviewElement icon={<CubeIcon />}>
-                      <Text>5 تمارين</Text>
-                    </ReviewElement>
-                  </Box>
+                  <ReviewElement icon={<CubeIcon />} mb="md">
+                    <Text>5 تمارين</Text>
+                  </ReviewElement>
+
+                  <ReviewElement icon={<TimerIcon />} mb="md">
+                    <Text>اخر تحديث: 3 نوفمبر 2021</Text>
+                  </ReviewElement>
 
                   <Button mb="xs" fullWidth={true} color="primary" radius="xs">
                     أشتراك شهري
@@ -335,7 +357,7 @@ export default function Course({course}) {
               </Paper>
             </Col>
           </Grid>
-        </Container>
+        </MyContainer>
       </section>
 
       <section>
@@ -388,7 +410,7 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({params}) {
-  const response = await fetch(`https://my.backend/courses/${params.id}`)
+  const response = await fetch(`https://my.backend/courses/${params.slug}`)
 
   if (!response.ok) {
     return {

@@ -2,7 +2,7 @@ import {createStyles} from '@mantine/core'
 
 const useStyles = createStyles(theme => {
   return {
-    place: {
+    video: {
       height: '100%',
       backgroundColor: `black`,
     },
@@ -11,5 +11,5 @@ const useStyles = createStyles(theme => {
 
 export default function VideoModal() {
   const {classes} = useStyles()
-  return <article className={classes.place}></article>
+  return <article className={classes.video}></article>
 }

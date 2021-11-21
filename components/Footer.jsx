@@ -5,7 +5,7 @@ const useStyles = createStyles(theme => {
     wrapper: {
       background:
         theme.colorScheme === 'light'
-          ? theme.colors.blue[9]
+          ? theme.colors.indigo[9]
           : theme.colors.dark[9],
       height: 400,
     },

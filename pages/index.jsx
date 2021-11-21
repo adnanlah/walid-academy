@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import {Input, Title, createStyles, SimpleGrid, Box} from '@mantine/core'
 import Signup from '../components/Signup'
-import Container from '../components/ِContainer'
+import MyContainer from '../components/MyContainer'
 import Layout from '../components/Layout'
 
 const useStyles = createStyles(theme => {
@@ -63,7 +63,7 @@ export default function Home({content}) {
 
   return (
     <>
-      <Container>
+      <MyContainer>
         <section className={classes.hero}>
           <figure></figure>
           <div className={classes.heroMessage}>
@@ -128,7 +128,7 @@ export default function Home({content}) {
             <Signup />
           </div>
         </section>
-      </Container>
+      </MyContainer>
     </>
   )
 }

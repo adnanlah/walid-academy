@@ -1,20 +1,45 @@
-import { rest } from 'msw'
-import courses from '../data/courses'
+import {rest} from 'msw'
+import {courses, users, lessons, comments, chapters} from '../data/index.js'
 
-const getCourse = id => courses.find(c => c.id === parseInt(id))
+const getItem = (id, list) => list.find(e => e.id === parseInt(id))
+const getItems = (id, list) => list.filter(e => e.id === parseInt(id))
+const getCourses = id => courses.filter(c => c.user.id === parseInt(id))
 
 export const handlers = [
   rest.get('https://my.backend/courses', (req, res, ctx) => {
-    return res(
-      ctx.json(courses)
-    )
+    console.log('https://my.backend/courses')
+    const query = req.url.searchParams.get('q')
+    return res(ctx.json(courses))
+  }),
+
+  rest.get('https://my.backend/users/:userId/courses', (req, res, ctx) => {
+    // const limit = req.url.searchParams.get('limit')
+    // const startAt = req.url.searchParams.get('startAt')
+
+    const {userId} = req.params
+
+    // if (userId) return res(ctx.status(404))
+
+    const courses = getCourses(userId)
+
+    if (!courses) {
+      return res(
+        ctx.status(404),
+        ctx.json({
+          errorMessage: `Courses of the user ${userId} Not found`,
+        }),
+      )
+    }
+
+    return res(ctx.json(courses))
   }),
 
   rest.get('https://my.backend/courses/:id', (req, res, ctx) => {
-    const { id } = req.params;
-    
-    const course = getCourse(id)
-    
+    console.log('courses/:id')
+    const {id} = req.params
+
+    const course = getItem(id, courses)
+
     if (!course) {
       return res(
         ctx.status(404),
@@ -24,12 +49,67 @@ export const handlers = [
       )
     }
 
-    return res(
-      ctx.json(course)
-    )
+    return res(ctx.json(course))
   }),
 
-  // rest.get('https://my.backend/course/:id/reviews', (req, res, ctx) => {
+  rest.get('https://my.backend/courses/:id/full', (req, res, ctx) => {
+    console.log('courses/:id/full')
+    const {id} = req.params
+
+    const course = getItem(id, courses)
+
+    course['chapters'] = chapters.map(c => ({...c, lessons}))
+
+    if (!course) {
+      return res(
+        ctx.status(404),
+        ctx.json({
+          errorMessage: 'Not found',
+        }),
+      )
+    }
+
+    return res(ctx.json(course))
+  }),
+
+  rest.get('https://my.backend/users/:id', (req, res, ctx) => {
+    const {id} = req.params
+
+    const user = getItem(id, users)
+
+    if (!user) {
+      return res(
+        ctx.status(404),
+        ctx.json({
+          errorMessage: 'Not found',
+        }),
+      )
+    }
+
+    return res(ctx.json(user))
+  }),
+
+  rest.get('https://my.backend/lessons/:id', (req, res, ctx) => {
+    const {id} = req.params
+    const lesson = getItem(id, lessons)
+
+    if (!lesson) {
+      return res(
+        ctx.status(404),
+        ctx.json({
+          errorMessage: 'Not found',
+        }),
+      )
+    }
+
+    return res(ctx.json(lesson))
+  }),
+
+  rest.get('https://my.backend/lessons/:id/comments', (req, res, ctx) => {
+    return res(ctx.json(comments))
+  }),
+
+  // rest.get('/course/:id/reviews', (req, res, ctx) => {
   //   return res(
   //     ctx.json([
   //       {

@@ -1,19 +1,48 @@
-/** @jsxRuntime classic */
-/** @jsx jsx */
-import { jsx } from 'theme-ui'
+import Layout from '../../components/Layout'
+import ContentLayout from '../../components/ContentLayout'
+import MyContainer from '../../components/MyContainer'
+import {Box, Paper, Title} from '@mantine/core'
 
-export default function Course({course}){
+import CoursesShowcase from '../../components/CoursesShowcase'
+
+export default function User({user}) {
   return (
-    <div sx={{variant: 'containers.page'}}>
-      <h1>Id: {course.id}</h1>
-      <h1>Course title: {course.title}</h1>
-    </div>
-  );
+    <Box sx={theme => ({padding: `${theme.spacing.md}px 0`})}>
+      <MyContainer>
+        <Paper mb="xl" shadow="xs">
+          <Box
+            sx={theme => ({
+              width: 300,
+              height: 300,
+              backgroundColor: theme.colors.dark[9],
+            })}
+          ></Box>
+        </Paper>
+
+        <Box padding="md">
+          <Title order={4} mb="md">
+            دروسي ({user.coursesCount})
+          </Title>
+          <CoursesShowcase
+            api={`https://my.backend/users/${user.id}/courses`}
+          />
+        </Box>
+      </MyContainer>
+    </Box>
+  )
+}
+
+User.getLayout = function getLayout(page) {
+  return (
+    <Layout>
+      <ContentLayout>{page}</ContentLayout>
+    </Layout>
+  )
 }
 
 export async function getServerSideProps({params, res}) {
-  const response = await fetch(`https://my.backend/course/${params.id}`)
-  
+  const response = await fetch(`https://my.backend/users/${params.id}`)
+
   if (!response.ok) {
     // res.writeHead(302, {
     //   Location: '/courses'
@@ -31,7 +60,7 @@ export async function getServerSideProps({params, res}) {
 
   return {
     props: {
-      course: data
-    }
+      user: data,
+    },
   }
 }

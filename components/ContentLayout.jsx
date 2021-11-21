@@ -1,17 +1,17 @@
-import {createStyles} from '@mantine/core'
-
-const useStyles = createStyles(theme => {
-  return {
-    wrapper: {
-      backgroundColor:
-        theme.colorScheme === 'light'
-          ? theme.colors.gray[1]
-          : theme.colors.dark[5],
-    },
-  }
-})
+import {Box} from '@mantine/core'
 
 export default function ContentLayout({children}) {
-  const {classes} = useStyles()
-  return <div className={classes.wrapper}>{children}</div>
+  return (
+    <Box
+      sx={theme => ({
+        minHeight: '100vh',
+        backgroundColor:
+          theme.colorScheme === 'light'
+            ? theme.colors.gray[1]
+            : theme.colors.dark[5],
+      })}
+    >
+      {children}
+    </Box>
+  )
 }
