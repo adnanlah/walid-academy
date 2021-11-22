@@ -5,25 +5,30 @@ import {
   Group,
   Paper,
   Popover,
-  Radio,
-  RadioGroup,
   Text,
   Title,
+  Tooltip,
 } from '@mantine/core'
 import {useState, useReducer} from 'react'
 import QuizPagination from './QuizPagination'
-import Image from 'next/image'
 import {ReloadIcon, StarFilledIcon} from '@modulz/radix-icons'
+import {useScrollIntoView, useForceUpdate} from '@mantine/hooks'
+import QuestionOptions from './QuestionOptions'
 
 const Quiz = ({quizData, QuestionsPerPage}) => {
   // creating a clone of the prop because it will be mutated..
   const quiz = {...quizData}
   const [activePage, setPage] = useState(1)
   const [points, setPoints] = useState(0)
+  const [tooltipOpened, setTooltipOpened] = useState(false)
   const [showResults, setshowResults] = useState(false)
   const [popoverOpened, setPopoverOpened] = useState(false)
+  const {scrollIntoView, targetRef} = useScrollIntoView({
+    offset: 100,
+    duration: 500,
+  })
 
-  function reducer(state, action) {
+  const reducer = (state, action) => {
     // pareInt because the value comes from the radio input and it does return a string rather than an int
     switch (action.type) {
       case 'answer':
@@ -32,7 +37,9 @@ const Quiz = ({quizData, QuestionsPerPage}) => {
         throw new Error()
     }
   }
+
   const [userAnswers, dispatch] = useReducer(reducer, {})
+
   const checkHandle = (answerIdx, questionId) => {
     dispatch({type: 'answer', questionId, answerIdx})
   }
@@ -50,18 +57,22 @@ const Quiz = ({quizData, QuestionsPerPage}) => {
           setPoints(p => p + 1)
         }
       })
-
       setshowResults(true)
     }
 
     setPopoverOpened(o => !o)
   }
 
-  const TryLater = ({message, icon}) => {
+  const paginationOnChange = page => {
+    scrollIntoView({})
+    setPage(page)
+  }
+
+  const QuizEndMessage = ({message, icon}) => {
     return (
-      <Paper sx={t => ({padding: t.spacing.xl * 2})}>
-        <Group mb="xs">
-          <ReloadIcon style={{width: 50, height: 50}} />
+      <Paper sx={t => ({padding: t.spacing.xl})}>
+        <Group mb="lg">
+          {icon}
           <div>
             <Text size="lg" weight={500}>
               {message}
@@ -72,28 +83,22 @@ const Quiz = ({quizData, QuestionsPerPage}) => {
           </div>
         </Group>
         <Center>
-          <Button onClick={() => setPage(1)}>شاهد النتائج</Button>
+          <Button
+            onClick={() => {
+              setPopoverOpened(o => !o)
+              setPage(1)
+              scrollIntoView({})
+            }}
+          >
+            شاهد النتائج
+          </Button>
         </Center>
       </Paper>
     )
   }
 
-  const Congratz = (
-    <Group>
-      <StarFilledIcon />
-      <div>
-        <Text size="lg" weight={500}>
-          احسنت
-        </Text>
-        <Text size="md" weight={500}>
-          لقد اجبت على {points}/{numberOfQuestions}
-        </Text>
-      </div>
-    </Group>
-  )
-
   return (
-    <div>
+    <div ref={targetRef}>
       <Title order={4} mb="xs" align="center">
         {quiz.title}
       </Title>
@@ -112,50 +117,12 @@ const Quiz = ({quizData, QuestionsPerPage}) => {
             <Text mb="md" size="lg" weight={500}>
               {question.content}
             </Text>
-            <RadioGroup
-              onChange={value => checkHandle(value, question.id)}
-              defaultValue={userAnswers[question.id]}
-              variant="vertical"
-              color="dark"
-              spacing="xs"
-              styles={theme => ({
-                label: {
-                  cursor: 'pointer',
-                },
-                radioWrapper: {
-                  width: '100%',
-                  padding: `${theme.spacing.xs}px ${theme.spacing.md}px`,
-                },
-                radio: {
-                  '&:disabled + span': {color: 'black'},
-                  margin: `0 0 0 ${theme.spacing.xs}px`,
-                  cursor: 'pointer',
-                },
-              })}
-            >
-              {question.options.map(option => {
-                const optionBg = showResults
-                  ? option.id === question.correctAnswer
-                    ? '#B1E693'
-                    : option.id === userAnswers[question.id]
-                    ? '#FE8F8F'
-                    : 'none'
-                  : 'none'
-
-                return (
-                  <Radio
-                    disabled={showResults}
-                    key={option.id}
-                    value={`${option.id}`}
-                    style={{
-                      backgroundColor: optionBg,
-                    }}
-                  >
-                    {option.content}
-                  </Radio>
-                )
-              })}
-            </RadioGroup>
+            <QuestionOptions
+              question={question}
+              checkHandle={checkHandle}
+              userAnswers={userAnswers}
+              showResults={showResults}
+            />
           </Paper>
         ))}
       </Box>
@@ -165,25 +132,50 @@ const Quiz = ({quizData, QuestionsPerPage}) => {
           opened={popoverOpened}
           onClose={() => setPopoverOpened(false)}
           target={
-            <Button
-              onClick={() => checkAnswers()}
-              disabled={activePage !== numberOfPages}
+            <Tooltip
+              opened={tooltipOpened}
+              label="اجب على كل الاسئلة قبل ان تختبر"
+              position="bottom"
+              withArrow
             >
-              اختبر
-            </Button>
+              <Button
+                onPointerEnter={() => {
+                  setTooltipOpened(true)
+                }}
+                onPointerLeave={() => {
+                  setTooltipOpened(false)
+                }}
+                onClick={() => checkAnswers()}
+                disabled={numberOfQuestions > Object.keys(userAnswers).length} // disable if user didn't answer all the questions
+              >
+                اختبر
+              </Button>
+            </Tooltip>
           }
           position="top"
           withArrow
           spacing={0}
         >
-          {points > numberOfQuestions / 2 && Congratz}
-          {points < numberOfQuestions / 2 && TryLater}
+          {points > numberOfQuestions / 2 && (
+            <QuizEndMessage
+              message="احسنت"
+              icon={
+                <StarFilledIcon color="gold" style={{width: 50, height: 50}} />
+              }
+            />
+          )}
+          {points < numberOfQuestions / 2 && (
+            <QuizEndMessage
+              icon={<ReloadIcon style={{width: 50, height: 50}} />}
+              message="حاول لاحقا"
+            />
+          )}
         </Popover>
 
         <Group>
           <QuizPagination
             page={activePage}
-            onChange={setPage}
+            onChange={paginationOnChange}
             total={numberOfPages}
           />
           <Text weight={700}>

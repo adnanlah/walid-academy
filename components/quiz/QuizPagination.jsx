@@ -1,22 +1,20 @@
 import {ActionIcon, Box, Group} from '@mantine/core'
-import {usePagination, useWindowScroll} from '@mantine/hooks'
+import {usePagination} from '@mantine/hooks'
 import {DotFilledIcon, DotIcon} from '@modulz/radix-icons'
 
-const Quizpagination = ({total, activePage, onChange}) => {
-  const [scroll, scrollTo] = useWindowScroll()
+const Quizpagination = ({page, total, onChange}) => {
   const pagination = usePagination({
+    page,
     total,
+    onChange,
     siblings: total,
-    initialPage: activePage,
-    onChange: onChange,
   })
 
   const onClickHandler = i => {
-    scrollTo({y: 0})
     pagination.setPage(i)
   }
 
-  const dotsList = pagination.range.map((i, idx) => {
+  const dotsList = pagination.range.map(i => {
     return (
       <ActionIcon key={i} onClick={() => onClickHandler(i)}>
         {i === pagination.active && (

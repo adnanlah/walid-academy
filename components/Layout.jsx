@@ -5,6 +5,7 @@ import {
   ColorSchemeProvider,
   Portal,
 } from '@mantine/core'
+import {useLocalStorageValue} from '@mantine/hooks'
 import {useState, useRef, useEffect} from 'react'
 import Nav from './Nav'
 import Footer from './Footer'
@@ -27,7 +28,11 @@ const marginSize = 3
 
 export default function Layout({children}) {
   // const myContainer = useRef(null)
-  const [colorScheme, setColorScheme] = useState('light')
+  const [colorScheme, setColorScheme] = useLocalStorageValue({
+    key: 'mantine-color-scheme',
+    defaultValue: 'light',
+  })
+
   const toggleColorScheme = value =>
     setColorScheme(value || (colorScheme === 'dark' ? 'light' : 'dark'))
 

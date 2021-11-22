@@ -264,7 +264,7 @@ const Lesson = ({lesson, course}) => {
               <Box className={classes.video}></Box>
             )} */}
             {/* {lesson.type === 'quiz' && <Quiz data={quizData} />} */}
-            <Quiz quizData={quizData} QuestionsPerPage={5} />
+            <Quiz quizData={quizData} QuestionsPerPage={3} />
           </Box>
           <Box style={{padding: 20}}>
             <Center mb="xl">
