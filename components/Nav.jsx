@@ -111,12 +111,6 @@ function Nav() {
               root: {
                 width: '80%',
               },
-              input: {
-                textAlign: 'right',
-              },
-              item: {
-                textAlign: 'right',
-              },
             }}
             icon={<MagnifyingGlassIcon />}
             placeholder="ابحث في الموقع"

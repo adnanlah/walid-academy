@@ -1,38 +1,54 @@
 import {Box, Group, Text} from '@mantine/core'
-import {
-  RadiobuttonIcon,
-  SquareIcon,
-  Cross2Icon,
-  CheckboxIcon,
-} from '@modulz/radix-icons'
+import {SquareIcon, CheckboxIcon} from '@modulz/radix-icons'
 
 const Option = ({
   option,
-  disabled,
+  question,
   isChecked,
   isCorrectAnswer,
   handler,
   showResults,
 }) => {
-  // status can be: checked, unchecked,
+  const successColor = '#C6DAB7'
+  const failColor = '#FF9292'
 
-  const icon = <SquareIcon />
+  const optionBgL = showResults
+    ? isCorrectAnswer
+      ? '#C6DAB7'
+      : isChecked
+      ? '#FF9292'
+      : 'none'
+    : 'none'
 
-  const checkHandler = () => {
-    if (disabled) return
-    handler(option.id)
-  }
+  const optionBgD = showResults
+    ? isCorrectAnswer
+      ? '#2C3129'
+      : isChecked
+      ? '#382020'
+      : 'none'
+    : 'none'
+
+  const icon = isChecked ? (
+    <CheckboxIcon style={{width: 20, height: 20}} />
+  ) : (
+    <SquareIcon style={{width: 20, height: 20}} />
+  )
 
   return (
     <Box
       sx={theme => ({
         cursor: 'pointer',
         padding: `${theme.spacing.md}px ${theme.spacing.lg}px`,
+        backgroundColor: theme.colorScheme === 'light' ? optionBgL : optionBgD,
+        marginBottom: theme.spacing.xs,
         '&:hover': {
-          backgroundColor: theme.colors.gray[1],
+          backgroundColor: !showResults && theme.colors.gray[1],
         },
       })}
-      onClick={checkHandler}
+      onClick={() => {
+        if (showResults) return
+        handler(option.id, question.id)
+      }}
     >
       <Group>
         <Box>{icon}</Box>

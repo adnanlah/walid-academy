@@ -59,6 +59,21 @@ export default function Layout({children}) {
         toggleColorScheme={toggleColorScheme}
       >
         <MantineProvider
+          styles={{
+            TextInput: {
+              input: {
+                textAlign: 'right',
+              },
+              item: {
+                textAlign: 'right',
+              },
+            },
+            Textarea: {
+              input: {
+                textAlign: 'right',
+              },
+            },
+          }}
           theme={{
             colorScheme,
             fontSizes: {

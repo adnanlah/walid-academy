@@ -32,7 +32,7 @@ const Quiz = ({quizData, QuestionsPerPage}) => {
     // pareInt because the value comes from the radio input and it does return a string rather than an int
     switch (action.type) {
       case 'answer':
-        return {...state, [action.questionId]: parseInt(action.answerIdx)}
+        return {...state, [action.questionId]: parseInt(action.answerId)}
       default:
         throw new Error()
     }
@@ -40,8 +40,8 @@ const Quiz = ({quizData, QuestionsPerPage}) => {
 
   const [userAnswers, dispatch] = useReducer(reducer, {})
 
-  const checkHandle = (answerIdx, questionId) => {
-    dispatch({type: 'answer', questionId, answerIdx})
+  const checkHandle = (answerId, questionId) => {
+    dispatch({type: 'answer', questionId, answerId})
   }
 
   const numberOfQuestions = quiz.questions.length
