@@ -3,7 +3,8 @@ import ContentLayout from '../../components/ContentLayout'
 import MyContainer from '../../components/MyContainer'
 import {Tabs, Tab, Box, Paper} from '@mantine/core'
 import {GearIcon} from '@modulz/radix-icons'
-import Newcourse from '../../components/dashboards/NewCourse'
+import NewCourse from '../../components/dashboards/NewCourse'
+import NewFlashcard from '../../components/dashboards/NewFlashcard'
 import {ModalsProvider} from '@mantine/modals'
 
 export default function Dashboard() {
@@ -19,14 +20,13 @@ export default function Dashboard() {
           })}
         >
           <Tab label="إنشاء درس جديد" icon={<GearIcon />}>
-            <Newcourse />
+            <Paper padding="xl">
+              <NewCourse />
+            </Paper>
           </Tab>
           <Tab label="تسيير الادامنة" icon={<GearIcon />}>
-            <Paper padding="md">
-              Labore laborum aliqua qui amet fugiat deserunt culpa incididunt
-              nisi nisi anim cillum. Laboris aliqua do est aliquip ipsum esse id
-              commodo veniam magna. Proident reprehenderit pariatur pariatur
-              nulla. Eu incididunt Lorem mollit eu.
+            <Paper padding="xl">
+              <NewFlashcard />
             </Paper>
           </Tab>
           <Tab label="إنشاء فلاشكارد جديد" icon={<GearIcon />}>

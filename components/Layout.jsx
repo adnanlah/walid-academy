@@ -73,6 +73,13 @@ export default function Layout({children}) {
                 textAlign: 'right',
               },
             },
+            Select: {
+              item: {textAlign: 'right'},
+              input: {textAlign: 'right'},
+            },
+            Modal: {
+              title: {fontWeight: 700},
+            },
           }}
           theme={{
             colorScheme,

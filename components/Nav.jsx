@@ -7,9 +7,6 @@ import {
   Button,
   Title,
   Divider,
-  Menu,
-  MenuItem,
-  MenuLabel,
   Text,
   ActionIcon,
   TextInput,
@@ -91,7 +88,7 @@ function Nav() {
     <nav className={classes.wrapper}>
       <div className={cx(classes.navLinks, classes.navLinksEnd)}>
         <NavLink href="/dashboard">
-          <ActionIcon mr="md" size="lg" variant="outline" title="dash">
+          <ActionIcon mr="md" size="lg" variant="outline">
             <GearIcon />
           </ActionIcon>
         </NavLink>
@@ -135,39 +132,18 @@ function Nav() {
 
         <Divider orientation="vertical" size="xs" />
 
-        <Menu
-          control={
-            <NavLink href="/">
-              <Text>تسجيل دخول</Text>
-            </NavLink>
-          }
-          closeOnItemClick={false}
-          opened={opened}
-          onOpen={() => setOpened(true)}
-          onClose={() => setOpened(false)}
-        >
-          <Menu.Item component="div">
-            <InputWrapper
-              id="input-demo"
-              required
-              label="Credit card information"
-              description="Please enter your credit card information, we need some money"
-              error="Your credit card expired"
-            >
-              <Input id="input-demo" placeholder="Your email" />
-            </InputWrapper>
-          </Menu.Item>
-        </Menu>
+        <NavLink href="/">
+          <Text>تسجيل دخول</Text>
+        </NavLink>
 
         <Button color="dark">ابدا من هنا</Button>
 
         <ActionIcon
           mr="md"
           size="lg"
-          variant="outline"
           color={dark ? 'yellow' : 'blue'}
+          variant="outline"
           onClick={() => toggleColorScheme()}
-          title="Toggle color scheme"
         >
           {dark ? <SunIcon /> : <MoonIcon />}
         </ActionIcon>

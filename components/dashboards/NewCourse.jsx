@@ -1,244 +1,388 @@
 import {
   Accordion,
   Group,
-  Paper,
   Textarea,
   Title,
   Modal,
   Text,
-  Space,
+  ActionIcon,
+  Select,
 } from '@mantine/core'
 import {TextInput, Button} from '@mantine/core'
-import {PlusIcon} from '@modulz/radix-icons'
-import {useReducer, useState} from 'react'
+import {useReducer, useState, useEffect} from 'react'
+import {useLocalStorageValue, useForm} from '@mantine/hooks'
 import LessonForm from './LessonForm'
 import ChapterForm from './ChapterForm'
 import QuizForm from './QuizForm'
-import {useModals} from '@mantine/modals'
-const Newcourse = () => {
-  const [courseName, setCourseName] = useState('')
-  const [courseDescription, setCourseDescription] = useState('')
-  const [state, onAccordionChange] = useState({0: true})
+import {Cross2Icon, Pencil1Icon} from '@modulz/radix-icons'
+
+const nextId = array =>
+  array[array.length - 1] ? array[array.length - 1].id + 1 : 0
+
+const courseReducer = (state, action) => {
+  const {chapters, lessons} = state
+  switch (action.type) {
+    case 'newchapter':
+      return {
+        ...state,
+        chapters: [...chapters, {id: nextId(chapters), ...action.payload}],
+      }
+    case 'updatechapter':
+      return {
+        ...state,
+        chapters: chapters.map(chapter =>
+          chapter.id === action.payload.id ? action.payload : chapter,
+        ),
+      }
+    case 'deletechapter':
+      return {
+        ...state,
+        lessons: lessons.filter(
+          lesson => lesson.chapterId !== action.payload.id,
+        ),
+        chapters: chapters.filter(chapter => chapter.id !== action.payload.id),
+      }
+    case 'newlesson':
+      return {
+        ...state,
+        lessons: [...lessons, {id: nextId(lessons), ...action.payload}],
+      }
+    case 'updatelesson':
+      return {
+        ...state,
+        lessons: lessons.map(lesson =>
+          lesson.id === action.payload.id ? action.payload : lesson,
+        ),
+      }
+    case 'deletelesson':
+      return {
+        ...state,
+        lessons: lessons.filter(lesson => lesson.id !== action.payload.id),
+      }
+  }
+}
+
+const NewCourse = () => {
+  const [courseData, setCourseData] = useLocalStorageValue({
+    key: 'course-data',
+    defaultValue: JSON.stringify({
+      title: '',
+      description: '',
+      field: null,
+      year: null,
+      chapters: [],
+      lessons: [],
+    }),
+  })
+
+  const courseDataObject = JSON.parse(courseData)
+
+  const form = useForm({
+    initialValues: {
+      title: courseDataObject.title,
+      description: courseDataObject.description,
+      field: courseDataObject.field,
+    },
+    validationRules: {
+      title: v => v.length > 2,
+      description: v => v.length > 2,
+      field: v => v !== null,
+    },
+  })
+
+  const [accordionState, onAccordionChange] = useState({0: true})
   const [chapterId, setChapterId] = useState('')
-  const [opened, setOpened] = useState(false)
+  const [modalOpened, setModalOpened] = useState(false)
   const [dataToBeEdited, setDataToBeEdited] = useState({})
+  const modalTitle = ''
 
-  const modals = useModals()
-
-  const openConfirmModal = () =>
-    modals.openConfirmModal({
-      title: 'Please confirm your action',
-      children: (
-        <Text size="sm">
-          This action is so important that you are required to confirm it with a
-          modal. Please click one of these buttons to proceed.
-        </Text>
-      ),
-      onCancel: () => console.log('Cancel'),
-      onConfirm: () => console.log('Confirmed'),
-    })
-
-  const chaptersReducer = (state, action) => {
-    switch (action.type) {
-      case 'newchapter':
-        return [...state, {id: state.length, ...action.payload}]
-      case 'updatechapter':
-        return state.map(s =>
-          s.id === action.payload.id ? (s = action.payload) : s,
-        )
-      case 'deletechapter':
-        return state.filter(s => s.id === action.id)
-    }
+  switch (modalOpened) {
+    case 'newlesson':
+      modalTitle = 'انشاء درس جديد'
+      break
+    case 'updatelesson':
+      modalTitle = 'تعديل درس'
+      break
+    case 'newchapter':
+      modalTitle = 'انشاء شابتر جديد'
+      break
+    case 'updatechapter':
+      modalTitle = 'تعديل درس'
+      break
+    case 'newquiz':
+      modalTitle = 'انشاء كويز جديد'
+      break
+    case 'updatechapter':
+      modalTitle = 'تعديل شابتر'
+    default:
+      break
   }
 
-  const [chapters, chaptersDispatch] = useReducer(chaptersReducer, [])
+  const [{chapters, lessons}, dispatch] = useReducer(courseReducer, {
+    chapters: courseDataObject.chapters,
+    lessons: courseDataObject.lessons,
+  })
 
-  const lessonsReducer = (state, action) => {
-    switch (action.type) {
-      case 'newlesson':
-        return [...state, {id: state.length, ...action.payload}]
-      case 'updatelesson':
-        return state.map(s =>
-          s.id === action.payload.id ? (s = action.payload) : s,
-        )
-      case 'deletelesson':
-        return state.filter(s => s.id === action.id)
-    }
-  }
-
-  const [lessons, lessonsDispatch] = useReducer(lessonsReducer, [])
+  useEffect(() => {
+    // store data to local storage after every dispatch
+    setCourseData(JSON.stringify({...form.values, chapters, lessons}))
+  }, [setCourseData, form.values, chapters, lessons])
 
   const newChapterHandler = chapter => {
-    chaptersDispatch({type: 'newchapter', payload: chapter})
-    setOpened(false)
-    onAccordionChange({[chapters.length]: true})
+    dispatch({type: 'newchapter', payload: chapter})
+    onAccordionChange({[chapters.length]: true}) // opens the latest accordion item only
+    setModalOpened(false)
   }
 
   const updateChapterHandler = chapter => {
-    chaptersDispatch({type: 'updatechapter', payload: chapter})
-    setOpened(false)
+    dispatch({type: 'updatechapter', payload: chapter})
+    setModalOpened(false)
   }
 
   const newLessonHandler = lesson => {
-    lessonsDispatch({type: 'newlesson', payload: {...lesson, chapterId}})
-    setOpened(false)
+    dispatch({
+      type: 'newlesson',
+      payload: {...lesson, type: 'media', chapterId},
+    })
+    setModalOpened(false)
   }
 
   const updateLessonHandler = lesson => {
-    lessonsDispatch({type: 'updatelesson', payload: lesson})
-    setOpened(false)
+    dispatch({type: 'updatelesson', payload: lesson})
+    setModalOpened(false)
   }
 
   const newQuizHandler = quiz => {
-    quizsDispatch({type: 'newquiz', payload: {...quiz, chapterId}})
-    setOpened(false)
+    dispatch({
+      type: 'newlesson',
+      payload: {...quiz, type: 'quiz', chapterId},
+    })
+    setModalOpened(false)
   }
 
-  const updateQuizHandler = quiz => {
-    quizsDispatch({type: 'updatequiz', payload: quiz})
-    setOpened(false)
+  const updateQuizHandler = lesson => {
+    dispatch({type: 'updatelesson', payload: lesson})
+    setModalOpened(false)
   }
 
   return (
-    <Paper padding="xl">
+    <div>
       <Title order={4} mb="md">
         إنشاء كورس جديد
       </Title>
-      <TextInput
-        mb="xs"
-        label="غنوان الكورس"
-        onChange={event => setCourseName(event.target.value)}
-      />
-
-      <Textarea
-        mb="xs"
-        label="نبدة عن الكورس"
-        onChange={event => setCourseDescription(event.target.value)}
-      />
-
-      <Group align="end" mb="xs">
-        <Button onClick={() => setOpened('newchapter')}>شابتر جديد</Button>
-      </Group>
-
-      <Accordion
-        state={state}
-        onChange={onAccordionChange}
-        multiple
-        styles={theme => {
-          return {
-            item: {
-              marginBottom: theme.spacing.xs,
-            },
-            control: {
-              textAlign: 'right',
-              backgroundColor: theme.colors.gray[2],
-            },
-          }
-        }}
+      <form
+        onSubmit={form.onSubmit(values => {
+          console.log('submitting a new course ', values)
+        })}
       >
-        {chapters.map(c => (
-          <Accordion.Item key={`${c.id}-${c.name}`} label={c.name}>
-            <Group position="apart" my="xs">
-              <div>
-                <Button
-                  ml="xs"
-                  onClick={() => {
-                    setOpened('newlesson')
-                    setChapterId(c.id)
-                  }}
-                >
-                  درس جديد
-                </Button>
-                <Button
-                  color="teal"
-                  onClick={() => {
-                    setOpened('newquiz')
-                    setChapterId(c.id)
-                  }}
-                >
-                  كويز جديد
-                </Button>
-              </div>
-              <div>
-                <Button ml="xs" color="dark">
-                  تعديل
-                </Button>
-                <Button color="red">حدف</Button>
-              </div>
-            </Group>
-            <div>
-              {lessons
-                .filter(l => l.chapterId === c.id)
-                .map(l => (
-                  <Group
-                    sx={t => ({
-                      cursor: 'pointer',
-                      backgroundColor: t.colors.gray[0],
-                      marginBottom: 15,
-                    })}
-                    position="apart"
-                    key={`${l.id}`}
+        <TextInput
+          mb="xs"
+          label="غنوان الكورس"
+          required
+          value={form.values.title}
+          error={form.errors.title && 'Insert a title'}
+          onChange={event =>
+            form.setFieldValue('title', event.currentTarget.value)
+          }
+        />
+        <Textarea
+          mb="xs"
+          label="نبدة عن الكورس"
+          required
+          value={form.values.description}
+          error={form.errors.description && 'Insert a description'}
+          onChange={event =>
+            form.setFieldValue('description', event.currentTarget.value)
+          }
+        />
+        <Select
+          mb="xs"
+          label="اي مجال"
+          placeholder="اختر"
+          required
+          value={form.values.field}
+          error={form.errors.field && 'Insert a field'}
+          onChange={value => form.setFieldValue('field', value)}
+          data={[
+            {value: 'maths', label: 'رياضيات'},
+            {value: 'physics', label: 'فيزياء'},
+            {value: 'biology', label: 'علوم'},
+            {value: 'french', label: 'فرنسية'},
+          ]}
+        />
+        <Group align="end" mb="xs">
+          <Button onClick={() => setModalOpened('newchapter')}>
+            شابتر جديد
+          </Button>
+        </Group>
+        <Accordion
+          state={accordionState}
+          onChange={onAccordionChange}
+          multiple
+          styles={theme => {
+            return {
+              item: {
+                marginBottom: theme.spacing.xs,
+              },
+              control: {
+                textAlign: 'right',
+                backgroundColor: theme.colors.gray[2],
+              },
+            }
+          }}
+        >
+          {chapters.map(chapter => (
+            <Accordion.Item
+              key={`${chapter.id}-${chapter.name}`}
+              label={chapter.name}
+            >
+              <Group
+                sx={theme => ({padding: theme.spacing.xs})}
+                position="apart"
+                mb="xs"
+              >
+                <div>
+                  <Button
+                    ml="xs"
                     onClick={() => {
-                      setDataToBeEdited(l)
-                      setOpened('updatelesson')
+                      setChapterId(chapter.id)
+                      setModalOpened('newlesson')
                     }}
                   >
-                    <Group>
-                      <Text weight={700}>درس رقم {l.id}</Text>
-                      <Space w="xs" />
-                      <Text>{l.title}</Text>
+                    درس جديد
+                  </Button>
+                  <Button
+                    color="teal"
+                    onClick={() => {
+                      setChapterId(chapter.id)
+                      setModalOpened('newquiz')
+                    }}
+                  >
+                    كويز جديد
+                  </Button>
+                </div>
+                <Group>
+                  <ActionIcon
+                    onClick={() => {
+                      setDataToBeEdited(chapter)
+                      setModalOpened('updatechapter')
+                    }}
+                    ml="xs"
+                    color="gray"
+                  >
+                    <Pencil1Icon />
+                  </ActionIcon>
+                  <ActionIcon
+                    onClick={() => {
+                      dispatch({
+                        type: 'deletechapter',
+                        payload: {id: chapter.id},
+                      })
+                    }}
+                    color="red"
+                  >
+                    <Cross2Icon />
+                  </ActionIcon>
+                </Group>
+              </Group>
+              <div>
+                {lessons
+                  .filter(lesson => lesson.chapterId === chapter.id)
+                  .map((lesson, lessonIdx) => (
+                    <Group
+                      sx={theme => ({
+                        backgroundColor: theme.colors.gray[0],
+                        marginBottom: theme.spacing.xs,
+                        padding: theme.spacing.xs,
+                        borderRadius: theme.spacing.xs,
+                      })}
+                      position="apart"
+                      key={`${lesson.id}-${lessonIdx}-${lesson.content}`}
+                    >
+                      <Group>
+                        <Text weight={700}>
+                          {lessonIdx + 1}
+                          {'. '}
+                          {lesson.type === 'media' ? 'درس' : 'كويز'}
+                          {': '}
+                        </Text>
+                        <Text>{lesson.title}</Text>
+                      </Group>
+                      <Group>
+                        <ActionIcon
+                          onClick={() => {
+                            setDataToBeEdited(lesson)
+                            setModalOpened(
+                              lesson.type === 'media'
+                                ? 'updatelesson'
+                                : 'updatequiz',
+                            )
+                          }}
+                          ml="xs"
+                          color="gray"
+                        >
+                          <Pencil1Icon />
+                        </ActionIcon>
+                        <ActionIcon
+                          onClick={() => {
+                            dispatch({
+                              type: 'deletelesson',
+                              payload: {id: lesson.id},
+                            })
+                          }}
+                          color="red"
+                        >
+                          <Cross2Icon />
+                        </ActionIcon>
+                      </Group>
                     </Group>
-                    <div>
-                      <Button ml="xs" color="dark">
-                        تعديل
-                      </Button>
-                      <Button color="red">حدف</Button>
-                    </div>
-                  </Group>
-                ))}
-            </div>
-          </Accordion.Item>
-        ))}
-      </Accordion>
-
-      <Modal opened={opened == 'newchapter'} onClose={() => setOpened(false)}>
-        <ChapterForm handler={newChapterHandler} />
-      </Modal>
-
-      <Modal
-        opened={opened == 'updatechapter'}
-        onClose={() => setOpened(false)}
-      >
-        <ChapterForm handler={updateChapterHandler} />
-      </Modal>
-
-      <Modal opened={opened == 'newlesson'} onClose={() => setOpened(false)}>
-        <LessonForm handler={newLessonHandler} chapterId={chapterId} />
-      </Modal>
-
-      <Modal opened={opened == 'updatelesson'} onClose={() => setOpened(false)}>
-        <LessonForm handler={updateLessonHandler} lesson={dataToBeEdited} />
-      </Modal>
+                  ))}
+              </div>
+            </Accordion.Item>
+          ))}
+        </Accordion>
+        <Group position="right">
+          <Button type="reset" color="red">
+            إعادة
+          </Button>
+          <Button type="submit">اضف</Button>
+        </Group>
+      </form>
 
       <Modal
         styles={{
           modal: {
             width: '50%',
           },
-          title: {fontWeight: 700},
         }}
-        title="الكويز جديد"
-        opened={opened == 'newquiz'}
-        onClose={() => setOpened(false)}
+        title={modalTitle}
+        opened={modalOpened}
+        onClose={() => setModalOpened(false)}
       >
-        <QuizForm handler={newQuizHandler} chapterId={chapterId} />
+        {modalOpened == 'newchapter' && (
+          <ChapterForm handler={newChapterHandler} />
+        )}
+        {modalOpened == 'updatechapter' && (
+          <ChapterForm
+            handler={updateChapterHandler}
+            chapter={dataToBeEdited}
+          />
+        )}
+        {modalOpened == 'newlesson' && (
+          <LessonForm handler={newLessonHandler} chapterId={chapterId} />
+        )}
+        {modalOpened == 'updatelesson' && (
+          <LessonForm handler={updateLessonHandler} lesson={dataToBeEdited} />
+        )}
+        {modalOpened == 'newquiz' && (
+          <QuizForm handler={newQuizHandler} chapterId={chapterId} />
+        )}
+        {modalOpened == 'updatequiz' && (
+          <QuizForm handler={updateQuizHandler} quiz={dataToBeEdited} />
+        )}
       </Modal>
-
-      <Modal opened={opened == 'updatequiz'} onClose={() => setOpened(false)}>
-        <QuizForm handler={updateQuizHandler} quiz={dataToBeEdited} />
-      </Modal>
-    </Paper>
+    </div>
   )
 }
 
-export default Newcourse
+export default NewCourse
