@@ -1,5 +1,12 @@
 import {rest} from 'msw'
-import {courses, users, lessons, comments, chapters} from '../data/index.js'
+import {
+  courses,
+  users,
+  lessons,
+  comments,
+  chapters,
+  flashcards,
+} from '../data/index.js'
 
 const getItem = (id, list) => list.find(e => e.id === parseInt(id))
 const getItems = (id, list) => list.filter(e => e.id === parseInt(id))
@@ -107,6 +114,32 @@ export const handlers = [
 
   rest.get('https://my.backend/lessons/:id/comments', (req, res, ctx) => {
     return res(ctx.json(comments))
+  }),
+
+  rest.get('https://my.backend/flashcards', (req, res, ctx) => {
+    const branch = req.url.searchParams.get('branch')
+    const grade = req.url.searchParams.get('grade')
+    const subject = req.url.searchParams.get('subject')
+    console.log({branch, grade, subject})
+
+    return res(ctx.json(flashcards))
+  }),
+
+  rest.get('https://my.backend/flashcards/:id', (req, res, ctx) => {
+    const {id} = req.params
+    const flashcard = getItem(id, flashcards)
+
+    if (!flashcard) {
+      return res(
+        ctx.status(404),
+        ctx.json({
+          errorMessage: 'Not found',
+        }),
+      )
+    }
+
+    return res(ctx.json(flashcard))
+    return res(ctx.json(flashcards))
   }),
 
   // rest.get('/course/:id/reviews', (req, res, ctx) => {

@@ -8,21 +8,22 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@mantine/core": "^3.2.3",
-    "@mantine/dates": "^3.2.3",
-    "@mantine/hooks": "^3.2.3",
-    "@mantine/modals": "^3.2.3",
-    "@mantine/next": "^3.2.3",
-    "@mantine/notifications": "^3.2.3",
-    "@mantine/rte": "^3.2.3",
+    "@mantine/core": "^3.3.2",
+    "@mantine/dates": "^3.3.2",
+    "@mantine/hooks": "^3.3.2",
+    "@mantine/modals": "^3.3.2",
+    "@mantine/next": "^3.3.2",
+    "@mantine/notifications": "^3.3.2",
+    "@mantine/rte": "^3.3.2",
     "@modulz/radix-icons": "^4.0.0",
     "dayjs": "^1.10.7",
     "msw": "^0.35.0",
-    "next": "^12.0.4",
+    "next": "^12.0.5",
     "next-connect": "^0.11.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
-    "swr": "^1.0.1"
+    "supermemo": "^2.0.17",
+    "swr": "^1.1.0"
   },
   "devDependencies": {
     "eslint": "7.32.0",

@@ -68,6 +68,33 @@ export default function Layout({children}) {
                 textAlign: 'right',
               },
             },
+            DatePicker: {
+              input: {
+                textAlign: 'right',
+              },
+            },
+            NumberInput: {
+              rightSection: {
+                right: 'auto',
+                left: '0 !important',
+              },
+              input: {
+                textAlign: 'right',
+                paddingRight: '12px !important',
+                paddingLeft: 30,
+              },
+              item: {
+                textAlign: 'right',
+              },
+            },
+            Autocomplete: {
+              input: {
+                textAlign: 'right',
+              },
+              item: {
+                textAlign: 'right',
+              },
+            },
             Textarea: {
               input: {
                 textAlign: 'right',
@@ -79,6 +106,42 @@ export default function Layout({children}) {
             },
             Modal: {
               title: {fontWeight: 700},
+            },
+            Tabs: {
+              tabIcon: {
+                marginRight: '0 !important',
+                marginLeft: 10,
+              },
+            },
+            Progress: {
+              bar: {left: 'initial', right: 0},
+            },
+            Badge: {
+              root: {
+                padding: '3px 6px',
+              },
+              rightSection: {
+                marginRight: 5,
+                marginLeft: 0,
+              },
+            },
+            Select: {
+              rightSection: {
+                right: 'auto',
+                left: '0 !important',
+                pointerEvents: 'none',
+              },
+              input: {
+                textAlign: 'right',
+                paddingRight: '12px !important',
+                paddingLeft: 30,
+              },
+              item: {
+                textAlign: 'right',
+              },
+              disabled: {
+                color: 'lightgray',
+              },
             },
           }}
           theme={{

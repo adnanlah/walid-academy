@@ -88,7 +88,7 @@ function AttachItem(props) {
     <>
       <Anchor
         href={props.url}
-        sx={t => ({
+        sx={theme => ({
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
@@ -117,7 +117,7 @@ function AttachItem(props) {
 }
 
 export default function Course({course}) {
-  const chaptersList = course.content.map((chapter, idx) => {
+  const chaptersList = course.contentheme.map((chapter, idx) => {
     if (chapter.type === 'quiz') {
       return (
         <Paper
@@ -139,7 +139,7 @@ export default function Course({course}) {
       )
     }
 
-    const lessonsList = chapter.lessonsList.map((lesson, idx) => {
+    const lessonsList = chapter.lessonsListheme.map((lesson, idx) => {
       return (
         <LessonItem
           key={idx}
@@ -147,7 +147,7 @@ export default function Course({course}) {
           content={lesson.title}
           url={lesson.url}
           length={lesson.length}
-          mb={chapter.lessonsList.length === idx + 1 ? null : 'xs'}
+          mb={chapter.lessonsListheme.length === idx + 1 ? null : 'xs'}
         />
       )
     })
@@ -156,7 +156,7 @@ export default function Course({course}) {
     let attach
 
     if (chapter.attachmentsList) {
-      attachmentsList = chapter.attachmentsList.map((attach, idx) => {
+      attachmentsList = chapter.attachmentsListheme.map((attach, idx) => {
         return (
           <AttachItem
             key={idx}
@@ -164,7 +164,7 @@ export default function Course({course}) {
             content={attach.name}
             url={attach.url}
             size={attach.size}
-            mb={chapter.attachmentsList.length === idx + 1 ? null : 'xs'}
+            mb={chapter.attachmentsListheme.length === idx + 1 ? null : 'xs'}
           />
         )
       })
@@ -175,13 +175,17 @@ export default function Course({course}) {
             ملحقات
           </Title>
           <Box
-            sx={t => ({
-              padding: t.spacing.xs,
+            sx={theme => ({
+              padding: theme.spacing.xs,
               borderTop: `2px solid ${
-                t.colorScheme === 'light' ? t.colors.blue[5] : t.colors.blue[9]
+                theme.colorScheme === 'light'
+                  ? theme.colors.blue[5]
+                  : theme.colors.blue[9]
               }`,
               backgroundColor:
-                t.colorScheme === 'light' ? t.colors.gray[0] : t.colors.dark[9],
+                theme.colorScheme === 'light'
+                  ? theme.colors.gray[0]
+                  : theme.colors.dark[9],
             })}
           >
             {attachmentsList}
@@ -196,9 +200,9 @@ export default function Course({course}) {
           فيديوهات
         </Title>
         <Box
-          sx={t => ({
-            padding: t.spacing.xs,
-            marginBottom: t.spacing.xs,
+          sx={theme => ({
+            padding: theme.spacing.xs,
+            marginBottom: theme.spacing.xs,
           })}
         >
           {lessonsList}
@@ -258,23 +262,25 @@ export default function Course({course}) {
 
   return (
     <>
-      <Paper
+      <Box
         component="section"
-        sx={t => ({
+        sx={theme => ({
           backgroundColor:
-            t.colorScheme === 'light' ? t.colors.blue[9] : t.colors.dark[9],
-          padding: `${t.spacing.xl}px 0`,
-          marginBottom: t.spacing.md,
-          boxShadow: t.shadows.md,
+            theme.colorScheme === 'light'
+              ? theme.colors.blue[9]
+              : theme.colors.dark[9],
+          padding: `${theme.spacing.xl}px 0`,
+          marginBottom: theme.spacing.md,
+          boxShadow: theme.shadows.md,
         })}
       >
         <MyContainer>
           <Box mb="xs">
-            <MyBreadcrumbs items={course.categories} />
+            <MyBreadcrumbs links={course.categories} />
           </Box>
           <Title order={2}>{course.title}</Title>
         </MyContainer>
-      </Paper>
+      </Box>
 
       <section>
         <MyContainer>
@@ -362,9 +368,9 @@ export default function Course({course}) {
 
       <section>
         <Paper
-          sx={t => ({
+          sx={theme => ({
             boxShadow: `0 -1px 3px rgb(0 0 0 / 5%)`,
-            padding: t.spacing.xl * 2,
+            padding: theme.spacing.xl * 2,
             textAlign: 'center',
           })}
         >

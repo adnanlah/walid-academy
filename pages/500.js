@@ -1,3 +1,3 @@
-export default function Custom404() {
-    return <h1>404 - Men 3ndhem</h1>
-  }
+export default function Custom500() {
+  return <h1>500 - Men 3ndhem</h1>
+}

@@ -10,8 +10,6 @@ import {
   Text,
   ActionIcon,
   TextInput,
-  Input,
-  InputWrapper,
   useMantineColorScheme,
   Portal,
 } from '@mantine/core'
@@ -32,7 +30,7 @@ const useStyles = createStyles(theme => {
         theme.colorScheme === 'light'
           ? theme.colors.gray[0]
           : theme.colors.dark[9],
-      padding: `${theme.spacing.md}px 15%`,
+      padding: `${theme.spacing.xl}px 15%`,
       display: 'flex',
       justifyContent: 'space-between',
       alignItems: `center`,

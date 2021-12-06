@@ -235,7 +235,8 @@ const QuizForm = ({handler, quiz, chapterId}) => {
                       <InputAddon
                         key={idx}
                         value={option.content}
-                        onChange={value =>
+                        mb="xs"
+                        onChange={event =>
                           dispatch({
                             type: 'updateoptioncontent',
                             payload: {
@@ -244,7 +245,6 @@ const QuizForm = ({handler, quiz, chapterId}) => {
                             },
                           })
                         }
-                        mb="xs"
                       >
                         <ActionIcon
                           onClick={() => {

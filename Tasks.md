@@ -1,1 +1,9 @@
 - quiz pagination next button
+- quiz reducer
+- clear local storage in quiz and flashcard
+- confetti
+- use profile
+- course page
+- footer feedback forn
+- search overlay
+-

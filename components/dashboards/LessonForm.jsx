@@ -1,4 +1,4 @@
-import {Button, Checkbox, Textarea, TextInput, Title} from '@mantine/core'
+import {Button, Checkbox, Textarea, TextInput} from '@mantine/core'
 import {useForm} from '@mantine/hooks'
 
 const LessonForm = ({handler, lesson}) => {

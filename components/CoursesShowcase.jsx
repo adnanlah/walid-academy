@@ -8,11 +8,11 @@ async function fetcher(url) {
   return json
 }
 
-export default function CoursesShowcase(props) {
-  console.log('rendering CoursesShowcase ', props.api)
+export default function CoursesShowcase({api, pagination, ...props}) {
+  console.log('rendering CoursesShowcase ', api)
   const [activePage, setPage] = useState(1)
 
-  const {data, error} = useSWR(`${props.api}?limit=10&start=1`, fetcher)
+  const {data, error} = useSWR(`${api}?limit=10&start=1`, fetcher)
 
   if (error) return <Center>فشل في التحميل</Center>
 
@@ -29,15 +29,17 @@ export default function CoursesShowcase(props) {
   })
 
   return (
-    <Box>
+    <Box {...props}>
       <LoadingOverlay visible={!data} />
-      <Box mb="md">
+      <Box>
         <Grid columns={12}>{CoursesList}</Grid>
       </Box>
 
-      <Center>
-        <Pagination total={5} page={activePage} onChange={setChange} />
-      </Center>
+      {pagination && (
+        <Center mt="md">
+          <Pagination total={5} page={activePage} onChange={setChange} />
+        </Center>
+      )}
     </Box>
   )
 }

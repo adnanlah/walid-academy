@@ -66,12 +66,14 @@ const NewCourse = () => {
   const [courseData, setCourseData] = useLocalStorageValue({
     key: 'course-data',
     defaultValue: JSON.stringify({
-      title: '',
-      description: '',
-      field: null,
-      year: null,
-      chapters: [],
-      lessons: [],
+      form: {
+        title: '',
+        description: '',
+        branch: null,
+        grade: null,
+        subject: null,
+      },
+      content: {chapters: [], lessons: []},
     }),
   })
 
@@ -79,21 +81,19 @@ const NewCourse = () => {
 
   const form = useForm({
     initialValues: {
-      title: courseDataObject.title,
-      description: courseDataObject.description,
-      field: courseDataObject.field,
+      ...courseDataObject.form,
     },
     validationRules: {
       title: v => v.length > 2,
       description: v => v.length > 2,
-      field: v => v !== null,
+      branch: v => v !== null,
     },
   })
 
   const [accordionState, onAccordionChange] = useState({0: true})
   const [chapterId, setChapterId] = useState('')
   const [modalOpened, setModalOpened] = useState(false)
-  const [dataToBeEdited, setDataToBeEdited] = useState({})
+  const [dataToBeUpdated, setDataToBeUpdated] = useState({})
   const modalTitle = ''
 
   switch (modalOpened) {
@@ -118,14 +118,16 @@ const NewCourse = () => {
       break
   }
 
-  const [{chapters, lessons}, dispatch] = useReducer(courseReducer, {
-    chapters: courseDataObject.chapters,
-    lessons: courseDataObject.lessons,
-  })
+  const [{chapters, lessons}, dispatch] = useReducer(
+    courseReducer,
+    courseDataObject.content,
+  )
 
   useEffect(() => {
     // store data to local storage after every dispatch
-    setCourseData(JSON.stringify({...form.values, chapters, lessons}))
+    setCourseData(
+      JSON.stringify({from: form.values, content: {chapters, lessons}}),
+    )
   }, [setCourseData, form.values, chapters, lessons])
 
   const newChapterHandler = chapter => {
@@ -200,9 +202,9 @@ const NewCourse = () => {
           label="اي مجال"
           placeholder="اختر"
           required
-          value={form.values.field}
-          error={form.errors.field && 'Insert a field'}
-          onChange={value => form.setFieldValue('field', value)}
+          value={form.values.branch}
+          error={form.errors.branch && 'Insert a branch'}
+          onChange={value => form.setFieldValue('branch', value)}
           data={[
             {value: 'maths', label: 'رياضيات'},
             {value: 'physics', label: 'فيزياء'},
@@ -226,7 +228,10 @@ const NewCourse = () => {
               },
               control: {
                 textAlign: 'right',
-                backgroundColor: theme.colors.gray[2],
+                backgroundColor:
+                  theme.colorScheme === 'light'
+                    ? theme.colors.gray[2]
+                    : theme.colors.dark[9],
               },
             }
           }}
@@ -264,7 +269,7 @@ const NewCourse = () => {
                 <Group>
                   <ActionIcon
                     onClick={() => {
-                      setDataToBeEdited(chapter)
+                      setDataToBeUpdated(chapter)
                       setModalOpened('updatechapter')
                     }}
                     ml="xs"
@@ -291,7 +296,10 @@ const NewCourse = () => {
                   .map((lesson, lessonIdx) => (
                     <Group
                       sx={theme => ({
-                        backgroundColor: theme.colors.gray[0],
+                        backgroundColor:
+                          theme.colorScheme === 'light'
+                            ? theme.colors.gray[0]
+                            : theme.colors.dark[8],
                         marginBottom: theme.spacing.xs,
                         padding: theme.spacing.xs,
                         borderRadius: theme.spacing.xs,
@@ -311,7 +319,7 @@ const NewCourse = () => {
                       <Group>
                         <ActionIcon
                           onClick={() => {
-                            setDataToBeEdited(lesson)
+                            setDataToBeUpdated(lesson)
                             setModalOpened(
                               lesson.type === 'media'
                                 ? 'updatelesson'
@@ -365,20 +373,20 @@ const NewCourse = () => {
         {modalOpened == 'updatechapter' && (
           <ChapterForm
             handler={updateChapterHandler}
-            chapter={dataToBeEdited}
+            chapter={dataToBeUpdated}
           />
         )}
         {modalOpened == 'newlesson' && (
           <LessonForm handler={newLessonHandler} chapterId={chapterId} />
         )}
         {modalOpened == 'updatelesson' && (
-          <LessonForm handler={updateLessonHandler} lesson={dataToBeEdited} />
+          <LessonForm handler={updateLessonHandler} lesson={dataToBeUpdated} />
         )}
         {modalOpened == 'newquiz' && (
           <QuizForm handler={newQuizHandler} chapterId={chapterId} />
         )}
         {modalOpened == 'updatequiz' && (
-          <QuizForm handler={updateQuizHandler} quiz={dataToBeEdited} />
+          <QuizForm handler={updateQuizHandler} quiz={dataToBeUpdated} />
         )}
       </Modal>
     </div>
