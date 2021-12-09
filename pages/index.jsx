@@ -1,6 +1,5 @@
 import Link from 'next/link'
 import {Input, Title, createStyles, SimpleGrid, Box} from '@mantine/core'
-import Signup from '../components/Signup'
 import MyContainer from '../components/MyContainer'
 import Layout from '../components/Layout'
 
@@ -125,7 +124,7 @@ export default function Home({content}) {
         <section className={classes.sectionContainer}>
           <CustomTitle>سجل في الموقع</CustomTitle>
           <div className={classes.signupWrapper}>
-            <Signup />
+            <Title order={2}>PLANS</Title>
           </div>
         </section>
       </MyContainer>

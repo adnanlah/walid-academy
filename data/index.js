@@ -1,426 +1,58 @@
+import lorem from '../util/lorem'
+
 const courses = [
   {
-    id: 1,
-    title: 'تعلم اللقة الانجليزية',
-    grade: 8,
-    subject: 'english',
-    branch: 'science',
-    categories: [
-      {title: 'سنة ثالثة ثنوي', href: '/'},
-      {title: 'اداب وفلسفة', href: '/'},
-    ],
-    thumbnail: '/book-cover.jpg',
+    id: 0,
+    title: lorem(6),
+    grade: '3rd-highschool',
+    subject: 'math-subject',
+    branch: 'lit-branch',
+    thumbnail: '',
     rating: 4,
     reviewsCount: 3,
     user: {id: 1, name: 'محمد علي'},
     length: 360,
     forumPostLink: '/forum/post/123',
-    content: [
-      {
-        title: 'الفصل الاول',
-        type: 'media',
-        lessonsList: [
-          {
-            title: 'الدرس الاول',
-            url: '123',
-            length: 120,
-          },
-          {
-            title: 'الدرس الثاني',
-            url: '',
-            length: 120,
-          },
-          {
-            title: 'الدرس الثالث',
-            url: '',
-            length: 120,
-          },
-        ],
-        attachmentsList: [
-          {
-            name: 'الملف الاول',
-            size: 1024,
-            url: '',
-          },
-          {
-            name: 'الملف الاول',
-            size: 2024,
-            url: '',
-          },
-          {
-            name: 'الملف الاول',
-            size: 3024,
-            url: '',
-          },
-        ],
-      },
-      {
-        title: 'الفصل الثاني',
-        type: 'media',
-        lessonsList: [
-          {
-            title: 'الدرس الاول',
-            url: '123',
-            length: 120,
-          },
-          {
-            title: 'الدرس الثاني',
-            url: '',
-            length: 120,
-          },
-          {
-            title: 'الدرس الثالث',
-            url: '',
-            length: 120,
-          },
-        ],
-        attachmentsList: [
-          {
-            name: 'الملف الاول',
-            size: 1024,
-            url: '',
-          },
-          {
-            name: 'الملف الاول',
-            size: 2024,
-            url: '',
-          },
-          {
-            name: 'الملف الاول',
-            size: 3024,
-            url: '',
-          },
-        ],
-      },
-      {
-        title: 'كوير 1',
-        description: 'اختبر مستواك مع هطا الكوير',
-        type: 'quiz',
-      },
-      {
-        title: 'الفصل الثالث',
-        type: 'media',
-        lessonsList: [
-          {
-            title: 'الدرس الاول',
-            url: '123',
-            length: 120,
-          },
-          {
-            title: 'الدرس الثاني',
-            url: '',
-            length: 120,
-          },
-          {
-            title: 'الدرس الثالث',
-            url: '',
-            length: 120,
-          },
-        ],
-      },
-    ],
-    reviews: [
-      {
-        user: 'محمد علي',
-        rating: 5,
-        text: 'برنامج اللغة الإنجليزية التفاعلي للتطوير المهني المستمر هو برنامج مجاني مقدّم من إدراك',
-      },
-
-      {
-        user: 'محمد علي',
-        rating: 2,
-        text: 'برنامج اللغة الإنجليزية التفاعلي للتطوير المهني المستمر هو برنامج مجاني مقدّم من إدراك برنامج اللغة الإنجليزية التفاعلي للتطوير المهني المستمر هو برنامج مجاني',
-      },
-
-      {
-        user: 'محمد علي',
-        rating: 0,
-        text: 'برنامج اللغة الإنجليزية التفاعلي للتطوير المهني المستمر هو برنامج مجاني مقدّم من إدراك برنامج اللغة الإنجليزية التفاعلي للتطوير المهني المستمر هو برنامج مجاني برنامج اللغة الإنجليزية التفاعلي للتطوير المهني المستمر هو برنامج مجاني',
-      },
-    ],
     cost: 'subsciption',
-    description:
-      'برنامج اللغة الإنجليزية التفاعلي للتطوير المهني المستمر هو برنامج مجاني مقدّم من إدراك، وقد قمنا بتطويره خصيصاً لتلبية احتياجات واهتمامات الطلاب الناطقين باللغة العربية. سيساعدك هذا البرنامج في تعلم اللغة الإنجليزية وبناء وتطوير مجمل مهاراتك فيها، بما في ذلك القراءة والكتابة والاستماع والكلام، بالإضافة إلى مهارات الاتصال والتواصل مع الآخرين.',
+    description: lorem(50),
   },
+  {
+    id: 1,
+    title: lorem(6),
+    grade: '3rd-highschool',
+    subject: 'math-subject',
+    branch: 'science-branch',
+    thumbnail: '',
+    rating: 4,
+    reviewsCount: 3,
+    user: {id: 1, name: 'محمد علي'},
+    length: 360,
+    forumPostLink: '/forum/post/123',
+    cost: 'subsciption',
+    description: lorem(50),
+  },
+]
+
+const reviews = [
+  {
+    id: 0,
+    user: {id: 1, name: 'محمد علي'},
+    rating: 5,
+    text: lorem(10),
+  },
+
+  {
+    id: 1,
+    user: {id: 1, name: 'محمد علي'},
+    rating: 2,
+    text: lorem(30),
+  },
+
   {
     id: 2,
-    title: 'تعلم اللقة الانجليزية',
-    categories: [
-      {title: 'سنة ثالثة ثنوي', href: '/'},
-      {title: 'اداب وفلسفة', href: '/'},
-    ],
-    thumbnail: '/book-cover.jpg',
-    rating: 4,
-    reviewsCount: 3,
     user: {id: 1, name: 'محمد علي'},
-    length: 360,
-    forumPostLink: '/forum/post/123',
-    content: [
-      {
-        title: 'الفصل الاول',
-        type: 'media',
-        lessonsList: [
-          {
-            title: 'الدرس الاول',
-            url: '123',
-            length: 120,
-          },
-          {
-            title: 'الدرس الثاني',
-            url: '',
-            length: 120,
-          },
-          {
-            title: 'الدرس الثالث',
-            url: '',
-            length: 120,
-          },
-        ],
-        attachmentsList: [
-          {
-            name: 'الملف الاول',
-            size: 1024,
-            url: '',
-          },
-          {
-            name: 'الملف الاول',
-            size: 2024,
-            url: '',
-          },
-          {
-            name: 'الملف الاول',
-            size: 3024,
-            url: '',
-          },
-        ],
-      },
-      {
-        title: 'الفصل الثاني',
-        type: 'media',
-        lessonsList: [
-          {
-            title: 'الدرس الاول',
-            url: '123',
-            length: 120,
-          },
-          {
-            title: 'الدرس الثاني',
-            url: '',
-            length: 120,
-          },
-          {
-            title: 'الدرس الثالث',
-            url: '',
-            length: 120,
-          },
-        ],
-        attachmentsList: [
-          {
-            name: 'الملف الاول',
-            size: 1024,
-            url: '',
-          },
-          {
-            name: 'الملف الاول',
-            size: 2024,
-            url: '',
-          },
-          {
-            name: 'الملف الاول',
-            size: 3024,
-            url: '',
-          },
-        ],
-      },
-      {
-        title: 'كوير 1',
-        description: 'اختبر مستواك مع هطا الكوير',
-        type: 'quiz',
-      },
-      {
-        title: 'الفصل الثالث',
-        type: 'media',
-        lessonsList: [
-          {
-            title: 'الدرس الاول',
-            url: '123',
-            length: 120,
-          },
-          {
-            title: 'الدرس الثاني',
-            url: '',
-            length: 120,
-          },
-          {
-            title: 'الدرس الثالث',
-            url: '',
-            length: 120,
-          },
-        ],
-      },
-    ],
-    reviews: [
-      {
-        user: 'محمد علي',
-        rating: 5,
-        text: 'برنامج اللغة الإنجليزية التفاعلي للتطوير المهني المستمر هو برنامج مجاني مقدّم من إدراك',
-      },
-
-      {
-        user: 'محمد علي',
-        rating: 2,
-        text: 'برنامج اللغة الإنجليزية التفاعلي للتطوير المهني المستمر هو برنامج مجاني مقدّم من إدراك برنامج اللغة الإنجليزية التفاعلي للتطوير المهني المستمر هو برنامج مجاني',
-      },
-
-      {
-        user: 'محمد علي',
-        rating: 0,
-        text: 'برنامج اللغة الإنجليزية التفاعلي للتطوير المهني المستمر هو برنامج مجاني مقدّم من إدراك برنامج اللغة الإنجليزية التفاعلي للتطوير المهني المستمر هو برنامج مجاني برنامج اللغة الإنجليزية التفاعلي للتطوير المهني المستمر هو برنامج مجاني',
-      },
-    ],
-    cost: 'subsciption',
-    description:
-      'برنامج اللغة الإنجليزية التفاعلي للتطوير المهني المستمر هو برنامج مجاني مقدّم من إدراك، وقد قمنا بتطويره خصيصاً لتلبية احتياجات واهتمامات الطلاب الناطقين باللغة العربية. سيساعدك هذا البرنامج في تعلم اللغة الإنجليزية وبناء وتطوير مجمل مهاراتك فيها، بما في ذلك القراءة والكتابة والاستماع والكلام، بالإضافة إلى مهارات الاتصال والتواصل مع الآخرين.',
-  },
-  {
-    id: 3,
-    title: 'تعلم اللقة العربية',
-    categories: [
-      {title: 'سنة ثالثة ثنوي', href: '/'},
-      {title: 'اداب وفلسفة', href: '/'},
-    ],
-    thumbnail: '/book-cover.jpg',
-    rating: 4,
-    reviewsCount: 3,
-    user: {id: 2, name: 'محمد مصطفى'},
-    length: 360,
-    forumPostLink: '/forum/post/123',
-    content: [
-      {
-        title: 'الفصل الاول',
-        type: 'media',
-        lessonsList: [
-          {
-            title: 'الدرس الاول',
-            url: '123',
-            length: 120,
-          },
-          {
-            title: 'الدرس الثاني',
-            url: '',
-            length: 120,
-          },
-          {
-            title: 'الدرس الثالث',
-            url: '',
-            length: 120,
-          },
-        ],
-        attachmentsList: [
-          {
-            name: 'الملف الاول',
-            size: 1024,
-            url: '',
-          },
-          {
-            name: 'الملف الاول',
-            size: 2024,
-            url: '',
-          },
-          {
-            name: 'الملف الاول',
-            size: 3024,
-            url: '',
-          },
-        ],
-      },
-      {
-        title: 'الفصل الثاني',
-        type: 'media',
-        lessonsList: [
-          {
-            title: 'الدرس الاول',
-            url: '123',
-            length: 120,
-          },
-          {
-            title: 'الدرس الثاني',
-            url: '',
-            length: 120,
-          },
-          {
-            title: 'الدرس الثالث',
-            url: '',
-            length: 120,
-          },
-        ],
-        attachmentsList: [
-          {
-            name: 'الملف الاول',
-            size: 1024,
-            url: '',
-          },
-          {
-            name: 'الملف الاول',
-            size: 2024,
-            url: '',
-          },
-          {
-            name: 'الملف الاول',
-            size: 3024,
-            url: '',
-          },
-        ],
-      },
-      {
-        title: 'كوير 1',
-        description: 'اختبر مستواك مع هطا الكوير',
-        type: 'quiz',
-      },
-      {
-        title: 'الفصل الثالث',
-        type: 'media',
-        lessonsList: [
-          {
-            title: 'الدرس الاول',
-            url: '123',
-            length: 120,
-          },
-          {
-            title: 'الدرس الثاني',
-            url: '',
-            length: 120,
-          },
-          {
-            title: 'الدرس الثالث',
-            url: '',
-            length: 120,
-          },
-        ],
-      },
-    ],
-    reviews: [
-      {
-        user: 'محمد علي',
-        rating: 5,
-        text: 'برنامج اللغة الإنجليزية التفاعلي للتطوير المهني المستمر هو برنامج مجاني مقدّم من إدراك',
-      },
-
-      {
-        user: 'محمد علي',
-        rating: 2,
-        text: 'برنامج اللغة الإنجليزية التفاعلي للتطوير المهني المستمر هو برنامج مجاني مقدّم من إدراك برنامج اللغة الإنجليزية التفاعلي للتطوير المهني المستمر هو برنامج مجاني',
-      },
-
-      {
-        user: 'محمد علي',
-        rating: 0,
-        text: 'برنامج اللغة الإنجليزية التفاعلي للتطوير المهني المستمر هو برنامج مجاني مقدّم من إدراك برنامج اللغة الإنجليزية التفاعلي للتطوير المهني المستمر هو برنامج مجاني برنامج اللغة الإنجليزية التفاعلي للتطوير المهني المستمر هو برنامج مجاني',
-      },
-    ],
-    cost: 'subsciption',
-    description:
-      'برنامج اللغة الإنجليزية التفاعلي للتطوير المهني المستمر هو برنامج مجاني مقدّم من إدراك، وقد قمنا بتطويره خصيصاً لتلبية احتياجات واهتمامات الطلاب الناطقين باللغة العربية. سيساعدك هذا البرنامج في تعلم اللغة الإنجليزية وبناء وتطوير مجمل مهاراتك فيها، بما في ذلك القراءة والكتابة والاستماع والكلام، بالإضافة إلى مهارات الاتصال والتواصل مع الآخرين.',
+    rating: 0,
+    text: lorem(20),
   },
 ]
 
@@ -436,57 +68,203 @@ const users = [
 
 const chapters = [
   {
-    id: 1,
+    id: 0,
     title: 'الشابتر الاول',
-    courseId: 1,
+    courseId: 0,
   },
   {
-    id: 2,
-    title: 'الشابتر الاول',
-    courseId: 2,
+    id: 1,
+    title: 'الشابتر الثاني',
+    courseId: 1,
   },
 ]
 
 const lessons = [
   {
     id: 1,
-    title: 'الدرس الاول',
+    type: 'media',
+    title: lorem(7),
+    description: lorem(20),
     videoUrl: '',
-    chapterId: 1,
+    chapterId: 0,
+    courseId: 0,
+    length: 120,
   },
-
   {
     id: 2,
-    title: 'الدرس الثاني',
+    type: 'media',
+    title: lorem(7),
+    description: lorem(20),
     videoUrl: '',
-    chapterId: 1,
+    chapterId: 0,
+    courseId: 0,
+    length: 120,
   },
-
   {
     id: 3,
-    title: 'الدرس الثالث',
+    type: 'media',
+    title: lorem(7),
+    description: lorem(20),
     videoUrl: '',
-    chapterId: 1,
+    chapterId: 0,
+    courseId: 0,
+    length: 120,
   },
   {
     id: 4,
-    title: 'الدرس الرابع',
+    type: 'media',
+    title: lorem(7),
+    description: lorem(20),
     videoUrl: '',
-    chapterId: 2,
+    chapterId: 1,
+    courseId: 0,
+    length: 120,
   },
 
   {
     id: 5,
-    title: 'الدرس الخامس',
+    type: 'media',
+    title: lorem(7),
+    description: lorem(20),
     videoUrl: '',
-    chapterId: 2,
+    chapterId: 1,
+    courseId: 0,
+    length: 120,
   },
 
   {
     id: 6,
-    title: 'الدرس السادس',
+    type: 'media',
+    title: lorem(7),
+    description: lorem(20),
     videoUrl: '',
-    chapterId: 2,
+    chapterId: 1,
+    courseId: 0,
+    length: 120,
+  },
+  {
+    id: 7,
+    type: 'quiz',
+    title: lorem(7),
+    description: lorem(20),
+    videoUrl: '',
+    chapterId: 1,
+    courseId: 0,
+    length: 120,
+    quiz: [
+      {
+        id: 1,
+        imageUrl: 'https://placekitten.com/408/287',
+        content: 'السؤاال الاول هو كاالتالي',
+        correctAnswer: 3,
+        options: [
+          {
+            id: 1,
+            content: 'الخيار رقم واحد هنا والخيار الثاني هناك',
+            isCorrent: false,
+          },
+          {
+            id: 2,
+            content: 'الخيار رقم واحد هنا والخيار الثاني هناك',
+            isCorrent: false,
+          },
+          {
+            id: 3,
+            content: 'الخيار رقم واحد هنا والخيار الثاني هناك',
+            isCorrent: false,
+          },
+        ],
+      },
+      {
+        id: 2,
+        imageUrl: 'https://placekitten.com/408/287',
+        content: 'السؤاال الاول هو كاالتالي',
+        correctAnswer: 1,
+        options: [
+          {
+            id: 1,
+            content: 'الخيار رقم واحد هنا والخيار الثاني هناك',
+            isCorrent: false,
+          },
+          {
+            id: 2,
+            content: 'الخيار رقم واحد هنا والخيار الثاني هناك',
+            isCorrent: false,
+          },
+          {
+            id: 3,
+            content: 'الخيار رقم واحد هنا والخيار الثاني هناك',
+            isCorrent: false,
+          },
+          {
+            id: 4,
+            content: 'الخيار رقم واحد هنا والخيار الثاني هناك',
+            isCorrent: true,
+          },
+          {
+            id: 4,
+            content: 'الخيار رقم واحد هنا والخيار الثاني هناك',
+            isCorrent: true,
+          },
+        ],
+      },
+      {
+        id: 3,
+        imageUrl: 'https://placekitten.com/408/287',
+        content: 'السؤاال الاول هو كاالتالي',
+        correctAnswer: 2,
+        options: [
+          {
+            id: 1,
+            content: 'الخيار رقم واحد هنا والخيار الثاني هناك',
+            isCorrent: false,
+          },
+          {
+            id: 2,
+            content: 'الخيار رقم واحد هنا والخيار الثاني هناك',
+            isCorrent: false,
+          },
+          {
+            id: 3,
+            content: 'الخيار رقم واحد هنا والخيار الثاني هناك',
+            isCorrent: false,
+          },
+          {
+            id: 4,
+            content: 'الخيار رقم واحد هنا والخيار الثاني هناك',
+            isCorrent: true,
+          },
+        ],
+      },
+      {
+        id: 4,
+        imageUrl: 'https://placekitten.com/408/287',
+        content: 'السؤاال الاول هو كاالتالي',
+        correctAnswer: 3,
+        options: [
+          {
+            id: 1,
+            content: 'الخيار رقم واحد هنا والخيار الثاني هناك',
+            isCorrent: false,
+          },
+          {
+            id: 2,
+            content: 'الخيار رقم واحد هنا والخيار الثاني هناك',
+            isCorrent: false,
+          },
+          {
+            id: 3,
+            content: 'الخيار رقم واحد هنا والخيار الثاني هناك',
+            isCorrent: false,
+          },
+          {
+            id: 4,
+            content: 'الخيار رقم واحد هنا والخيار الثاني هناك',
+            isCorrent: true,
+          },
+        ],
+      },
+    ],
   },
 ]
 
@@ -499,23 +277,12 @@ const attachments = [
   },
 ]
 
-const quizes = [
-  {
-    id: 1,
-    title: 'الكويز الاول',
-    number: 1,
-    content: '',
-    courseId: 1,
-  },
-]
-
 const comments = [
   {
     id: 1,
     lessonId: 1,
     body: 'التعليق الاول',
-    userName: 'محمد مصطقى',
-    userId: 1,
+    user: {id: 1, name: 'محمد علي'},
     parentId: null,
     createdAt: '2021-08-15T23:01:33.010+02:00',
   },
@@ -523,8 +290,7 @@ const comments = [
     id: 2,
     lessonId: 1,
     body: 'التعليق الثاني',
-    userName: 'محمد زيد',
-    userId: 2,
+    user: {id: 1, name: 'محمد علي'},
     parentId: null,
     createdAt: '2021-08-14T23:02:33.010+02:00',
   },
@@ -532,8 +298,7 @@ const comments = [
     id: 3,
     lessonId: 1,
     body: 'التعليق الاول على التعليق الاول',
-    userName: 'محمد علي',
-    userId: 3,
+    user: {id: 1, name: 'محمد علي'},
     parentId: 1,
     createdAt: '2021-08-18T23:03:33.010+02:00',
   },
@@ -541,8 +306,7 @@ const comments = [
     id: 4,
     lessonId: 1,
     body: 'التعليق الاول على التعليق الثاني',
-    userName: 'محمد علي',
-    userId: 3,
+    user: {id: 1, name: 'محمد علي'},
     parentId: 2,
     createdAt: '2021-08-17T23:04:43.010+02:00',
   },
@@ -550,8 +314,7 @@ const comments = [
     id: 5,
     lessonId: 1,
     body: 'التعليق الثاني على التعليق الثاني',
-    userName: 'محمد علي',
-    userId: 3,
+    user: {id: 1, name: 'محمد علي'},
     parentId: 2,
     createdAt: '2021-08-17T23:04:43.010+02:00',
   },
@@ -559,8 +322,7 @@ const comments = [
     id: 6,
     lessonId: 1,
     body: 'التعليق الثاني على التعليق الاول',
-    userName: 'محمد علي',
-    userId: 3,
+    user: {id: 1, name: 'محمد علي'},
     parentId: 1,
     createdAt: '2021-08-17T23:04:43.010+02:00',
   },
@@ -1341,4 +1103,13 @@ const flashcards2 = [
   },
 ]
 
-module.exports = {courses, users, comments, lessons, chapters, flashcards}
+module.exports = {
+  courses,
+  users,
+  comments,
+  lessons,
+  reviews,
+  chapters,
+  flashcards,
+  flashcards2,
+}

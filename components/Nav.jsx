@@ -11,7 +11,6 @@ import {
   ActionIcon,
   TextInput,
   useMantineColorScheme,
-  Portal,
 } from '@mantine/core'
 import {
   MagnifyingGlassIcon,
@@ -19,7 +18,6 @@ import {
   MoonIcon,
   GearIcon,
 } from '@modulz/radix-icons'
-import {useEffect, useState} from 'react'
 import {useForm} from '@mantine/hooks'
 import Router from 'next/router'
 
@@ -30,7 +28,7 @@ const useStyles = createStyles(theme => {
         theme.colorScheme === 'light'
           ? theme.colors.gray[0]
           : theme.colors.dark[9],
-      padding: `${theme.spacing.xl}px 15%`,
+      padding: `${theme.spacing.md}px 15%`,
       display: 'flex',
       justifyContent: 'space-between',
       alignItems: `center`,
@@ -64,7 +62,6 @@ function NavLink({href, ...props}) {
 }
 
 function Nav() {
-  const [opened, setOpened] = useState(false)
   const {classes, cx} = useStyles()
   const {colorScheme, toggleColorScheme} = useMantineColorScheme()
   const dark = colorScheme === 'dark'
@@ -75,12 +72,6 @@ function Nav() {
       termsOfService: false,
     },
   })
-
-  // useEffect(() => {
-  //   if (query.length > 0) {
-  //   }
-  //   return () => {}
-  // }, [query])
 
   return (
     <nav className={classes.wrapper}>

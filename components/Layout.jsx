@@ -3,10 +3,9 @@ import {
   NormalizeCSS,
   Global,
   ColorSchemeProvider,
-  Portal,
 } from '@mantine/core'
 import {useLocalStorageValue} from '@mantine/hooks'
-import {useState, useRef, useEffect} from 'react'
+import {useState, useEffect} from 'react'
 import Nav from './Nav'
 import Footer from './Footer'
 
@@ -27,7 +26,6 @@ const baseSize = 14
 const marginSize = 3
 
 export default function Layout({children}) {
-  // const myContainer = useRef(null)
   const [colorScheme, setColorScheme] = useLocalStorageValue({
     key: 'mantine-color-scheme',
     defaultValue: 'light',
@@ -42,16 +40,6 @@ export default function Layout({children}) {
     set_document(document)
   }, [])
 
-  // useEffect(() => {
-  //   myContainer.current = document.getElementById('main')
-  //   console.log(
-  //     'myContainer ref',
-  //     myContainer.current,
-  //     typeof myContainer.current,
-  //   )
-  //   return () => {}
-  // }, [myContainer])
-
   return (
     <>
       <ColorSchemeProvider
@@ -63,9 +51,25 @@ export default function Layout({children}) {
             TextInput: {
               input: {
                 textAlign: 'right',
+                paddingRight: '12px !important',
+                paddingLeft: 30,
               },
-              item: {
-                textAlign: 'right',
+              rightSection: {
+                right: 'auto',
+                left: '0 !important',
+              },
+            },
+            PasswordInput: {
+              input: {
+                '& > input': {
+                  textAlign: 'right',
+                  paddingRight: '12px !important',
+                  paddingLeft: 30,
+                },
+              },
+              rightSection: {
+                right: 'auto',
+                left: '0 !important',
               },
             },
             DatePicker: {
@@ -164,12 +168,7 @@ export default function Layout({children}) {
 
           <Nav />
 
-          <main id="main">
-            {_document && (
-              <Portal target={_document.getElementsByTagName('main')[0]} />
-            )}
-            {children}
-          </main>
+          <main id="main">{children}</main>
           <Footer />
         </MantineProvider>
       </ColorSchemeProvider>

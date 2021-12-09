@@ -5,35 +5,46 @@ import {
   lessons,
   comments,
   chapters,
+  reviews,
   flashcards,
+  flashcards2,
 } from '../data/index.js'
 
 const getItem = (id, list) => list.find(e => e.id === parseInt(id))
 const getItems = (id, list) => list.filter(e => e.id === parseInt(id))
-const getCourses = id => courses.filter(c => c.user.id === parseInt(id))
+const getItemsByUserId = (id, list) =>
+  list.filter(c => parseInt(c.user.id) === parseInt(id))
 
 export const handlers = [
   rest.get('https://my.backend/courses', (req, res, ctx) => {
-    console.log('https://my.backend/courses')
+    return res(ctx.json(courses))
+  }),
+
+  rest.get('https://my.backend/search', (req, res, ctx) => {
+    console.log('https://my.backend/search')
     const query = req.url.searchParams.get('q')
     return res(ctx.json(courses))
   }),
 
   rest.get('https://my.backend/users/:userId/courses', (req, res, ctx) => {
-    // const limit = req.url.searchParams.get('limit')
-    // const startAt = req.url.searchParams.get('startAt')
-
     const {userId} = req.params
+    console.log(
+      'https://my.backend/users/:userId/courses userId is ',
+      userId,
+      typeof userId,
+    )
+    // const startAt = req.url.searchParams.get('startAt')
+    // const limit = req.url.searchParams.get('limit')
 
-    // if (userId) return res(ctx.status(404))
+    if (isNaN(parseInt(userId))) return res(ctx.status(404))
 
-    const courses = getCourses(userId)
+    const courses = getItemsByUserId(userId, courses)
 
     if (!courses) {
       return res(
         ctx.status(404),
         ctx.json({
-          errorMessage: `Courses of the user ${userId} Not found`,
+          errorMessage: `The user ${userId} doesnt have any courses!`,
         }),
       )
     }
@@ -42,8 +53,8 @@ export const handlers = [
   }),
 
   rest.get('https://my.backend/courses/:id', (req, res, ctx) => {
-    console.log('courses/:id')
     const {id} = req.params
+    console.log('https://my.backend/courses/:id id is ', id, typeof id)
 
     const course = getItem(id, courses)
 
@@ -51,7 +62,7 @@ export const handlers = [
       return res(
         ctx.status(404),
         ctx.json({
-          errorMessage: 'Not found',
+          errorMessage: 'Course with such id is not found',
         }),
       )
     }
@@ -65,16 +76,16 @@ export const handlers = [
 
     const course = getItem(id, courses)
 
-    course['chapters'] = chapters.map(c => ({...c, lessons}))
-
     if (!course) {
       return res(
         ctx.status(404),
         ctx.json({
-          errorMessage: 'Not found',
+          errorMessage: `Course with id: ${id} Not found`,
         }),
       )
     }
+
+    course['content'] = chapters.map(c => ({...c, lessons}))
 
     return res(ctx.json(course))
   }),
@@ -116,15 +127,6 @@ export const handlers = [
     return res(ctx.json(comments))
   }),
 
-  rest.get('https://my.backend/flashcards', (req, res, ctx) => {
-    const branch = req.url.searchParams.get('branch')
-    const grade = req.url.searchParams.get('grade')
-    const subject = req.url.searchParams.get('subject')
-    console.log({branch, grade, subject})
-
-    return res(ctx.json(flashcards))
-  }),
-
   rest.get('https://my.backend/flashcards/:id', (req, res, ctx) => {
     const {id} = req.params
     const flashcard = getItem(id, flashcards)
@@ -139,18 +141,9 @@ export const handlers = [
     }
 
     return res(ctx.json(flashcard))
-    return res(ctx.json(flashcards))
   }),
 
-  // rest.get('/course/:id/reviews', (req, res, ctx) => {
-  //   return res(
-  //     ctx.json([
-  //       {
-  //         id: '60333292-7ca1-4361-bf38-b6b43b90cb16',
-  //         author: 'John Maverick',
-  //         text: 'Lord of The Rings, is with no absolute hesitation, my most favored and adored book by‑far. The triology is wonderful‑ and I really consider this a legendary fantasy series. It will always keep you at the edge of your seat‑ and the characters you will grow and fall in love with!',
-  //       },
-  //     ])
-  //   )
-  // }),
+  rest.get('/course/:id/reviews', (req, res, ctx) => {
+    return res(ctx.json(reviews))
+  }),
 ]

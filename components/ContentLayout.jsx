@@ -7,8 +7,8 @@ export default function ContentLayout({children}) {
         minHeight: '60vh',
         backgroundColor:
           theme.colorScheme === 'light'
-            ? theme.colors.gray[1]
-            : theme.colors.dark[5],
+            ? theme.colors.gray[0]
+            : theme.colors.dark[6],
       })}
     >
       {children}

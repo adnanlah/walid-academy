@@ -1,5 +1,6 @@
-import {Avatar, Box, Group, Title, Text} from '@mantine/core'
+import {Avatar, Box, Group, Text} from '@mantine/core'
 import CommentForm from './CommentForm'
+import InlineButton from '../InlineButton'
 
 const Comment = ({
   comment,
@@ -11,6 +12,7 @@ const Comment = ({
   addComment,
   parentId = null,
   currentUserId,
+  ...props
 }) => {
   const isEditing =
     activeComment &&
@@ -26,30 +28,33 @@ const Comment = ({
   const replyId = parentId ? parentId : comment.id
   const createdAt = new Date(comment.createdAt).toLocaleDateString()
   return (
-    <Box>
+    <Box {...props}>
       <Group
         align="start"
         spacing="lg"
         sx={t => ({
           backgroundColor:
-            t.colorScheme === 'light' ? '#FCFCFC' : t.colors.dark[8],
-          padding: t.spacing.xs,
-          marginBottom: t.spacing.lg,
+            t.colorScheme === 'light' ? t.colors.gray[1] : t.colors.dark[8],
+          padding: t.spacing.md,
           borderRadius: t.spacing.xs,
           border: `1px solid ${
             t.colorScheme === 'light' ? t.colors.gray[1] : t.colors.dark[9]
           }`,
         })}
       >
-        <Box>
-          <Avatar src={null} alt={comment.userName} color="indigo" size="lg">
-            {/* {comment.userName
+        <Avatar
+          src={null}
+          alt={comment.userName}
+          color="indigo"
+          size="lg"
+          radius="xl"
+        >
+          {/* {comment.userName
               .split(' ')
               .map(n => n[0])
               .join(' ')} */}
-          </Avatar>
-        </Box>
-        <Box style={{flexGrow: 1}}>
+        </Avatar>
+        <div style={{flexGrow: 1}}>
           <Box mb="xs">
             <Text weight={700}>{comment.userName}</Text>
             <Text size="sm" color="dimmed">
@@ -73,36 +78,30 @@ const Comment = ({
             </Box>
             <Group>
               {canReply && (
-                <Text
-                  size="sm"
-                  variant="link"
+                <InlineButton
                   onClick={() =>
                     setActiveComment({id: comment.id, type: 'replying'})
                   }
                 >
                   تعليق
-                </Text>
+                </InlineButton>
               )}
               {canEdit && (
-                <Text
-                  size="sm"
-                  variant="link"
+                <InlineButton
                   onClick={() =>
                     setActiveComment({id: comment.id, type: 'editing'})
                   }
                 >
                   تعديل
-                </Text>
+                </InlineButton>
               )}
               {canDelete && (
-                <Text
-                  size="sm"
-                  variant="link"
+                <InlineButton
                   color="red"
                   onClick={() => deleteComment(comment.id)}
                 >
                   حدف
-                </Text>
+                </InlineButton>
               )}
             </Group>
             {isReplying && (
@@ -119,12 +118,13 @@ const Comment = ({
               </Box>
             )}
           </Box>
-        </Box>
+        </div>
       </Group>
       {replies.length > 0 && (
-        <Box style={{marginRight: 50}}>
-          {replies.map(reply => (
+        <Box style={{marginRight: '5%'}}>
+          {replies.map((reply, idx) => (
             <Comment
+              mt="xs"
               comment={reply}
               key={reply.id}
               setActiveComment={setActiveComment}

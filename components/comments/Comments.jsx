@@ -3,6 +3,7 @@ import CommentForm from './CommentForm'
 import Comment from './Comment'
 import {Box, Center, LoadingOverlay, Title} from '@mantine/core'
 import useSWR from 'swr'
+
 async function fetcher(url) {
   const res = await fetch(url)
   const json = await res.json()
@@ -42,9 +43,10 @@ const Comments = ({lessonId, currentUserId}) => {
 
   const commentsList = data
     ?.filter(c => c.parentId === null)
-    .map(rootComment => {
+    .map((rootComment, idx) => {
       return (
         <Comment
+          mt={idx === 0 ? null : 'xs'}
           key={rootComment.id}
           comment={rootComment}
           replies={getReplies(rootComment.id, data)}
@@ -62,13 +64,13 @@ const Comments = ({lessonId, currentUserId}) => {
     <div>
       <LoadingOverlay visible={!data} />
       {/* Add if not logged in later */}
-      <Box>
+      <div>
         <Title order={6} align="center" mb="md">
           ناقش هذا الدرس
         </Title>
         <CommentForm submitLabel="أضف ردا" handleSubmit={addComment} />
-      </Box>
-      <Box mt="xl">{commentsList}</Box>
+        <Box mt="xl">{commentsList}</Box>
+      </div>
     </div>
   )
 }

@@ -1,9 +1,20 @@
 - quiz pagination next button
 - quiz reducer
 - clear local storage in quiz and flashcard
-- confetti
 - use profile
-- course page
-- footer feedback forn
-- search overlay
--
+- course page 👍
+- footer feedback form
+- nav links
+- Next link and mantine link
+- search page structure
+- 404
+- 500
+- redirect to 404 or 500
+- componments structure: where should I store the component that I only use in
+  one page like Reviews
+- reviews pagination
+- html semantics
+- MyContainer
+- accordion styles
+- set q value in url
+- add quiz to a lesson

@@ -1,4 +1,5 @@
-import {Anchor, Center, List, Pagination, Title} from '@mantine/core'
+import {Anchor, Center, List, Pagination, ThemeIcon, Title} from '@mantine/core'
+import {ChatBubbleIcon, ExclamationTriangleIcon} from '@modulz/radix-icons'
 import Lorem from '../../util/lorem'
 
 const Reports = () => {
@@ -10,30 +11,36 @@ const Reports = () => {
       <List
         spacing="sm"
         mb="xl"
-        styles={theme => ({root: {paddingRight: theme.spacing.xs}})}
+        styles={theme => ({
+          root: {paddingRight: 0},
+          itemIcon: {paddingLeft: theme.spacing.xs},
+        })}
       >
-        <List.Item>
+        <List.Item
+          icon={
+            <ThemeIcon color="red" variant="light" size={24} radius="xl">
+              <ExclamationTriangleIcon size={12} />
+            </ThemeIcon>
+          }
+        >
           <Anchor href="/">{Lorem(20)}</Anchor>
         </List.Item>
-        <List.Item>
+        <List.Item
+          icon={
+            <ThemeIcon color="red" variant="light" size={24} radius="xl">
+              <ChatBubbleIcon size={12} />
+            </ThemeIcon>
+          }
+        >
           <Anchor href="/">{Lorem(20)}</Anchor>
         </List.Item>
-        <List.Item>
-          <Anchor href="/">{Lorem(20)}</Anchor>
-        </List.Item>
-        <List.Item>
-          <Anchor href="/">{Lorem(20)}</Anchor>
-        </List.Item>
-        <List.Item>
-          <Anchor href="/">{Lorem(20)}</Anchor>
-        </List.Item>
-        <List.Item>
-          <Anchor href="/">{Lorem(20)}</Anchor>
-        </List.Item>
-        <List.Item>
-          <Anchor href="/">{Lorem(20)}</Anchor>
-        </List.Item>
-        <List.Item>
+        <List.Item
+          icon={
+            <ThemeIcon color="red" variant="light" size={24} radius="xl">
+              <ExclamationTriangleIcon size={12} />
+            </ThemeIcon>
+          }
+        >
           <Anchor href="/">{Lorem(20)}</Anchor>
         </List.Item>
       </List>

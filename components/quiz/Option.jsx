@@ -1,5 +1,5 @@
 import {Box, Group, Text} from '@mantine/core'
-import {SquareIcon, CheckboxIcon} from '@modulz/radix-icons'
+import {SquareIcon, CheckboxIcon, BoxModelIcon} from '@modulz/radix-icons'
 
 const Option = ({
   option,
@@ -28,11 +28,12 @@ const Option = ({
       : 'none'
     : 'none'
 
-  const icon = isChecked ? (
-    <CheckboxIcon style={{width: 20, height: 20}} />
-  ) : (
-    <SquareIcon style={{width: 20, height: 20}} />
-  )
+  let icon
+
+  if (isChecked) icon = <BoxModelIcon style={{width: 20, height: 20}} />
+  else if (isCorrectAnswer && showResults)
+    icon = <CheckboxIcon style={{width: 20, height: 20}} />
+  else icon = <SquareIcon style={{width: 20, height: 20}} />
 
   return (
     <Box
@@ -40,7 +41,7 @@ const Option = ({
         cursor: 'pointer',
         padding: `${theme.spacing.md}px ${theme.spacing.lg}px`,
         backgroundColor: theme.colorScheme === 'light' ? optionBgL : optionBgD,
-        marginBottom: theme.spacing.xs,
+
         '&:hover': {
           backgroundColor: !showResults && theme.colors.gray[1],
         },

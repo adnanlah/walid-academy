@@ -4,7 +4,6 @@ const Roundedcontainer = props => {
   return (
     <Box
       sx={t => ({
-        width: '50%',
         backgroundColor:
           t.colorScheme === 'light' ? `#F6F6F6` : t.colors.dark[8],
         padding: t.spacing.md,

@@ -2,7 +2,6 @@ import {
   Button,
   Anchor,
   ActionIcon,
-  Modal,
   Title,
   Text,
   Center,
@@ -10,12 +9,10 @@ import {
   Col,
   Paper,
   Box,
-  Divider,
   Group,
 } from '@mantine/core'
 import {
   PlayIcon,
-  DownloadIcon,
   AvatarIcon,
   ChatBubbleIcon,
   CubeIcon,
@@ -27,185 +24,79 @@ import {
 import Layout from '../../../components/Layout'
 import ContentLayout from '../../../components/ContentLayout'
 import MyContainer from '../../../components/MyContainer'
-import VideoModal from '../../../components/VideoModal'
 import RatingStars from '../../../components/RatingStars'
 import MyBreadcrumbs from '../../../components/MyBreadcrumbs'
-import {useState} from 'react'
 import Link from 'next/link'
+import {arabicDict} from '../../../util/academicDict'
 
-function LessonItem(props) {
-  const [opened, setOpened] = useState(false)
-
+function ChapterItem({icon, title, measure, ...props}) {
   return (
-    <>
-      <Modal
-        opened={opened}
-        onClose={() => setOpened(false)}
-        title={props.content}
-        overlayOpacity={0.85}
-        styles={{
-          modal: {
-            height: '100%',
-            width: '85%',
-            display: 'flex',
-            flexDirection: 'column',
-          },
-          body: {flexGrow: 1},
-        }}
-      >
-        <VideoModal url={'null'} />
-      </Modal>
-
-      <Group
-        position="apart"
-        onClick={() => {
-          if (props.url) setOpened(true)
-        }}
-        {...props}
-      >
-        <Center inline>
-          <ActionIcon
-            size="md"
-            variant="outline"
-            ml="xs"
-            style={{transform: 'scale(-1,1)'}}
-          >
-            {props.icon}
-          </ActionIcon>
-          <span>{props.content}</span>
-        </Center>
-        <Text color="dimmed">
-          <span>{props.length}</span>
-          <span> د</span>
-        </Text>
-      </Group>
-    </>
+    <Box
+      sx={theme => ({
+        padding: theme.spacing.xs,
+        '&:hover': {backgroundColor: theme.colors.gray[1]},
+      })}
+      {...props}
+    >
+      <Anchor href={`/lessons/1`} variant="text" {...props}>
+        <Group position="apart">
+          <Center inline>
+            <ActionIcon
+              size="md"
+              variant="outline"
+              ml="xs"
+              style={{transform: 'scale(-1,1)'}}
+            >
+              {icon}
+            </ActionIcon>
+            <span>{title}</span>
+          </Center>
+          <Text color="dimmed">
+            <span>{measure}</span>
+          </Text>
+        </Group>
+      </Anchor>
+    </Box>
   )
 }
 
-function AttachItem(props) {
+const InfoCardItem = ({icon, children, ...props}) => {
   return (
-    <>
-      <Anchor
-        href={props.url}
-        sx={theme => ({
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          color: 'inherit',
-        })}
-        {...props}
-      >
-        <Center inline>
-          <ActionIcon
-            size="md"
-            variant="outline"
-            ml="xs"
-            style={{transform: 'scale(-1,1)'}}
-          >
-            {props.icon}
-          </ActionIcon>
-          <span>{props.content}</span>
-        </Center>
-        <Text color="dimmed">
-          <span>{(props.size / 1024).toFixed(1)}</span>
-          <span> مغ</span>
-        </Text>
-      </Anchor>
-    </>
+    <Box {...props}>
+      <Center inline>
+        {icon}
+        <Box mr="xs">{children}</Box>
+      </Center>
+    </Box>
   )
 }
 
 export default function Course({course}) {
-  const chaptersList = course.contentheme.map((chapter, idx) => {
-    if (chapter.type === 'quiz') {
-      return (
-        <Paper
-          key={`quiz-${idx}`}
-          component="article"
-          shadow="xs"
-          radius="xs"
-          mb="md"
-          sx={theme => ({
-            padding: `${theme.spacing.lg}px ${theme.spacing.md}px`,
-          })}
-        >
-          <Title order={4} mb="md">
-            {chapter.title}
-          </Title>
-          <Text mb="md">{chapter.description}</Text>
-          <Button>ابدأ</Button>
-        </Paper>
-      )
-    }
-
-    const lessonsList = chapter.lessonsListheme.map((lesson, idx) => {
-      return (
-        <LessonItem
-          key={idx}
-          icon={<PlayIcon />}
-          content={lesson.title}
-          url={lesson.url}
-          length={lesson.length}
-          mb={chapter.lessonsListheme.length === idx + 1 ? null : 'xs'}
-        />
-      )
-    })
-
-    let attachmentsList
-    let attach
-
-    if (chapter.attachmentsList) {
-      attachmentsList = chapter.attachmentsListheme.map((attach, idx) => {
-        return (
-          <AttachItem
-            key={idx}
-            icon={<DownloadIcon />}
-            content={attach.name}
-            url={attach.url}
-            size={attach.size}
-            mb={chapter.attachmentsListheme.length === idx + 1 ? null : 'xs'}
-          />
-        )
-      })
-
-      attach = (
-        <div>
-          <Title order={6} mb="xs" mr="xs">
-            ملحقات
-          </Title>
-          <Box
-            sx={theme => ({
-              padding: theme.spacing.xs,
-              borderTop: `2px solid ${
-                theme.colorScheme === 'light'
-                  ? theme.colors.blue[5]
-                  : theme.colors.blue[9]
-              }`,
-              backgroundColor:
-                theme.colorScheme === 'light'
-                  ? theme.colors.gray[0]
-                  : theme.colors.dark[9],
-            })}
-          >
-            {attachmentsList}
-          </Box>
-        </div>
-      )
-    }
-
-    const lessons = (
+  const chaptersList = course.content.map((chapter, idx) => {
+    const lessonsWrapper = (
       <div>
-        <Title order={6} mb="xs" mr="xs">
-          فيديوهات
-        </Title>
-        <Box
-          sx={theme => ({
-            padding: theme.spacing.xs,
-            marginBottom: theme.spacing.xs,
+        <Box>
+          {chapter.lessons.map(lesson => {
+            if (lesson.type === 'media')
+              return (
+                <ChapterItem
+                  key={lesson.id}
+                  icon={<PlayIcon />}
+                  title={lesson.title}
+                  url={lesson.url}
+                  measure={lesson.length + ' د'}
+                />
+              )
+            else if (lesson.type === 'quiz')
+              return (
+                <ChapterItem
+                  key={lesson.id}
+                  icon={<CubeIcon />}
+                  title={lesson.title}
+                  url={lesson.url}
+                />
+              )
           })}
-        >
-          {lessonsList}
         </Box>
       </div>
     )
@@ -214,51 +105,19 @@ export default function Course({course}) {
       <Paper
         key={idx}
         component="article"
-        shadow="xs"
-        radius="xs"
         mb="md"
+        radius="xs"
         sx={theme => ({
           padding: `${theme.spacing.lg}px ${theme.spacing.xs}px`,
         })}
       >
-        <Title order={4} mb="md" mr="xs">
+        <Title order={4} mb="xs" mr="xs">
           {chapter.title}
         </Title>
-        <div>
-          {chapter.lessonsList && lessons}
-          {chapter.attachmentsList && attach}
-        </div>
+        <div>{chapter.lessons && lessonsWrapper}</div>
       </Paper>
     )
   })
-
-  const reviewsList = course.reviews.map((review, idx) => {
-    return (
-      <div key={idx}>
-        <Paper mb="xl">
-          <Box>
-            <Box mb="xs">{review.user}</Box>
-            <Box mb="xs">
-              <RatingStars rating={review.rating} />
-            </Box>
-          </Box>
-          <Text>{review.text}</Text>
-        </Paper>
-        {course.reviews.length !== idx + 1 && <Divider mb="xl" />}
-      </div>
-    )
-  })
-
-  const ReviewElement = props => {
-    return (
-      <Box>
-        <Center inline {...props}>
-          {props.icon}
-          <Box mr="xs">{props.children}</Box>
-        </Center>
-      </Box>
-    )
-  }
 
   return (
     <>
@@ -269,102 +128,106 @@ export default function Course({course}) {
             theme.colorScheme === 'light'
               ? theme.colors.blue[9]
               : theme.colors.dark[9],
-          padding: `${theme.spacing.xl}px 0`,
+          padding: `${theme.spacing.xl * 2}px 0`,
           marginBottom: theme.spacing.md,
-          boxShadow: theme.shadows.md,
         })}
       >
         <MyContainer>
-          <Box mb="xs">
-            <MyBreadcrumbs links={course.categories} />
-          </Box>
-          <Title order={2}>{course.title}</Title>
+          <div>
+            <Box mb="xs">
+              <MyBreadcrumbs
+                links={[
+                  {title: arabicDict(course.grade), href: '#'},
+                  {title: arabicDict(course.branch), href: '#'},
+                  {title: arabicDict(course.subject), href: '#'},
+                ]}
+              />
+            </Box>
+            <Title order={2}>{course.title}</Title>
+          </div>
         </MyContainer>
       </Box>
 
-      <section>
-        <MyContainer>
-          <Grid columns={12}>
-            <Col span={8}>
-              <div>{chaptersList}</div>
+      <MyContainer>
+        <Grid columns={12}>
+          <Col span={8}>
+            <section>{chaptersList}</section>
+            <section>
               <Paper padding="md" mb="md">
-                <Title order={4} mb="md">
-                  التقييمات
-                </Title>
-                {reviewsList}
+                {/* <Reviews courseId={1} /> */}
               </Paper>
-            </Col>
-            <Col span={4}>
-              <Paper component="aside" padding={0} radius="xs" shadow="xs">
-                <Box style={{height: '300px', backgroundColor: '#000'}}></Box>
-                <Paper padding="md">
-                  <ReviewElement icon={<AvatarIcon />} mb="xs">
-                    <Text component="span" ml="xs">
-                      من تقديم الاستاد
-                    </Text>
-                    <Text component="span">
-                      <Link href="/users/1" passHref>
-                        <Anchor component="a" href="/users/1">
-                          {course.user.name}
-                        </Anchor>
-                      </Link>
-                    </Text>
-                  </ReviewElement>
+            </section>
+          </Col>
+          <Col span={4}>
+            <aside>
+              <Box style={{height: '300px', backgroundColor: '#000'}}>
+                {/* Black box as a thumbnail */}
+              </Box>
+              <Paper padding="md">
+                <InfoCardItem icon={<AvatarIcon />} mb="xs">
+                  <Text component="span" ml="xs">
+                    من تقديم الاستاد
+                  </Text>
+                  <Link href="/users/1" passHref component="span">
+                    <Anchor component="a" href="/users/1">
+                      {course.user.name}
+                    </Anchor>
+                  </Link>
+                </InfoCardItem>
 
-                  <ReviewElement icon={<ChatBubbleIcon />} mb="xs">
-                    <Center inline>
-                      <Text ml="xs"> التقييم: </Text>
-                      <RatingStars rating={course.rating} />
-                    </Center>
-                  </ReviewElement>
+                <InfoCardItem icon={<ChatBubbleIcon />} mb="xs">
+                  <Center inline>
+                    <Text ml="xs"> التقييم: </Text>
+                    <RatingStars rating={course.rating} />
+                  </Center>
+                </InfoCardItem>
 
-                  <ReviewElement icon={<GlobeIcon />} mb="sm">
-                    <Text>اللغة الانجليزية</Text>
-                  </ReviewElement>
+                <InfoCardItem icon={<GlobeIcon />} mb="md">
+                  <Text>اللغة الانجليزية</Text>
+                </InfoCardItem>
 
-                  <Box mb="sm">
-                    <Text weight={700}>يحتوي الدرس على</Text>
-                  </Box>
+                <Box mb="sm">
+                  <Text weight={700}>يحتوي الدرس على</Text>
+                </Box>
 
-                  <ReviewElement icon={<VideoIcon />} mb="xs">
-                    <Text>3 سا و15د</Text>
-                  </ReviewElement>
+                <InfoCardItem icon={<VideoIcon />} mb="xs">
+                  <Text>3 سا و15د</Text>
+                </InfoCardItem>
 
-                  <ReviewElement icon={<FileIcon />} mb="xs">
-                    <Text>5 ملقات</Text>
-                  </ReviewElement>
+                <InfoCardItem icon={<FileIcon />} mb="xs">
+                  <Text>5 ملقات</Text>
+                </InfoCardItem>
 
-                  <ReviewElement icon={<CubeIcon />} mb="md">
-                    <Text>5 تمارين</Text>
-                  </ReviewElement>
+                <InfoCardItem icon={<CubeIcon />} mb="md">
+                  <Text>5 تمارين</Text>
+                </InfoCardItem>
 
-                  <ReviewElement icon={<TimerIcon />} mb="md">
-                    <Text>اخر تحديث: 3 نوفمبر 2021</Text>
-                  </ReviewElement>
+                <InfoCardItem icon={<TimerIcon />} mb="md">
+                  <Text>اخر تحديث: 3 نوفمبر 2021</Text>
+                </InfoCardItem>
 
-                  <Button mb="xs" fullWidth={true} color="primary" radius="xs">
-                    أشتراك شهري
-                  </Button>
+                <Button mb="xs" fullWidth={true} color="primary" radius="xs">
+                  أشتراك شهري
+                </Button>
 
-                  <Button
-                    fullWidth={true}
-                    variant="outline"
-                    color="dark"
-                    radius="xs"
-                  >
-                    <Center>
-                      <div>نافش الدرس في المنتدى</div>
-                      <ChatBubbleIcon
-                        style={{width: 20, height: 20, marginRight: 12.5}}
-                      />
-                    </Center>
-                  </Button>
-                </Paper>
+                <Button
+                  fullWidth={true}
+                  variant="outline"
+                  color="dark"
+                  radius="xs"
+                >
+                  <Center>
+                    <div>نافش الدرس في المنتدى</div>
+                    <ChatBubbleIcon
+                      style={{width: 20, height: 20, marginRight: 12.5}}
+                    />
+                  </Center>
+                </Button>
               </Paper>
-            </Col>
-          </Grid>
-        </MyContainer>
-      </section>
+            </aside>
+          </Col>
+        </Grid>
+      </MyContainer>
 
       <section>
         <Paper
@@ -407,18 +270,19 @@ export async function getStaticPaths() {
 
   const data = await response.json()
 
-  const paths = data.map(c => ({params: {id: c.id}}))
+  const paths = data.map(c => ({params: {slug: `${c.id}`}}))
 
   return {
-    paths: [],
+    paths,
     fallback: 'blocking',
   }
 }
 
 export async function getStaticProps({params}) {
-  const response = await fetch(`https://my.backend/courses/${params.slug}`)
+  const response = await fetch(`https://my.backend/courses/${params.slug}/full`)
 
   if (!response.ok) {
+    // redirect to 404 page
     return {
       notFound: true,
     }

@@ -10,14 +10,14 @@ import {
   Tooltip,
 } from '@mantine/core'
 import {useState, useReducer} from 'react'
-import QuizPagination from './QuizPagination'
+import DottedPagination from '../DottedPagination'
 import {ReloadIcon, StarFilledIcon} from '@modulz/radix-icons'
-import {useScrollIntoView, useForceUpdate} from '@mantine/hooks'
+import {useScrollIntoView} from '@mantine/hooks'
 import QuestionOptions from './QuestionOptions'
 
-const Quiz = ({quizData, QuestionsPerPage}) => {
+const Quiz = ({questions, questionsPerPage = 1}) => {
   // creating a clone of the prop because it will be mutated..
-  const quiz = {...quizData}
+  const quizQuestions = [...questions]
   const [activePage, setPage] = useState(1)
   const [points, setPoints] = useState(0)
   const [tooltipOpened, setTooltipOpened] = useState(false)
@@ -44,15 +44,15 @@ const Quiz = ({quizData, QuestionsPerPage}) => {
     dispatch({type: 'answer', questionId, answerId})
   }
 
-  const numberOfQuestions = quiz.questions.length
-  const numberOfPages = Math.ceil(numberOfQuestions / QuestionsPerPage)
-  const from = Math.max(QuestionsPerPage * (activePage - 1), 0)
-  const to = Math.min(QuestionsPerPage * activePage, numberOfQuestions)
+  const numberOfQuestions = quizQuestions.length
+  const numberOfPages = Math.ceil(numberOfQuestions / questionsPerPage)
+  const from = Math.max(questionsPerPage * (activePage - 1), 0)
+  const to = Math.min(questionsPerPage * activePage, numberOfQuestions)
 
   const checkAnswers = () => {
     // checking the user's userAnswers
     if (!showResults) {
-      quiz.questions.map(question => {
+      quizQuestions.map(question => {
         if (question.correctAnswer === userAnswers[question.id]) {
           setPoints(p => p + 1)
         }
@@ -64,7 +64,7 @@ const Quiz = ({quizData, QuestionsPerPage}) => {
   }
 
   const paginationOnChange = page => {
-    scrollIntoView({})
+    // scrollIntoView({})
     setPage(page)
   }
 
@@ -87,7 +87,7 @@ const Quiz = ({quizData, QuestionsPerPage}) => {
             onClick={() => {
               setPopoverOpened(o => !o)
               setPage(1)
-              scrollIntoView({})
+              // scrollIntoView({})
             }}
           >
             شاهد النتائج
@@ -98,19 +98,22 @@ const Quiz = ({quizData, QuestionsPerPage}) => {
   }
 
   return (
-    <div ref={targetRef}>
-      <Title order={4} mb="xs" align="center">
-        {quiz.title}
-      </Title>
-      <Text mb="xl" align="center">
-        {quiz.description}
-      </Text>
-      <Box>
-        {quiz.questions.slice(from, to).map((question, idx) => (
+    <div
+      ref={targetRef}
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        alignItems: 'stretch',
+        height: '100%',
+      }}
+    >
+      <div style={{flexGrow: 2}}>
+        {quizQuestions.slice(from, to).map((question, idx) => (
           <Paper
             key={`${question.id}-${idx}`}
             sx={theme => ({
-              padding: `${theme.spacing.xl}px 15%`,
+              padding: `${theme.spacing.xl}px 5%`,
               marginBottom: theme.spacing.md,
             })}
           >
@@ -125,9 +128,9 @@ const Quiz = ({quizData, QuestionsPerPage}) => {
             />
           </Paper>
         ))}
-      </Box>
+      </div>
 
-      <Group position="apart" style={{padding: '0 15%'}}>
+      <Group position="apart">
         <Popover
           opened={popoverOpened}
           onClose={() => setPopoverOpened(false)}
@@ -173,7 +176,7 @@ const Quiz = ({quizData, QuestionsPerPage}) => {
         </Popover>
 
         <Group>
-          <QuizPagination
+          <DottedPagination
             page={activePage}
             onChange={paginationOnChange}
             total={numberOfPages}
