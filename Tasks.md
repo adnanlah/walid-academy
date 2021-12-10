@@ -1,9 +1,6 @@
-- quiz pagination next button
 - quiz reducer
 - clear local storage in quiz and flashcard
-- use profile
-- course page 👍
-- footer feedback form
+- user profile
 - nav links
 - Next link and mantine link
 - search page structure
@@ -18,3 +15,6 @@
 - accordion styles
 - set q value in url
 - add quiz to a lesson
+- inputs getProps
+- null to undefined
+- modal scroll to bottom

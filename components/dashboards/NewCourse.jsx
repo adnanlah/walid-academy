@@ -11,9 +11,8 @@ import {
 import {TextInput, Button} from '@mantine/core'
 import {useReducer, useState, useEffect} from 'react'
 import {useLocalStorageValue, useForm} from '@mantine/hooks'
-import LessonForm from './LessonForm'
+import NewLesson from './NewLesson'
 import ChapterForm from './ChapterForm'
-import QuizForm from './QuizForm'
 import {Cross2Icon, Pencil1Icon} from '@modulz/radix-icons'
 
 const nextId = array =>
@@ -107,13 +106,8 @@ const NewCourse = () => {
       modalTitle = 'انشاء شابتر جديد'
       break
     case 'updatechapter':
-      modalTitle = 'تعديل درس'
-      break
-    case 'newquiz':
-      modalTitle = 'انشاء كويز جديد'
-      break
-    case 'updatechapter':
       modalTitle = 'تعديل شابتر'
+      break
     default:
       break
   }
@@ -142,6 +136,7 @@ const NewCourse = () => {
   }
 
   const newLessonHandler = lesson => {
+    console.log('dispatching the new lesson', lesson)
     dispatch({
       type: 'newlesson',
       payload: {...lesson, type: 'media', chapterId},
@@ -150,19 +145,6 @@ const NewCourse = () => {
   }
 
   const updateLessonHandler = lesson => {
-    dispatch({type: 'updatelesson', payload: lesson})
-    setModalOpened(false)
-  }
-
-  const newQuizHandler = quiz => {
-    dispatch({
-      type: 'newlesson',
-      payload: {...quiz, type: 'quiz', chapterId},
-    })
-    setModalOpened(false)
-  }
-
-  const updateQuizHandler = lesson => {
     dispatch({type: 'updatelesson', payload: lesson})
     setModalOpened(false)
   }
@@ -198,7 +180,7 @@ const NewCourse = () => {
           }
         />
         <Select
-          mb="xs"
+          mb="xl"
           label="اي مجال"
           placeholder="اختر"
           required
@@ -218,6 +200,7 @@ const NewCourse = () => {
           </Button>
         </Group>
         <Accordion
+          mb="xl"
           state={accordionState}
           onChange={onAccordionChange}
           multiple
@@ -255,15 +238,6 @@ const NewCourse = () => {
                     }}
                   >
                     درس جديد
-                  </Button>
-                  <Button
-                    color="teal"
-                    onClick={() => {
-                      setChapterId(chapter.id)
-                      setModalOpened('newquiz')
-                    }}
-                  >
-                    كويز جديد
                   </Button>
                 </div>
                 <Group>
@@ -363,6 +337,8 @@ const NewCourse = () => {
             width: '50%',
           },
         }}
+        overflow="inside"
+        centered
         title={modalTitle}
         opened={modalOpened}
         onClose={() => setModalOpened(false)}
@@ -376,17 +352,9 @@ const NewCourse = () => {
             chapter={dataToBeUpdated}
           />
         )}
-        {modalOpened == 'newlesson' && (
-          <LessonForm handler={newLessonHandler} chapterId={chapterId} />
-        )}
+        {modalOpened == 'newlesson' && <NewLesson handler={newLessonHandler} />}
         {modalOpened == 'updatelesson' && (
-          <LessonForm handler={updateLessonHandler} lesson={dataToBeUpdated} />
-        )}
-        {modalOpened == 'newquiz' && (
-          <QuizForm handler={newQuizHandler} chapterId={chapterId} />
-        )}
-        {modalOpened == 'updatequiz' && (
-          <QuizForm handler={updateQuizHandler} quiz={dataToBeUpdated} />
+          <NewLesson handler={updateLessonHandler} lesson={dataToBeUpdated} />
         )}
       </Modal>
     </div>

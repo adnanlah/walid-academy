@@ -1,18 +1,15 @@
 import {
-  Box,
   Button,
   Center,
   Group,
   Paper,
   Popover,
   Text,
-  Title,
   Tooltip,
 } from '@mantine/core'
 import {useState, useReducer} from 'react'
 import DottedPagination from '../DottedPagination'
 import {ReloadIcon, StarFilledIcon} from '@modulz/radix-icons'
-import {useScrollIntoView} from '@mantine/hooks'
 import QuestionOptions from './QuestionOptions'
 
 const Quiz = ({questions, questionsPerPage = 1}) => {
@@ -23,13 +20,9 @@ const Quiz = ({questions, questionsPerPage = 1}) => {
   const [tooltipOpened, setTooltipOpened] = useState(false)
   const [showResults, setshowResults] = useState(false)
   const [popoverOpened, setPopoverOpened] = useState(false)
-  const {scrollIntoView, targetRef} = useScrollIntoView({
-    offset: 100,
-    duration: 500,
-  })
 
   const reducer = (state, action) => {
-    // pareInt because the value comes from the radio input and it does return a string rather than an int
+    // pareInt because the value comes from the radio input and it returns a string rather than an int
     switch (action.type) {
       case 'answer':
         return {...state, [action.questionId]: parseInt(action.answerId)}
@@ -64,7 +57,6 @@ const Quiz = ({questions, questionsPerPage = 1}) => {
   }
 
   const paginationOnChange = page => {
-    // scrollIntoView({})
     setPage(page)
   }
 
@@ -87,7 +79,6 @@ const Quiz = ({questions, questionsPerPage = 1}) => {
             onClick={() => {
               setPopoverOpened(o => !o)
               setPage(1)
-              // scrollIntoView({})
             }}
           >
             شاهد النتائج
