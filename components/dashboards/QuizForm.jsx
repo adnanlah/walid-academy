@@ -12,38 +12,6 @@ import {useState} from 'react'
 import InputAddon from '../InputAddon'
 
 const QuizForm = ({dispatch, questions, options}) => {
-  const [quizErrors, setQuizErrors] = useState([])
-
-  const validateQuiz = () => {
-    setQuizErrors([])
-    if (questions.length < 1 || options.length < 2) {
-      setQuizErrors(qe => [
-        ...qe,
-        'You should add more than 1 question and more than 2 options',
-      ])
-      return true
-    }
-    if (!questions.every(q => q.content.length > 1)) {
-      setQuizErrors(qe => [...qe, 'Questions should not be empty'])
-      return true
-    }
-    if (!options.every(o => o.content.length > 1)) {
-      setQuizErrors(qe => [...qe, 'Options should not be empty'])
-      return true
-    }
-  }
-
-  const errorsList = quizErrors.map((quizError, idx) => (
-    <Text key={idx} color="red">
-      {quizError}
-    </Text>
-  ))
-
-  // const submitQuizHandler = form.onSubmit(values => {
-  //   const err = validateQuiz()
-  //   if (!err) handler({...values, content: {questions, options}})
-  // })
-
   return (
     <form>
       <Title order={4} mb="xs">
@@ -166,7 +134,7 @@ const QuizForm = ({dispatch, questions, options}) => {
           سؤال جديد
         </Button>
       </Box>
-      <Box mb="xs">{quizErrors && errorsList}</Box>
+      \
     </form>
   )
 }

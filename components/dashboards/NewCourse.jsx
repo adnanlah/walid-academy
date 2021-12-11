@@ -63,7 +63,7 @@ const courseReducer = (state, action) => {
 
 const NewCourse = () => {
   const [courseData, setCourseData] = useLocalStorageValue({
-    key: 'course-data',
+    key: 'course-data1',
     defaultValue: JSON.stringify({
       form: {
         title: '',
@@ -135,11 +135,11 @@ const NewCourse = () => {
     setModalOpened(false)
   }
 
-  const newLessonHandler = lesson => {
+  const addLessonHandler = lesson => {
     console.log('dispatching the new lesson', lesson)
     dispatch({
       type: 'newlesson',
-      payload: {...lesson, type: 'media', chapterId},
+      payload: {...lesson, chapterId},
     })
     setModalOpened(false)
   }
@@ -285,7 +285,7 @@ const NewCourse = () => {
                         <Text weight={700}>
                           {lessonIdx + 1}
                           {'. '}
-                          {lesson.type === 'media' ? 'درس' : 'كويز'}
+                          {'درس'}
                           {': '}
                         </Text>
                         <Text>{lesson.title}</Text>
@@ -294,11 +294,7 @@ const NewCourse = () => {
                         <ActionIcon
                           onClick={() => {
                             setDataToBeUpdated(lesson)
-                            setModalOpened(
-                              lesson.type === 'media'
-                                ? 'updatelesson'
-                                : 'updatequiz',
-                            )
+                            setModalOpened('updatelesson')
                           }}
                           ml="xs"
                           color="gray"
@@ -352,7 +348,9 @@ const NewCourse = () => {
             chapter={dataToBeUpdated}
           />
         )}
-        {modalOpened == 'newlesson' && <NewLesson handler={newLessonHandler} />}
+        {modalOpened == 'newlesson' && (
+          <NewLesson addLessonHandler={addLessonHandler} />
+        )}
         {modalOpened == 'updatelesson' && (
           <NewLesson handler={updateLessonHandler} lesson={dataToBeUpdated} />
         )}

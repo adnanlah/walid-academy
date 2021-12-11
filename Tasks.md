@@ -1,7 +1,6 @@
 - quiz reducer
 - clear local storage in quiz and flashcard
 - user profile
-- nav links
 - Next link and mantine link
 - search page structure
 - 404
@@ -18,3 +17,5 @@
 - inputs getProps
 - null to undefined
 - modal scroll to bottom
+- nextId
+- courses grid and flashcards grid

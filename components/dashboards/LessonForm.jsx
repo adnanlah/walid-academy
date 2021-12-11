@@ -12,6 +12,7 @@ const LessonForm = ({form}) => {
         data-autofocus
         mb="xs"
         label="غنوان الدرس"
+        onBlur={() => form.validateField('title')}
         {...form.getInputProps('title')}
       />
       <Textarea

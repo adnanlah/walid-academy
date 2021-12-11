@@ -86,10 +86,11 @@ const quizReducer = (state, action) => {
   }
 }
 
-const Newlesson = ({handler, lesson}) => {
+const Newlesson = ({addLessonHandler, lesson}) => {
+  // WIZARD FORM
   const [page, setPage] = useState(0)
 
-  // lesson basic data
+  // lesson basic information form
   const form = useForm({
     initialValues: lesson
       ? lesson
@@ -107,7 +108,7 @@ const Newlesson = ({handler, lesson}) => {
     },
   })
 
-  // lesson quia data
+  // lesson quiz data form
   const [{questions, options}, dispatch] = useReducer(
     quizReducer,
     lesson
@@ -143,12 +144,17 @@ const Newlesson = ({handler, lesson}) => {
         )}
       </Box>
       <Group>
-        <Button onClick={() => setPage(1)}>Proceed to Quiz form</Button>
-        <Button onClick={() => setPage(0)}>Go back to lesson form</Button>
+        {page === 0 && (
+          <Button onClick={() => setPage(1)}>Proceed to Quiz form</Button>
+        )}
+        {page === 1 && (
+          <Button onClick={() => setPage(0)}>Go back to Lesson form</Button>
+        )}
         <Button
           onClick={() => {
-            form.validate()
-            console.log(form.errors)
+            const isFormValid = form.validate()
+            if (isFormValid)
+              addLessonHandler({...form.values, quiz: {questions, options}})
           }}
         >
           Submit lesson

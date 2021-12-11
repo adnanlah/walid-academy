@@ -9,17 +9,12 @@ import {
   Divider,
   Text,
   ActionIcon,
-  TextInput,
   useMantineColorScheme,
+  Modal,
 } from '@mantine/core'
-import {
-  MagnifyingGlassIcon,
-  SunIcon,
-  MoonIcon,
-  GearIcon,
-} from '@modulz/radix-icons'
-import {useForm} from '@mantine/hooks'
-import Router from 'next/router'
+import {SunIcon, MoonIcon, GearIcon} from '@modulz/radix-icons'
+import LoginForm from './LoginForm'
+import {useState} from 'react'
 
 const useStyles = createStyles(theme => {
   return {
@@ -35,7 +30,7 @@ const useStyles = createStyles(theme => {
       boxShadow: theme.shadows.xs,
       position: `relative`,
       '& > div': {
-        width: `33%`,
+        width: `50%`,
       },
     },
     navLinks: {
@@ -51,81 +46,52 @@ const useStyles = createStyles(theme => {
   }
 })
 
-function NavLink({href, ...props}) {
+function NavItem({href, children, ...restProps}) {
   return (
-    <Box mx="xs">
+    <Box mx="xs" {...restProps}>
       <Link href={href} passHref>
-        <Anchor>{props.children}</Anchor>
+        <Anchor variant="text">{children}</Anchor>
       </Link>
     </Box>
   )
 }
 
 function Nav() {
+  const [opened, setOpened] = useState(false)
   const {classes, cx} = useStyles()
   const {colorScheme, toggleColorScheme} = useMantineColorScheme()
   const dark = colorScheme === 'dark'
 
-  const form = useForm({
-    initialValues: {
-      query: '',
-      termsOfService: false,
-    },
-  })
-
   return (
     <nav className={classes.wrapper}>
-      <div className={cx(classes.navLinks, classes.navLinksEnd)}>
-        <NavLink href="/dashboard">
-          <ActionIcon mr="md" size="lg" variant="outline">
-            <GearIcon />
-          </ActionIcon>
-        </NavLink>
-        <NavLink href="/courses">
-          <Text>الدروس</Text>
-        </NavLink>
-        <form
-          onSubmit={form.onSubmit(values =>
-            Router.push(`/search?q=${values.query}`),
-          )}
-        >
-          <TextInput
-            onChange={event =>
-              form.setFieldValue('query', event.currentTarget.value)
-            }
-            styles={{
-              root: {
-                width: '80%',
-              },
-            }}
-            icon={<MagnifyingGlassIcon />}
-            placeholder="ابحث في الموقع"
-          />
-        </form>
+      <div>
+        <NavItem href="/">
+          <Title order={3}>اكاديمية وليد</Title>
+        </NavItem>
       </div>
 
-      <Box style={{textAlign: 'center'}}>
-        <NavLink href="/">
-          <Title order={3}>اكاديمية وليد</Title>
-        </NavLink>
-      </Box>
-
       <div className={cx(classes.navLinks, classes.navLinksStart)}>
-        <NavLink href="/blog">
-          <Text>المدونة</Text>
-        </NavLink>
+        <NavItem href="/blog">المدونة</NavItem>
 
-        <NavLink href="/forum">
-          <Text>المنتدى</Text>
-        </NavLink>
+        <NavItem href="/forum">المنتدى</NavItem>
 
         <Divider orientation="vertical" size="xs" />
 
-        <NavLink href="/">
+        <Box
+          mx="xs"
+          style={{cursor: 'pointer'}}
+          onClick={() => setOpened(true)}
+        >
           <Text>تسجيل دخول</Text>
-        </NavLink>
+        </Box>
 
         <Button color="dark">ابدا من هنا</Button>
+
+        <NavItem href="/dashboard">
+          <ActionIcon mr="md" size="lg" variant="outline">
+            <GearIcon />
+          </ActionIcon>
+        </NavItem>
 
         <ActionIcon
           mr="md"
@@ -137,6 +103,20 @@ function Nav() {
           {dark ? <SunIcon /> : <MoonIcon />}
         </ActionIcon>
       </div>
+
+      <Modal
+        centered
+        opened={opened}
+        onClose={() => setOpened(false)}
+        size="lg"
+        styles={{
+          body: {
+            padding: '20% 25%',
+          },
+        }}
+      >
+        <LoginForm />
+      </Modal>
     </nav>
   )
 }
