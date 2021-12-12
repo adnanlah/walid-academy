@@ -140,16 +140,18 @@ const Lessonplayer = ({lesson, lessonId, course}) => {
           </Box>
           <Box
             sx={theme => ({
-              '&::-webkit-scrollbar-track': {
+              '&::scrollbar-track': {
                 boxShadow: 'inset 0 0 6px rgba(0,0,0,0)',
                 backgroundColor: 'F5F5F5',
+                borderRadius: 15,
               },
-              '&::-webkit-scrollbar': {
+              '&::scrollbar': {
                 width: '6px',
                 backgroundColor: 'rgba(0,0,0,0)',
               },
-              '&::-webkit-scrollbar-thumb': {
+              '&::scrollbar-thumb': {
                 backgroundColor: theme.colors.dark[4],
+                borderRadius: 15,
               },
               flexGrow: 2,
               overflowY: 'scroll',

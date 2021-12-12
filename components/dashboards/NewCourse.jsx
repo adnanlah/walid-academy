@@ -65,7 +65,7 @@ const NewCourse = () => {
   const [courseData, setCourseData] = useLocalStorageValue({
     key: 'course-data1',
     defaultValue: JSON.stringify({
-      form: {
+      metadata: {
         title: '',
         description: '',
         branch: null,
@@ -80,12 +80,14 @@ const NewCourse = () => {
 
   const form = useForm({
     initialValues: {
-      ...courseDataObject.form,
+      ...courseDataObject.metadata,
     },
     validationRules: {
       title: v => v.length > 2,
       description: v => v.length > 2,
       branch: v => v !== null,
+      subject: v => v !== null,
+      grade: v => v !== null,
     },
   })
 
@@ -93,24 +95,6 @@ const NewCourse = () => {
   const [chapterId, setChapterId] = useState('')
   const [modalOpened, setModalOpened] = useState(false)
   const [dataToBeUpdated, setDataToBeUpdated] = useState({})
-  const modalTitle = ''
-
-  switch (modalOpened) {
-    case 'newlesson':
-      modalTitle = 'انشاء درس جديد'
-      break
-    case 'updatelesson':
-      modalTitle = 'تعديل درس'
-      break
-    case 'newchapter':
-      modalTitle = 'انشاء شابتر جديد'
-      break
-    case 'updatechapter':
-      modalTitle = 'تعديل شابتر'
-      break
-    default:
-      break
-  }
 
   const [{chapters, lessons}, dispatch] = useReducer(
     courseReducer,
@@ -120,11 +104,11 @@ const NewCourse = () => {
   useEffect(() => {
     // store data to local storage after every dispatch
     setCourseData(
-      JSON.stringify({from: form.values, content: {chapters, lessons}}),
+      JSON.stringify({form: form.values, content: {chapters, lessons}}),
     )
   }, [setCourseData, form.values, chapters, lessons])
 
-  const newChapterHandler = chapter => {
+  const addNewChapterHandler = chapter => {
     dispatch({type: 'newchapter', payload: chapter})
     onAccordionChange({[chapters.length]: true}) // opens the latest accordion item only
     setModalOpened(false)
@@ -135,7 +119,7 @@ const NewCourse = () => {
     setModalOpened(false)
   }
 
-  const addLessonHandler = lesson => {
+  const addNewLessonHandler = lesson => {
     console.log('dispatching the new lesson', lesson)
     dispatch({
       type: 'newlesson',
@@ -147,6 +131,29 @@ const NewCourse = () => {
   const updateLessonHandler = lesson => {
     dispatch({type: 'updatelesson', payload: lesson})
     setModalOpened(false)
+  }
+
+  const modalContent = {
+    newlesson: {
+      title: 'انشاء درس جديد',
+      component: <NewLesson addNewLessonHandler={addNewLessonHandler} />,
+    },
+    updatelesson: {
+      title: 'تعديل درس',
+      component: (
+        <NewLesson handler={updateLessonHandler} lesson={dataToBeUpdated} />
+      ),
+    },
+    newchapter: {
+      title: 'انشاء شابتر جديد',
+      component: <ChapterForm handler={addNewChapterHandler} />,
+    },
+    updatechapter: {
+      title: 'تعديل شابتر',
+      component: (
+        <ChapterForm handler={updateChapterHandler} chapter={dataToBeUpdated} />
+      ),
+    },
   }
 
   return (
@@ -163,37 +170,55 @@ const NewCourse = () => {
           mb="xs"
           label="غنوان الكورس"
           required
-          value={form.values.title}
-          error={form.errors.title && 'Insert a title'}
-          onChange={event =>
-            form.setFieldValue('title', event.currentTarget.value)
-          }
+          {...form.getInputProps('title')}
         />
         <Textarea
           mb="xs"
           label="نبدة عن الكورس"
           required
-          value={form.values.description}
-          error={form.errors.description && 'Insert a description'}
-          onChange={event =>
-            form.setFieldValue('description', event.currentTarget.value)
-          }
+          {...form.getInputProps('description')}
         />
-        <Select
-          mb="xl"
-          label="اي مجال"
-          placeholder="اختر"
-          required
-          value={form.values.branch}
-          error={form.errors.branch && 'Insert a branch'}
-          onChange={value => form.setFieldValue('branch', value)}
-          data={[
-            {value: 'maths', label: 'رياضيات'},
-            {value: 'physics', label: 'فيزياء'},
-            {value: 'biology', label: 'علوم'},
-            {value: 'french', label: 'فرنسية'},
-          ]}
-        />
+        <Group grow>
+          <Select
+            mb="xl"
+            label="اي مجال"
+            placeholder="اختر"
+            required
+            {...form.getInputProps('branch')}
+            data={[
+              {value: 'maths', label: 'رياضيات'},
+              {value: 'physics', label: 'فيزياء'},
+              {value: 'biology', label: 'علوم'},
+              {value: 'french', label: 'فرنسية'},
+            ]}
+          />
+          <Select
+            mb="xl"
+            label="اي مجال"
+            placeholder="اختر"
+            required
+            {...form.getInputProps('branch')}
+            data={[
+              {value: 'maths', label: 'رياضيات'},
+              {value: 'physics', label: 'فيزياء'},
+              {value: 'biology', label: 'علوم'},
+              {value: 'french', label: 'فرنسية'},
+            ]}
+          />
+          <Select
+            mb="xl"
+            label="اي مجال"
+            placeholder="اختر"
+            required
+            {...form.getInputProps('branch')}
+            data={[
+              {value: 'maths', label: 'رياضيات'},
+              {value: 'physics', label: 'فيزياء'},
+              {value: 'biology', label: 'علوم'},
+              {value: 'french', label: 'فرنسية'},
+            ]}
+          />
+        </Group>
         <Group align="end" mb="xs">
           <Button onClick={() => setModalOpened('newchapter')}>
             شابتر جديد
@@ -320,7 +345,14 @@ const NewCourse = () => {
           ))}
         </Accordion>
         <Group position="right">
-          <Button type="reset" color="red">
+          <Button
+            type="reset"
+            color="red"
+            onClick={() => {
+              // reset metadata and content
+              form.reset()
+            }}
+          >
             إعادة
           </Button>
           <Button type="submit">اضف</Button>
@@ -328,32 +360,54 @@ const NewCourse = () => {
       </form>
 
       <Modal
-        styles={{
-          modal: {
-            width: '50%',
-          },
-        }}
         overflow="inside"
         centered
-        title={modalTitle}
-        opened={modalOpened}
+        title={modalOpened && modalContent[modalOpened].title}
+        opened={modalOpened === 'newchapter' || modalOpened === 'updatechapter'}
         onClose={() => setModalOpened(false)}
       >
-        {modalOpened == 'newchapter' && (
-          <ChapterForm handler={newChapterHandler} />
-        )}
-        {modalOpened == 'updatechapter' && (
-          <ChapterForm
-            handler={updateChapterHandler}
-            chapter={dataToBeUpdated}
-          />
-        )}
-        {modalOpened == 'newlesson' && (
-          <NewLesson addLessonHandler={addLessonHandler} />
-        )}
-        {modalOpened == 'updatelesson' && (
-          <NewLesson handler={updateLessonHandler} lesson={dataToBeUpdated} />
-        )}
+        {modalOpened && modalContent[modalOpened].component}
+      </Modal>
+
+      <Modal
+        styles={theme => ({
+          inner: {
+            padding: `3% 0`,
+            alignItems: 'stretch',
+          },
+          modal: {
+            width: '50%',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'stretch',
+          },
+          body: {
+            flexGrow: 2,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'stretch',
+            '&::-webkit-scrollbar': {
+              width: '6px',
+              backgroundColor: 'rgba(0,0,0,0)',
+            },
+            '&::-webkit-scrollbar-track': {
+              boxShadow: 'inset 0 0 6px rgba(0,0,0,0)',
+              backgroundColor: 'F5F5F5',
+              borderRadius: 15,
+            },
+            '&::-webkit-scrollbar-thumb': {
+              backgroundColor: theme.colors.dark[4],
+              borderRadius: 15,
+            },
+          },
+        })}
+        overflow="inside"
+        centered
+        title={modalOpened && modalContent[modalOpened].title}
+        opened={modalOpened === 'newlesson' || modalOpened === 'updatelesson'}
+        onClose={() => setModalOpened(false)}
+      >
+        {modalOpened && modalContent[modalOpened].component}
       </Modal>
     </div>
   )

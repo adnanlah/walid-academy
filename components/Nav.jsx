@@ -106,6 +106,7 @@ function Nav() {
 
       <Modal
         centered
+        overlayOpacity={0.35}
         opened={opened}
         onClose={() => setOpened(false)}
         size="lg"
@@ -115,7 +116,11 @@ function Nav() {
           },
         }}
       >
-        <LoginForm />
+        <LoginForm
+          closeModal={() => {
+            setOpened(false)
+          }}
+        />
       </Modal>
     </nav>
   )

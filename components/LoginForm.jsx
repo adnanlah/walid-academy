@@ -10,7 +10,7 @@ import {
 import {useForm} from '@mantine/hooks'
 import Link from 'next/link'
 
-const LoginForm = () => {
+const LoginForm = ({closeModal}) => {
   const form = useForm({
     initialValues: {
       email: '',
@@ -49,14 +49,27 @@ const LoginForm = () => {
       <div>
         <Center mb="xs">
           <Link href="/signup" passHref>
-            <Anchor align="center" color="dimmed">
+            <Anchor
+              align="center"
+              color="dimmed"
+              onClick={() => {
+                closeModal()
+              }}
+            >
               نسيت رقمك السري؟
             </Anchor>
           </Link>
         </Center>
         <Center mb="xs">
           <Link href="/signup" passHref>
-            <Anchor weight={700} align="center" color="dimmed">
+            <Anchor
+              weight={700}
+              align="center"
+              color="dimmed"
+              onClick={() => {
+                closeModal()
+              }}
+            >
               سجل الان
             </Anchor>
           </Link>

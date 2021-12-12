@@ -37,7 +37,7 @@ export default function Dashboard() {
   return (
     <MyContainer sx={theme => ({padding: `${theme.spacing.xl}px 0`})}>
       <Tabs active={activeTab} onTabChange={tabHandle} color="cyan">
-        <Tab label="إنشاء درس جديد" icon={<FilePlusIcon />}>
+        <Tab label="إنشاء كورس جديد" icon={<FilePlusIcon />}>
           <Paper padding="xl">
             <NewCourse />
           </Paper>

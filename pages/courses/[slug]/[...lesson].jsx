@@ -112,9 +112,6 @@ const Lesson = ({lesson, course}) => {
           onClose={() => setquizOpened(false)}
           title={lesson.title}
           styles={{
-            header: {
-              textAlign: 'center',
-            },
             inner: {
               paddingTop: '5%',
               paddingBottom: '5%',

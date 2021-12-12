@@ -115,6 +115,7 @@ function SignupForm() {
       branch: '',
       firstName: '',
       middleName: '',
+      email: '',
       lastName: '',
       wilaya: '',
       dayra: '',
@@ -124,7 +125,9 @@ function SignupForm() {
     },
 
     validationRules: {
+      email: value => /^\S+@\S+$/.test(value),
       paymentMethod: value => value,
+      // validation rules to be completed later..
     },
   })
 

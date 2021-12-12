@@ -133,7 +133,7 @@ const Newlesson = ({addLessonHandler, lesson}) => {
 
   return (
     <div>
-      <Box style={{padding: `3% 0`}}>
+      <div style={{padding: '0 5px'}}>
         {page === 0 && <LessonForm form={form} />}
         {page === 1 && (
           <QuizForm
@@ -142,7 +142,7 @@ const Newlesson = ({addLessonHandler, lesson}) => {
             options={options}
           />
         )}
-      </Box>
+      </div>
       <Group>
         {page === 0 && (
           <Button onClick={() => setPage(1)}>Proceed to Quiz form</Button>

@@ -12,10 +12,15 @@
 - html semantics
 - MyContainer
 - accordion styles
-- set q value in url
-- add quiz to a lesson
+- set q value in url in search page i suppose
 - inputs getProps
 - null to undefined
-- modal scroll to bottom
 - nextId
 - courses grid and flashcards grid
+- useColorScheme
+- div rather than Box
+- handlers names
+- when delete chapter => delete its lessons
+- delete coupon
+- new course branch subj grade
+- reset usereducer course
