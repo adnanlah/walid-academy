@@ -5,7 +5,7 @@ import SignupForm from '../../components/SignupForm'
 import {createStyles} from '@mantine/styles'
 import {Col, Grid, Group, Text, ThemeIcon, Title} from '@mantine/core'
 import {InfoCircledIcon} from '@modulz/radix-icons'
-import lorem from '../../util/lorem'
+import {lorem} from '../../util/lib'
 
 const useStyles = createStyles(theme => {
   return {

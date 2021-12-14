@@ -1,5 +1,4 @@
-import {Accordion, Anchor, Box, Group, Text} from '@mantine/core'
-import Quiz from './quiz/Quiz'
+import {Accordion, Anchor, Box, Group, ScrollArea, Text} from '@mantine/core'
 import {useState} from 'react'
 
 const LessonItem = ({children, href, currentLesson, ...props}) => {
@@ -88,42 +87,33 @@ const Lessonplayer = ({lesson, lessonId, course}) => {
       style={{
         display: 'flex',
         alignItems: 'stretch',
-        width: '100%',
-        height: '700px',
+        overflow: 'hidden',
       }}
     >
-      <Box
+      <div
         style={{
           width: '75%',
-          boxSizing: 'border-box',
+          height: 700,
+          backgroundColor: `black`,
+        }}
+      ></div>
+      <div
+        style={{
+          width: '25%',
         }}
       >
-        <div
-          style={{
-            width: '100%',
-            height: '100%',
-            backgroundColor: `black`,
-          }}
-        >
-          BLACK BOX
-        </div>
-      </Box>
-      <Box
-        sx={theme => ({
-          backgroundColor:
-            theme.colorScheme === 'light'
-              ? theme.colors.gray[2]
-              : theme.colors.dark[7],
-          width: '25%',
-        })}
-      >
-        <div
-          style={{
-            height: '100%',
-            boxSizing: 'border-box',
+        <Box
+          sx={theme => ({
             display: 'flex',
             flexDirection: 'column',
-          }}
+            alignItems: 'stretch',
+            height: '100%',
+            backgroundColor:
+              theme.colorScheme === 'light'
+                ? theme.colors.gray[2]
+                : theme.colors.dark[7],
+            boxSizing: 'border-box',
+          })}
         >
           <Box
             sx={theme => ({
@@ -139,39 +129,40 @@ const Lessonplayer = ({lesson, lessonId, course}) => {
             </Text>
           </Box>
           <Box
-            sx={theme => ({
-              '&::scrollbar-track': {
-                boxShadow: 'inset 0 0 6px rgba(0,0,0,0)',
-                backgroundColor: 'F5F5F5',
-                borderRadius: 15,
-              },
-              '&::scrollbar': {
-                width: '6px',
-                backgroundColor: 'rgba(0,0,0,0)',
-              },
-              '&::scrollbar-thumb': {
-                backgroundColor: theme.colors.dark[4],
-                borderRadius: 15,
-              },
-              flexGrow: 2,
-              overflowY: 'scroll',
-              boxSizing: 'border-box',
-            })}
+            style={{
+              position: 'relative',
+              flexGrow: 20,
+            }}
           >
-            <Accordion
-              state={accordionState}
-              onChange={onAccordionChange}
-              multiple
-              styles={{
-                label: {textAlign: 'right'},
-                content: {padding: 0},
+            <ScrollArea
+              type="always"
+              offsetScrollbars
+              scrollbarSize={8}
+              dir="rtl"
+              style={{
+                position: 'absolute',
+                left: 0,
+                right: 0,
+                top: 0,
+                bottom: 0,
+                height: '100%',
               }}
             >
-              {courseNavigation}
-            </Accordion>
+              <Accordion
+                state={accordionState}
+                onChange={onAccordionChange}
+                multiple
+                styles={{
+                  label: {textAlign: 'right'},
+                  content: {padding: 0},
+                }}
+              >
+                {courseNavigation}
+              </Accordion>
+            </ScrollArea>
           </Box>
-        </div>
-      </Box>
+        </Box>
+      </div>
     </div>
   )
 }

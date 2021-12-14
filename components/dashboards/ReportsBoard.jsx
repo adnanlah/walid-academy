@@ -1,6 +1,6 @@
 import {Anchor, Center, List, Pagination, ThemeIcon, Title} from '@mantine/core'
 import {ChatBubbleIcon, ExclamationTriangleIcon} from '@modulz/radix-icons'
-import Lorem from '../../util/lorem'
+import {lorem} from '../../util/helpers'
 
 const Reports = () => {
   return (
@@ -23,7 +23,7 @@ const Reports = () => {
             </ThemeIcon>
           }
         >
-          <Anchor href="/">{Lorem(20)}</Anchor>
+          <Anchor href="/">{lorem(20)}</Anchor>
         </List.Item>
         <List.Item
           icon={
@@ -32,7 +32,7 @@ const Reports = () => {
             </ThemeIcon>
           }
         >
-          <Anchor href="/">{Lorem(20)}</Anchor>
+          <Anchor href="/">{lorem(20)}</Anchor>
         </List.Item>
         <List.Item
           icon={
@@ -41,7 +41,7 @@ const Reports = () => {
             </ThemeIcon>
           }
         >
-          <Anchor href="/">{Lorem(20)}</Anchor>
+          <Anchor href="/">{lorem(20)}</Anchor>
         </List.Item>
       </List>
 

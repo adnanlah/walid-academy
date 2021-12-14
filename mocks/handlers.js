@@ -33,7 +33,7 @@ export const handlers = [
       userId,
       typeof userId,
     )
-    // const startAt = req.url.searchParams.get('startAt')
+    // const offset = req.url.searchParams.get('offset')
     // const limit = req.url.searchParams.get('limit')
 
     if (isNaN(parseInt(userId))) return res(ctx.status(404))
@@ -125,6 +125,32 @@ export const handlers = [
 
   rest.get('https://my.backend/lessons/:id/comments', (req, res, ctx) => {
     return res(ctx.json(comments))
+  }),
+
+  rest.get('https://my.backend/courses/:id/reviews', (req, res, ctx) => {
+    // Pagination with the cursor pattern
+    let cursor = parseInt(req.url.searchParams.get('cursor'))
+    let limit = parseInt(req.url.searchParams.get('limit'))
+
+    if (!cursor) cursor = reviews[0]?.id // first page
+
+    const cursorIdx = reviews.findIndex(element => element.id === cursor)
+
+    const data = reviews.slice(cursorIdx, cursorIdx + limit)
+    const data2 = reviews.slice(cursorIdx, cursorIdx + limit + 1)
+
+    const nextCursor =
+      data.length >= data2.length ? null : data2[data2.length - 1].id
+
+    // return res(ctx.json(ctx.status(500)))
+
+    return res(
+      ctx.delay(100),
+      ctx.json({
+        data,
+        nextCursor,
+      }),
+    )
   }),
 
   rest.get('https://my.backend/flashcards/:id', (req, res, ctx) => {

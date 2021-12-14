@@ -1,5 +1,5 @@
-import {Anchor, Center, List, Pagination, Title} from '@mantine/core'
-import Lorem from '../../util/lorem'
+import {Center, List, Pagination, Title} from '@mantine/core'
+import {lorem} from '../../util/helpers'
 
 const Logs = () => {
   return (
@@ -12,14 +12,14 @@ const Logs = () => {
         mb="xl"
         styles={theme => ({root: {paddingRight: theme.spacing.xs}})}
       >
-        <List.Item>{Lorem(20)}</List.Item>
-        <List.Item>{Lorem(20)}</List.Item>
-        <List.Item>{Lorem(20)}</List.Item>
-        <List.Item>{Lorem(20)}</List.Item>
-        <List.Item>{Lorem(20)}</List.Item>
-        <List.Item>{Lorem(20)}</List.Item>
-        <List.Item>{Lorem(20)}</List.Item>
-        <List.Item>{Lorem(20)}</List.Item>
+        <List.Item>{lorem(20)}</List.Item>
+        <List.Item>{lorem(20)}</List.Item>
+        <List.Item>{lorem(20)}</List.Item>
+        <List.Item>{lorem(20)}</List.Item>
+        <List.Item>{lorem(20)}</List.Item>
+        <List.Item>{lorem(20)}</List.Item>
+        <List.Item>{lorem(20)}</List.Item>
+        <List.Item>{lorem(20)}</List.Item>
       </List>
 
       <Center>

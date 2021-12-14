@@ -11,9 +11,12 @@ const dict =
 
 كيو أوفيسيا ديسيريونتموليت انيم أيدي ايست لابوريوم`.split(' ')
 
+const nextId = array =>
+  array[array.length - 1] ? array[array.length - 1].id + 1 : 0
+
 const random = (min, max) => Math.floor(Math.random() * (max - min)) + min
 
-export default function Lorem(n) {
+const lorem = n => {
   const words = []
   for (let index = 0; index < n; index++) {
     const r = random(0, dict.length - 1)
@@ -22,3 +25,5 @@ export default function Lorem(n) {
 
   return words.join(' ')
 }
+
+export {random, lorem, nextId}

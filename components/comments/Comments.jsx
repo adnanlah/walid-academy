@@ -22,11 +22,11 @@ const Comments = ({lessonId, currentUserId}) => {
   const [activeComment, setActiveComment] = useState(null)
 
   const addComment = (text, parentId) => {
-    console.log('adding a comment to this parrent id', parentId)
+    console.log('adding a comment to this parrent id', text, parentId)
   }
 
   const updateComment = (text, commentId) => {
-    console.log('deleting comment', commentId)
+    console.log('deleting comment', text, commentId)
   }
   const deleteComment = commentId => {
     if (window.confirm('Are you sure you want to remove comment?')) {

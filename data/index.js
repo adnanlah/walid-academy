@@ -1,4 +1,4 @@
-import lorem from '../util/lorem'
+import {lorem} from '../util/helpers'
 
 const courses = [
   {
@@ -37,22 +37,36 @@ const reviews = [
   {
     id: 0,
     user: {id: 1, name: 'محمد علي'},
-    rating: 5,
+    rating: 0,
     text: lorem(10),
   },
 
   {
     id: 1,
     user: {id: 1, name: 'محمد علي'},
-    rating: 2,
+    rating: 1,
     text: lorem(30),
   },
 
   {
     id: 2,
     user: {id: 1, name: 'محمد علي'},
-    rating: 0,
+    rating: 2,
     text: lorem(20),
+  },
+
+  {
+    id: 3,
+    user: {id: 1, name: 'محمد علي'},
+    rating: 3,
+    text: lorem(40),
+  },
+
+  {
+    id: 4,
+    user: {id: 1, name: 'محمد علي'},
+    rating: 4,
+    text: lorem(25),
   },
 ]
 

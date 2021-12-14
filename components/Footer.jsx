@@ -1,6 +1,6 @@
 import {Anchor, Box, Grid, Group} from '@mantine/core'
 import MyContainer from '../components/MyContainer'
-import lorem from '../util/lorem'
+import {lorem} from '../util/helpers'
 
 const FooterLink = ({children, href, ...props}) => {
   return (

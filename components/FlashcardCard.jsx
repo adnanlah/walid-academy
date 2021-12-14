@@ -1,5 +1,5 @@
 import {Anchor, Group, Paper, Text} from '@mantine/core'
-import lorem from '../util/lorem'
+import {lorem} from '../util/helpers'
 
 const FlashcardCard = ({flashcard = {id: 1}}) => {
   return (

@@ -28,6 +28,7 @@ import RatingStars from '../../../components/RatingStars'
 import MyBreadcrumbs from '../../../components/MyBreadcrumbs'
 import Link from 'next/link'
 import {arabicDict} from '../../../util/academicDict'
+import Reviews from '../../../components/Reviews'
 
 function ChapterItem({icon, title, measure, ...props}) {
   return (
@@ -154,7 +155,7 @@ export default function Course({course}) {
             <section>{chaptersList}</section>
             <section>
               <Paper padding="md" mb="md">
-                {/* <Reviews courseId={1} /> */}
+                <Reviews courseId={1} />
               </Paper>
             </section>
           </Col>

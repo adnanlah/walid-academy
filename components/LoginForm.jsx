@@ -28,6 +28,7 @@ const LoginForm = ({closeModal}) => {
         تسجيل دخول
       </Title>
       <TextInput
+        data-autofocus
         mb="xs"
         required
         label="الايميل"

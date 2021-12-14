@@ -8,10 +8,8 @@
 - redirect to 404 or 500
 - componments structure: where should I store the component that I only use in
   one page like Reviews
-- reviews pagination
 - html semantics
 - MyContainer
-- accordion styles
 - set q value in url in search page i suppose
 - inputs getProps
 - null to undefined
@@ -22,5 +20,8 @@
 - handlers names
 - when delete chapter => delete its lessons
 - delete coupon
+- add coupon with msw
 - new course branch subj grade
 - reset usereducer course
+
+* Add rating stars
