@@ -1,5 +1,5 @@
-import Layout from 'components/Layout'
-import ContentLayout from 'components/ContentLayout'
+import Layout from 'layouts/Layout'
+import ContentLayout from 'layouts/ContentLayout'
 
 const Settings = () => {
   return <div>User settings</div>

@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import {Input, Title, createStyles, SimpleGrid, Box} from '@mantine/core'
-import MyContainer from '../components/MyContainer'
-import Layout from '../components/Layout'
+import MyContainer from 'components/MyContainer'
+import Layout from 'layouts/Layout'
 
 const useStyles = createStyles(theme => {
   return {

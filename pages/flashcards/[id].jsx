@@ -1,7 +1,7 @@
 import {ActionIcon, Avatar, Box, Group, Text, Title} from '@mantine/core'
 import {Share1Icon, TwitterLogoIcon} from '@modulz/radix-icons'
-import Layout from 'components/Layout'
-import ContentLayout from 'components/ContentLayout'
+import Layout from 'layouts/Layout'
+import ContentLayout from 'layouts/ContentLayout'
 import MyBreadcrumbs from 'components/MyBreadcrumbs'
 import Flashcard from 'components/Flashcards/Flashcard'
 
