@@ -1,8 +1,3 @@
-import Layout from '../../../components/Layout'
-import ContentLayout from '../../../components/ContentLayout'
-import Comments from '../../../components/comments/Comments'
-import Quiz from '../../../components/quiz/Quiz'
-
 import {
   Box,
   Group,
@@ -20,17 +15,24 @@ import {
   Share1Icon,
   TwitterLogoIcon,
 } from '@modulz/radix-icons'
-import LessonPlayer from '../../../components/LessonPlayer'
+import Layout from 'layouts/Layout'
+import ContentLayout from 'layouts/ContentLayout'
+import Comments from 'components/comments/Comments'
+import Quiz from 'components/Quiz/Quiz'
+import LessonPlayer from 'components/LessonPlayer'
+import MyBreadcrumbs from 'components/MyBreadcrumbs'
 import {useState} from 'react'
+import {arabicDict} from 'util/academicDict'
 
 const Lesson = ({lesson, course}) => {
   const [quizOpened, setquizOpened] = useState(false)
   return (
-    <section>
-      <div style={{width: '80%', margin: '0 auto'}}>
+    <main>
+      <section style={{width: '80%', margin: '0 auto'}}>
         <LessonPlayer lesson={lesson} lessonId={lesson.id} course={course} />
-      </div>
+      </section>
       <Box
+        component="section"
         sx={theme => ({
           padding: `${theme.spacing.xl * 2}px 0`,
           width: '50%',
@@ -38,6 +40,14 @@ const Lesson = ({lesson, course}) => {
         })}
       >
         <Box style={{flexGrow: 1}} mb="xl">
+          <MyBreadcrumbs
+            mb="xs"
+            links={[
+              {title: arabicDict(course.grade), href: '#'},
+              {title: arabicDict(course.branch), href: '#'},
+              {title: arabicDict(course.subject), href: '#'},
+            ]}
+          />
           <Title order={3}>{lesson.title}</Title>
         </Box>
         <Group position="apart" mb="xl">
@@ -107,7 +117,6 @@ const Lesson = ({lesson, course}) => {
         </Box>
 
         <Modal
-          size="60%"
           opened={quizOpened}
           onClose={() => setquizOpened(false)}
           title={lesson.title}
@@ -118,6 +127,7 @@ const Lesson = ({lesson, course}) => {
               alignItems: 'stretch',
             },
             modal: {
+              width: '60%',
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'stretch',
@@ -130,7 +140,7 @@ const Lesson = ({lesson, course}) => {
           <Quiz questions={lesson.quiz} />
         </Modal>
       </Box>
-    </section>
+    </main>
   )
 }
 

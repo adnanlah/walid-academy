@@ -9,10 +9,9 @@ import {
   Divider,
   Text,
   ActionIcon,
-  useMantineColorScheme,
   Modal,
 } from '@mantine/core'
-import {SunIcon, MoonIcon, GearIcon} from '@modulz/radix-icons'
+import {GearIcon} from '@modulz/radix-icons'
 import LoginForm from './LoginForm'
 import {useState} from 'react'
 
@@ -29,6 +28,7 @@ const useStyles = createStyles(theme => {
       alignItems: `center`,
       boxShadow: theme.shadows.xs,
       position: `relative`,
+      zIndex: 99,
       '& > div': {
         width: `50%`,
       },
@@ -59,8 +59,6 @@ function NavItem({href, children, ...restProps}) {
 function Nav() {
   const [opened, setOpened] = useState(false)
   const {classes, cx} = useStyles()
-  const {colorScheme, toggleColorScheme} = useMantineColorScheme()
-  const dark = colorScheme === 'dark'
 
   return (
     <nav className={classes.wrapper}>
@@ -92,19 +90,10 @@ function Nav() {
             <GearIcon />
           </ActionIcon>
         </NavItem>
-
-        <ActionIcon
-          mr="md"
-          size="lg"
-          color={dark ? 'yellow' : 'blue'}
-          variant="outline"
-          onClick={() => toggleColorScheme()}
-        >
-          {dark ? <SunIcon /> : <MoonIcon />}
-        </ActionIcon>
       </div>
 
       <Modal
+        radius="xl"
         centered
         overlayOpacity={0.35}
         opened={opened}

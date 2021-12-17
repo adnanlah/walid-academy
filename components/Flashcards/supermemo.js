@@ -1,3 +1,5 @@
+// SuperMemo2 algorithm for Flashacrds, more info: https://www.supermemo.com/en/archives1990-2015/english/ol/sm2
+
 export function supermemo(item, grade) {
   let nextInterval
   let nextRepetition

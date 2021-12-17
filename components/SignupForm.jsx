@@ -21,7 +21,8 @@ const useStyles = createStyles(theme => {
   return {
     customInput: {
       backgroundColor: 'transparent',
-      borderColor: theme.colorScheme === 'dark' ? theme.colors.gray[6] : null,
+      borderColor:
+        theme.colorScheme === 'dark' ? theme.colors.gray[6] : undefined,
     },
     plan: {
       borderRadius: theme.spacing.md,
@@ -58,50 +59,7 @@ const useStyles = createStyles(theme => {
   }
 })
 
-const Plan = ({price, oldPrice, children, selected = false, ...props}) => {
-  const {classes, cx} = useStyles()
-  return (
-    <div
-      className={cx(classes.plan, {[classes.planSelected]: selected === true})}
-      {...props}
-    >
-      {!!oldPrice && (
-        <div className={classes.strokedText}>
-          <Text
-            component="span"
-            size="md"
-            align="center"
-            variant="gradient"
-            gradient={{from: 'indigo', to: 'cyan', deg: 45}}
-          >
-            {oldPrice}{' '}
-          </Text>
-          <Text component="span" size="xs" color="blue" align="center">
-            دج
-          </Text>
-        </div>
-      )}
-      <Box mb="xs">
-        <Text
-          component="span"
-          size="xl"
-          align="center"
-          variant="gradient"
-          gradient={{from: 'indigo', to: 'cyan', deg: 45}}
-          weight={700}
-        >
-          {price}{' '}
-        </Text>
-        <Text component="span" color="blue" align="center">
-          دج
-        </Text>
-      </Box>
-      <div>{children}</div>
-    </div>
-  )
-}
-
-function SignupForm() {
+function SignupForm({divisions}) {
   const [plan, setPlan] = useState(0)
   const [activePage, setPage] = useState(0)
   const {classes} = useStyles()
@@ -281,26 +239,26 @@ function SignupForm() {
             {...form.getInputProps('wilaya')}
             required
             label="الولاية"
-            placeholder="Pick one"
-            data={[
-              {value: 'math', label: 'شعبة رياضيات'},
-              {value: 'management', label: 'شعبة تسيير واقتصاد'},
-              {value: 'science', label: 'شعبة علوم طبيعة وحياة'},
-            ]}
+            placeholder="اختر"
+            data={divisions.provinces}
           />
           <Group grow>
-            <TextInput
+            <Select
               mb="xs"
               required
               classNames={{input: classes.customInput}}
               label="الدائرة"
+              placeholder="اختر"
+              data={divisions.districts}
               {...form.getInputProps('dayra')}
             />
-            <TextInput
+            <Select
               mb="xs"
               required
               classNames={{input: classes.customInput}}
+              placeholder="اختر"
               label="البلدية"
+              data={divisions.municipalities}
               {...form.getInputProps('province')}
             />
           </Group>
@@ -361,6 +319,49 @@ function SignupForm() {
         </div>
       )}
     </form>
+  )
+}
+
+const Plan = ({price, oldPrice, children, selected = false, ...props}) => {
+  const {classes, cx} = useStyles()
+  return (
+    <div
+      className={cx(classes.plan, {[classes.planSelected]: selected === true})}
+      {...props}
+    >
+      {!!oldPrice && (
+        <div className={classes.strokedText}>
+          <Text
+            component="span"
+            size="md"
+            align="center"
+            variant="gradient"
+            gradient={{from: 'indigo', to: 'cyan', deg: 45}}
+          >
+            {oldPrice}{' '}
+          </Text>
+          <Text component="span" size="xs" color="blue" align="center">
+            دج
+          </Text>
+        </div>
+      )}
+      <Box mb="xs">
+        <Text
+          component="span"
+          size="xl"
+          align="center"
+          variant="gradient"
+          gradient={{from: 'indigo', to: 'cyan', deg: 45}}
+          weight={700}
+        >
+          {price}{' '}
+        </Text>
+        <Text component="span" color="blue" align="center">
+          دج
+        </Text>
+      </Box>
+      <div>{children}</div>
+    </div>
   )
 }
 

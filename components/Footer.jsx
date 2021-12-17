@@ -1,5 +1,12 @@
-import {Anchor, Box, Grid, Group} from '@mantine/core'
-import MyContainer from '../components/MyContainer'
+import {
+  Anchor,
+  Box,
+  Center,
+  Group,
+  Switch,
+  Text,
+  useMantineColorScheme,
+} from '@mantine/core'
 import {lorem} from '../util/helpers'
 
 const FooterLink = ({children, href, ...props}) => {
@@ -20,28 +27,28 @@ const FooterLink = ({children, href, ...props}) => {
 }
 
 export default function Footer() {
+  const {colorScheme, toggleColorScheme} = useMantineColorScheme()
+  // const dark = colorScheme === 'dark'
+
   return (
     <Box
       sx={theme => ({
-        padding: `5% 15% 10% 15%`,
+        padding: `5% 15%`,
         background:
           theme.colorScheme === 'light'
             ? theme.colors.indigo[9]
             : theme.colors.dark[9],
       })}
     >
-      <div>
-        <Group position="apart">
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+        }}
+      >
+        <Group position="apart" align="start" style={{marginBottom: '10%'}}>
           <div>
-            <FooterLink href="#" mb="md">
-              {lorem(3)}
-            </FooterLink>
-            <FooterLink href="#" mb="md">
-              {lorem(3)}
-            </FooterLink>
-            <FooterLink href="#" mb="md">
-              {lorem(3)}
-            </FooterLink>
             <FooterLink href="#">{lorem(3)}</FooterLink>
           </div>
           <div>
@@ -68,6 +75,14 @@ export default function Footer() {
             <FooterLink href="#">{lorem(3)}</FooterLink>
           </div>
         </Group>
+        <Box>
+          <Switch
+            size="xl"
+            label="Right to Left"
+            onChange={() => toggleColorScheme()}
+            color="dark"
+          />
+        </Box>
       </div>
     </Box>
   )

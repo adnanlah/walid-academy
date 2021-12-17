@@ -1,9 +1,9 @@
 import {Badge, Box, Button, Group} from '@mantine/core'
-import {useSetState} from '@mantine/hooks'
+import {useState} from '@mantine/hooks'
 import React from 'react'
 
 const Fileinput = ({color = 'dark', buttonContent, ...props}) => {
-  const [files, setFiles] = useSetState(null)
+  const [files, setFiles] = useState(null)
 
   const items = []
   for (const prop in files) {

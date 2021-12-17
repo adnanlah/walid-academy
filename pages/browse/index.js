@@ -1,7 +1,3 @@
-import Layout from '../../components/Layout'
-import ContentLayout from '../../components/ContentLayout'
-import MyContainer from '../../components/MyContainer'
-
 import {
   Box,
   TextInput,
@@ -13,12 +9,16 @@ import {
   Text,
   Anchor,
 } from '@mantine/core'
-import {useForm} from '@mantine/hooks'
 import {MagnifyingGlassIcon} from '@modulz/radix-icons'
-import CoursesShowcase from '../../components/CoursesShowcase'
-import {useRouter} from 'next/router'
+import Layout from 'layouts/Layout'
+import ContentLayout from 'layouts/ContentLayout'
+import MyContainer from 'components/MyContainer'
+import CoursesShowcase from 'components/CoursesShowcase'
+import Myimage from 'components/MyImage'
+import Flashcardsshowcase from 'components/FlashcardsShowcase'
 import {useEffect, useState} from 'react'
-import Myimage from '../../components/MyImage'
+import {useRouter} from 'next/router'
+import {useForm} from '@mantine/hooks'
 
 export default function Browse() {
   const [queryValue, setQueryValue] = useState('')
@@ -40,12 +40,13 @@ export default function Browse() {
 
   useEffect(() => {
     form.setFieldValue('query', router.query.q)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.query.q])
 
   return (
     <div>
       <Box
-        component="section"
+        component="header"
         sx={theme => ({
           backgroundColor:
             theme.colorScheme === 'light'
@@ -84,30 +85,30 @@ export default function Browse() {
           </form>
         </MyContainer>
       </Box>
-      <MyContainer sx={theme => ({padding: `${theme.spacing.xl * 2}px 0`})}>
-        <Box>
+      <MyContainer component="main" py="xl">
+        <Box component="section">
           <Title order={2} mb="xl">
-            تصفية حسب الموضوعات الشعبية
+            تصفية حسب المواد
           </Title>
-          <Grid columns={12} mb="xl">
-            {[...Array(8)].map((_, idx) => (
+          <Grid mb="xl">
+            {[...Array(7)].map((_, idx) => (
               <Col span={3} key={idx}>
                 <Anchor href="/">
                   <Group>
                     <Myimage
                       width={70}
                       height={70}
-                      src="/math.jpg"
-                      alt="Random unsplash image"
+                      src={`/${idx + 1}.jpg`}
+                      alt="Subject thumbnail"
                     />
-                    <Text>علوم الطبيعة والحياة</Text>
+                    <Text>الشعبة الشعبة الشعبة</Text>
                   </Group>
                 </Anchor>
               </Col>
             ))}
           </Grid>
         </Box>
-        <Box>
+        <Box component="section" mb="xl">
           <Title order={2} mb="xl">
             اكتشف الدورات والبرامج
           </Title>
@@ -116,8 +117,9 @@ export default function Browse() {
             اكتشف الدورات والبرامج
           </Title>
           <CoursesShowcase
+            mb="xl"
             pagination={false}
-            api={`https://my.backend/users/1/courses`}
+            api={`https://my.backend/courses?limit=4`}
           />
 
           <Title order={4} mb="xl">
@@ -125,16 +127,16 @@ export default function Browse() {
           </Title>
           <CoursesShowcase
             pagination={false}
-            api={`https://my.backend/users/1/courses`}
+            api={`https://my.backend/courses?limit=4`}
           />
         </Box>
-        <Box>
+        <Box component="section">
           <Title order={2} mb="xl">
             اكتشف الدورات والبرامج
           </Title>
-          <CoursesShowcase
+          <Flashcardsshowcase
             pagination={false}
-            api={`https://my.backend/users/1/courses`}
+            api={`https://my.backend/flashcards?limit=4`}
           />
         </Box>
       </MyContainer>

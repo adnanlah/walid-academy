@@ -2,17 +2,10 @@ import {Box, Grid, Col, Pagination, Center, LoadingOverlay} from '@mantine/core'
 import CourseCard from './CourseCard'
 import {useState} from 'react'
 import useSWR from 'swr'
-async function fetcher(url) {
-  const res = await fetch(url)
-  const json = await res.json()
-  return json
-}
 
-export default function CoursesShowcase({api, pagination, ...props}) {
-  console.log('rendering CoursesShowcase ', api)
+export default function CoursesShowcase({api, pagination, ...restProps}) {
   const [activePage, setPage] = useState(1)
-
-  const {data, error} = useSWR(`${api}?limit=10&start=1`, fetcher)
+  const {data, error} = useSWR(`${api}`)
 
   if (error) return <Center>فشل في التحميل</Center>
 
@@ -29,7 +22,7 @@ export default function CoursesShowcase({api, pagination, ...props}) {
   })
 
   return (
-    <Box {...props}>
+    <Box {...restProps}>
       <LoadingOverlay visible={!data} />
       <Box>
         <Grid columns={12}>{CoursesList}</Grid>

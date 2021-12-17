@@ -8,6 +8,12 @@ import {
   reviews,
   flashcards,
   flashcards2,
+  grades,
+  branchs,
+  subjects,
+  provinces,
+  districts,
+  municipalities,
 } from '../data/index.js'
 
 const getItem = (id, list) => list.find(e => e.id === parseInt(id))
@@ -17,22 +23,12 @@ const getItemsByUserId = (id, list) =>
 
 export const handlers = [
   rest.get('https://my.backend/courses', (req, res, ctx) => {
-    return res(ctx.json(courses))
-  }),
-
-  rest.get('https://my.backend/search', (req, res, ctx) => {
-    console.log('https://my.backend/search')
-    const query = req.url.searchParams.get('q')
-    return res(ctx.json(courses))
+    let limit = parseInt(req.url.searchParams.get('limit'))
+    return res(ctx.json(courses.slice(0, limit)))
   }),
 
   rest.get('https://my.backend/users/:userId/courses', (req, res, ctx) => {
     const {userId} = req.params
-    console.log(
-      'https://my.backend/users/:userId/courses userId is ',
-      userId,
-      typeof userId,
-    )
     // const offset = req.url.searchParams.get('offset')
     // const limit = req.url.searchParams.get('limit')
 
@@ -54,7 +50,6 @@ export const handlers = [
 
   rest.get('https://my.backend/courses/:id', (req, res, ctx) => {
     const {id} = req.params
-    console.log('https://my.backend/courses/:id id is ', id, typeof id)
 
     const course = getItem(id, courses)
 
@@ -71,7 +66,6 @@ export const handlers = [
   }),
 
   rest.get('https://my.backend/courses/:id/full', (req, res, ctx) => {
-    console.log('courses/:id/full')
     const {id} = req.params
 
     const course = getItem(id, courses)
@@ -142,15 +136,18 @@ export const handlers = [
     const nextCursor =
       data.length >= data2.length ? null : data2[data2.length - 1].id
 
-    // return res(ctx.json(ctx.status(500)))
-
     return res(
-      ctx.delay(100),
+      ctx.delay(1000),
       ctx.json({
         data,
         nextCursor,
       }),
     )
+  }),
+
+  rest.get('https://my.backend/flashcards', (req, res, ctx) => {
+    let limit = parseInt(req.url.searchParams.get('limit'))
+    return res(ctx.json(flashcards.slice(0, limit)))
   }),
 
   rest.get('https://my.backend/flashcards/:id', (req, res, ctx) => {
@@ -169,7 +166,23 @@ export const handlers = [
     return res(ctx.json(flashcard))
   }),
 
-  rest.get('/course/:id/reviews', (req, res, ctx) => {
-    return res(ctx.json(reviews))
+  rest.get('https://my.backend/categories', (req, res, ctx) => {
+    return res(
+      ctx.json({
+        grades,
+        branchs,
+        subjects,
+      }),
+    )
+  }),
+
+  rest.get('https://my.backend/divisions', (req, res, ctx) => {
+    return res(
+      ctx.json({
+        provinces,
+        districts,
+        municipalities,
+      }),
+    )
   }),
 ]

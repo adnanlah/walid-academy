@@ -1,6 +1,6 @@
 import {Button, TextInput} from '@mantine/core'
 import {useForm} from '@mantine/hooks'
-const Chapterform = ({handler, chapter}) => {
+const Chapterform = ({onSubmit, chapter}) => {
   const form = useForm({
     initialValues: chapter
       ? chapter
@@ -13,7 +13,7 @@ const Chapterform = ({handler, chapter}) => {
   })
   return (
     <div>
-      <form onSubmit={form.onSubmit(values => handler(values))}>
+      <form onSubmit={form.onSubmit(values => onSubmit(values))}>
         <TextInput
           data-autofocus
           mb="xs"

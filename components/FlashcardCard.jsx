@@ -1,7 +1,7 @@
 import {Anchor, Group, Paper, Text} from '@mantine/core'
 import {lorem} from '../util/helpers'
 
-const FlashcardCard = ({flashcard = {id: 1}}) => {
+const FlashcardCard = ({flashcard, ...restProps}) => {
   return (
     <Paper
       padding="lg"
@@ -14,6 +14,7 @@ const FlashcardCard = ({flashcard = {id: 1}}) => {
           borderBottomColor: theme.colors.cyan,
         },
       })}
+      {...restProps}
     >
       <div
         style={{
@@ -30,14 +31,14 @@ const FlashcardCard = ({flashcard = {id: 1}}) => {
             variant="text"
             weight={700}
           >
-            {lorem(5)}
+            {flashcard.title}
           </Anchor>
           <Text mb="xl" size="sm">
-            20 بطاقة
+            {flashcard.cards.length} بطاقة
           </Text>
         </div>
         <Anchor href={`/users/1`} color="dark" variant="text">
-          الاستاذ محمد علي
+          {flashcard.user.name}
         </Anchor>
       </div>
     </Paper>

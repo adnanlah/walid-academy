@@ -6,8 +6,9 @@ import {
 } from '@mantine/core'
 import {useLocalStorageValue} from '@mantine/hooks'
 import {useState, useEffect} from 'react'
-import Nav from './Nav'
-import Footer from './Footer'
+import Nav from 'components/Nav'
+import Footer from 'components/Footer'
+import {SWRConfig} from 'swr'
 
 export function GlobalStyles() {
   return (
@@ -167,8 +168,14 @@ export default function Layout({children}) {
           <GlobalStyles />
 
           <Nav />
-
-          <main id="main">{children}</main>
+          <SWRConfig
+            value={{
+              fetcher: (resource, init) =>
+                fetch(resource, init).then(res => res.json()),
+            }}
+          >
+            {children}
+          </SWRConfig>
           <Footer />
         </MantineProvider>
       </ColorSchemeProvider>

@@ -11,14 +11,6 @@ import {PlusIcon, Cross2Icon, CheckIcon} from '@modulz/radix-icons'
 import InputAddon from '../InputAddon'
 
 const QuizForm = ({dispatch, questions, options}) => {
-  // useEffect(() => {
-  //   console.log('rerendering QuizForm')
-
-  //   return () => {
-
-  //   }
-  // }, [input])
-
   return (
     <div>
       <form>

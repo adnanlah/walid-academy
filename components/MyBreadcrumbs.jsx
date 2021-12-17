@@ -11,11 +11,11 @@ export default function MyBreadcrumbs({links, ...props}) {
       styles={t => ({
         breadcrumb: {
           color:
-            t.colorScheme === 'light' ? t.colors.dark[9] : t.colors.dark[1],
+            t.colorScheme === 'light' ? t.colors.dark[6] : t.colors.dark[2],
         },
         separator: {
           color:
-            t.colorScheme === 'light' ? t.colors.dark[9] : t.colors.dark[1],
+            t.colorScheme === 'light' ? t.colors.dark[6] : t.colors.dark[2],
         },
       })}
       {...props}

@@ -10,9 +10,11 @@ import {
   Anchor,
   Text,
   Divider,
+  LoadingOverlay,
 } from '@mantine/core'
 import useSWRInfinite from 'swr/infinite'
-import RatingStars from './RatingStars'
+import StarRatingDisplay from './StarRatingDisplay'
+import StarRatingInput from './StarRatingInput'
 import {useForm} from '@mantine/hooks'
 
 // https://swr.vercel.app/docs/pagination#example-2-cursor-or-offset-based-paginated-api
@@ -29,22 +31,12 @@ async function fetcher(url) {
 }
 
 const Reviews = ({courseId, ...restProps}) => {
-  const form = useForm({
-    initialValues: {
-      reviewText: '',
-    },
-
-    validationRules: {
-      reviewText: value => value.length > 2,
-    },
-  })
-
   const {data, error, size, setSize} = useSWRInfinite(getKey, fetcher)
 
   const isReachingEnd = data?.[data?.length - 1].nextCursor === null
+  const isLoadingInitialData = !data && !error
   const isLoadingMore =
-    (!data && !error) ||
-    (size > 0 && data && typeof data[size - 1] === 'undefined')
+    size > 0 && data && typeof data[size - 1] === 'undefined'
   const isEmpty = data?.[0]?.length === 0
 
   let reviewsList = []
@@ -62,28 +54,20 @@ const Reviews = ({courseId, ...restProps}) => {
     })
   }
 
-  const reviewForm = (
-    <form onSubmit={form.onSubmit(values => console.log(values))}>
-      <Textarea
-        mb="xs"
-        placeholder="اكتب تقييمك هنا"
-        {...form.getInputProps('name')}
-      ></Textarea>
-      <Button type="submit">اضف</Button>
-    </form>
-  )
-
   return (
     <div {...restProps}>
       <Title order={4} mb="md">
         التقييمات
       </Title>
-      <Box>{reviewForm}</Box>
-      <Box sx={theme => ({padding: `${theme.spacing.md}px 0`})}>
-        {error && <Center>فشل في التحميل</Center>}
-        {isEmpty && <Text>لا يوجد تقييمات الان</Text>}
-        {!isEmpty && reviewsList}
-      </Box>
+      <ReviewForm />
+      <div style={{minHeight: 100, position: 'relative'}}>
+        <LoadingOverlay visible={isLoadingInitialData} />
+        <Box sx={theme => ({padding: `${theme.spacing.md}px 0`})}>
+          {error && <Center>فشل في التحميل</Center>}
+          {isEmpty && <Text>لا يوجد تقييمات الان</Text>}
+          {!isEmpty && reviewsList}
+        </Box>
+      </div>
       {!isReachingEnd && (
         <Button
           disabled={isLoadingMore || isReachingEnd}
@@ -95,6 +79,37 @@ const Reviews = ({courseId, ...restProps}) => {
         </Button>
       )}
     </div>
+  )
+}
+
+const ReviewForm = () => {
+  const form = useForm({
+    initialValues: {
+      reviewText: '',
+      rating: 1,
+    },
+
+    validationRules: {
+      reviewText: value => value.length > 2,
+    },
+  })
+
+  return (
+    <form onSubmit={form.onSubmit(values => console.log(values))}>
+      <StarRatingInput
+        mb="xs"
+        rating={form.values.rating}
+        ratingHandler={value => {
+          form.setFieldValue('rating', value)
+        }}
+      />
+      <Textarea
+        mb="xs"
+        placeholder="اكتب تقييمك هنا"
+        {...form.getInputProps('name')}
+      ></Textarea>
+      <Button type="submit">اضف</Button>
+    </form>
   )
 }
 
@@ -116,7 +131,7 @@ const Review = ({review, first = false, ...restProps}) => {
               </Anchor>
             </Box>
             <Box mb="xs">
-              <RatingStars rating={review.rating} />
+              <StarRatingDisplay rating={review.rating} />
             </Box>
           </div>
           <Text>{review.text}</Text>

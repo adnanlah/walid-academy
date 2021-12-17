@@ -8,7 +8,7 @@ import {
   Group,
   Avatar,
 } from '@mantine/core'
-import RatingStars from './RatingStars'
+import StarRatingDisplay from './StarRatingDisplay'
 
 import useSWR from 'swr'
 
@@ -46,7 +46,7 @@ const Reviews = ({courseId, page}) => {
                 </Anchor>
               </Box>
               <Box mb="xs">
-                <RatingStars rating={review.rating} />
+                <StarRatingDisplay rating={review.rating} />
               </Box>
             </div>
             <Text>{review.text}</Text>

@@ -18,9 +18,7 @@ import {useForm, useLocalStorageValue} from '@mantine/hooks'
 import {Cross2Icon, PlusIcon} from '@modulz/radix-icons'
 import {useReducer, useState, useEffect} from 'react'
 import FlashcardForm from './FlashcardForm'
-
-const nextId = array =>
-  array[array.length - 1] ? array[array.length - 1].id + 1 : 0
+import {nextId} from '../../util/helpers'
 
 const flashcardsReducer = (state, action) => {
   switch (action.type) {

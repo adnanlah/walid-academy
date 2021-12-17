@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import RatingStars from './RatingStars'
+import StarRatingDisplay from './StarRatingDisplay'
 import {Anchor, Box, Text, Center} from '@mantine/core'
 
 export default function CourseCard(props) {
@@ -24,7 +24,7 @@ export default function CourseCard(props) {
             اداب وفلسفة
           </Text>
           <Center inline>
-            <RatingStars rating={4} />
+            <StarRatingDisplay rating={4} />
             <Text mr={3}>({props.reviewsCount})</Text>
           </Center>
           <Box>

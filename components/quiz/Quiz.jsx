@@ -1,96 +1,115 @@
-import {
-  Button,
-  Center,
-  Group,
-  Paper,
-  Popover,
-  Text,
-  Tooltip,
-} from '@mantine/core'
+import {Button, Center, Group, Paper, Popover, Text} from '@mantine/core'
 import {useState, useReducer} from 'react'
 import DottedPagination from '../DottedPagination'
 import {ReloadIcon, StarFilledIcon} from '@modulz/radix-icons'
 import QuestionOptions from './QuestionOptions'
 
-const Quiz = ({questions, questionsPerPage = 1}) => {
-  // creating a clone of the prop because it will be mutated..
-  const quizQuestions = [...questions]
-  const [activePage, setPage] = useState(1)
+const Quiz = ({questions}) => {
+  const [activeQuestionIdx, setQuestionIdx] = useState(0)
   const [points, setPoints] = useState(0)
-  const [tooltipOpened, setTooltipOpened] = useState(false)
   const [showResults, setshowResults] = useState(false)
-  const [popoverOpened, setPopoverOpened] = useState(false)
 
-  const reducer = (state, action) => {
-    // pareInt because the value comes from the radio input and it returns a string rather than an int
-    switch (action.type) {
-      case 'answer':
-        return {...state, [action.questionId]: parseInt(action.answerId)}
-      default:
-        throw new Error()
+  const [userAttempt, setUserAttempt] = useState(null)
+  const [userAnsweredCorrectly, setUserAnsweredCorrectly] = useState(false)
+
+  const activeQuestion = questions[activeQuestionIdx]
+  const numberOfQuestions = questions.length
+
+  const checkHandle = optionId => {
+    setUserAttempt(optionId)
+  }
+
+  const checkAnswer = () => {
+    // checking the user's answer
+    if (questions[activeQuestionIdx].correctAnswer === userAttempt) {
+      setPoints(p => p + 1)
+      setUserAnsweredCorrectly(true)
     }
+    setshowResults(true)
   }
 
-  const [userAnswers, dispatch] = useReducer(reducer, {})
-
-  const checkHandle = (answerId, questionId) => {
-    dispatch({type: 'answer', questionId, answerId})
+  const nextQuestion = () => {
+    setQuestionIdx(v => v + 1)
+    setshowResults(false)
+    setUserAttempt(null)
+    setUserAnsweredCorrectly(null)
   }
 
-  const numberOfQuestions = quizQuestions.length
-  const numberOfPages = Math.ceil(numberOfQuestions / questionsPerPage)
-  const from = Math.max(questionsPerPage * (activePage - 1), 0)
-  const to = Math.min(questionsPerPage * activePage, numberOfQuestions)
-
-  const checkAnswers = () => {
-    // checking the user's userAnswers
-    if (!showResults) {
-      quizQuestions.map(question => {
-        if (question.correctAnswer === userAnswers[question.id]) {
-          setPoints(p => p + 1)
-        }
-      })
-      setshowResults(true)
-    }
-
-    setPopoverOpened(o => !o)
-  }
-
-  const paginationOnChange = page => {
-    setPage(page)
-  }
-
-  const QuizEndMessage = ({message, icon}) => {
+  const QuestionEndMessage = ({message, icon}) => {
     return (
       <Paper sx={t => ({padding: t.spacing.xl})}>
-        <Group mb="lg">
+        <Group>
           {icon}
           <div>
             <Text size="lg" weight={500}>
               {message}
             </Text>
-            <Text size="md" weight={500}>
-              لقد اجبت على {points}/{numberOfQuestions}
-            </Text>
           </div>
         </Group>
-        <Center>
-          <Button
-            onClick={() => {
-              setPopoverOpened(o => !o)
-              setPage(1)
-            }}
-          >
-            شاهد النتائج
-          </Button>
-        </Center>
       </Paper>
+    )
+  }
+
+  let targetButton
+  if (!showResults) {
+    targetButton = (
+      <Button disabled={!userAttempt} onClick={() => checkAnswer()}>
+        اختبر
+      </Button>
+    )
+  } else {
+    targetButton = <Button onClick={() => nextQuestion()}>السؤال التالي</Button>
+  }
+
+  let content
+
+  if (activeQuestionIdx < numberOfQuestions) {
+    content = (
+      <>
+        <Text mb="md" size="lg" weight={500}>
+          {activeQuestion.content}
+        </Text>
+        <QuestionOptions
+          question={activeQuestion}
+          checkHandle={checkHandle}
+          userAttempt={userAttempt}
+          showResults={showResults}
+        />
+      </>
+    )
+  } else {
+    content = (
+      <Center
+        style={{
+          position: 'absolute',
+          left: 0,
+          bottom: 0,
+          top: 0,
+          right: 0,
+        }}
+      >
+        <div>
+          <Center mb="xl">
+            {points < numberOfQuestions / 2 && (
+              <ReloadIcon style={{width: 40, height: 40}} />
+            )}
+            {points > numberOfQuestions / 2 && (
+              <StarFilledIcon color="gold" style={{width: 40, height: 40}} />
+            )}
+          </Center>
+          <Text align="center" size="xl">
+            انتهى الكويز
+          </Text>
+          <Text component="span" align="center" size="lg">
+            لقد اجبت على {points}/{numberOfQuestions} من الاسئلة
+          </Text>
+        </div>
+      </Center>
     )
   }
 
   return (
     <div
-      ref={targetRef}
       style={{
         display: 'flex',
         flexDirection: 'column',
@@ -100,80 +119,49 @@ const Quiz = ({questions, questionsPerPage = 1}) => {
       }}
     >
       <div style={{flexGrow: 2}}>
-        {quizQuestions.slice(from, to).map((question, idx) => (
-          <Paper
-            key={`${question.id}-${idx}`}
-            sx={theme => ({
-              padding: `${theme.spacing.xl}px 5%`,
-              marginBottom: theme.spacing.md,
-            })}
-          >
-            <Text mb="md" size="lg" weight={500}>
-              {question.content}
-            </Text>
-            <QuestionOptions
-              question={question}
-              checkHandle={checkHandle}
-              userAnswers={userAnswers}
-              showResults={showResults}
-            />
-          </Paper>
-        ))}
+        <Paper
+          sx={theme => ({
+            position: 'relative',
+            height: '100%',
+            padding: `${theme.spacing.xl}px 5%`,
+          })}
+        >
+          {content}
+        </Paper>
       </div>
 
       <Group position="apart">
         <Popover
-          opened={popoverOpened}
-          onClose={() => setPopoverOpened(false)}
-          target={
-            <Tooltip
-              opened={tooltipOpened}
-              label="اجب على كل الاسئلة قبل ان تختبر"
-              position="bottom"
-              withArrow
-            >
-              <Button
-                onPointerEnter={() => {
-                  setTooltipOpened(true)
-                }}
-                onPointerLeave={() => {
-                  setTooltipOpened(false)
-                }}
-                onClick={() => checkAnswers()}
-                disabled={numberOfQuestions > Object.keys(userAnswers).length} // disable if user didn't answer all the questions
-              >
-                اختبر
-              </Button>
-            </Tooltip>
-          }
+          opened={showResults}
+          target={targetButton}
           position="top"
           withArrow
           spacing={0}
         >
-          {points > numberOfQuestions / 2 && (
-            <QuizEndMessage
+          {userAnsweredCorrectly && (
+            <QuestionEndMessage
               message="احسنت"
               icon={
-                <StarFilledIcon color="gold" style={{width: 50, height: 50}} />
+                <StarFilledIcon color="gold" style={{width: 40, height: 40}} />
               }
             />
           )}
-          {points < numberOfQuestions / 2 && (
-            <QuizEndMessage
-              icon={<ReloadIcon style={{width: 50, height: 50}} />}
-              message="حاول لاحقا"
+          {!userAnsweredCorrectly && (
+            <QuestionEndMessage
+              icon={<ReloadIcon style={{width: 40, height: 40}} />}
+              message="احابة حاطئة"
             />
           )}
         </Popover>
 
         <Group>
           <DottedPagination
-            page={activePage}
-            onChange={paginationOnChange}
-            total={numberOfPages}
+            page={activeQuestionIdx + 1}
+            total={numberOfQuestions}
+            clickable={false}
           />
           <Text weight={700}>
-            صفحة {activePage} من {numberOfPages}
+            سؤال {activeQuestionIdx + 1} من {numberOfQuestions}
           </Text>
         </Group>
       </Group>

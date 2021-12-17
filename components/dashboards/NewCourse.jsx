@@ -14,9 +14,7 @@ import {useLocalStorageValue, useForm} from '@mantine/hooks'
 import NewLesson from './NewLesson'
 import ChapterForm from './ChapterForm'
 import {Cross2Icon, Pencil1Icon} from '@modulz/radix-icons'
-
-const nextId = array =>
-  array[array.length - 1] ? array[array.length - 1].id + 1 : 0
+import {nextId} from '../../util/helpers'
 
 const courseReducer = (state, action) => {
   const {chapters, lessons} = state
@@ -61,7 +59,7 @@ const courseReducer = (state, action) => {
   }
 }
 
-const NewCourse = () => {
+const NewCourse = ({categories}) => {
   const [courseData, setCourseData] = useLocalStorageValue({
     key: 'course-data1',
     defaultValue: JSON.stringify({
@@ -120,7 +118,6 @@ const NewCourse = () => {
   }
 
   const addNewLessonHandler = lesson => {
-    console.log('dispatching the new lesson', lesson)
     dispatch({
       type: 'newlesson',
       payload: {...lesson, chapterId},
@@ -136,22 +133,25 @@ const NewCourse = () => {
   const modalContent = {
     newlesson: {
       title: 'انشاء درس جديد',
-      component: <NewLesson addNewLessonHandler={addNewLessonHandler} />,
+      component: <NewLesson onSubmit={addNewLessonHandler} />,
     },
     updatelesson: {
       title: 'تعديل درس',
       component: (
-        <NewLesson handler={updateLessonHandler} lesson={dataToBeUpdated} />
+        <NewLesson onSubmit={updateLessonHandler} lesson={dataToBeUpdated} />
       ),
     },
     newchapter: {
       title: 'انشاء شابتر جديد',
-      component: <ChapterForm handler={addNewChapterHandler} />,
+      component: <ChapterForm onSubmit={addNewChapterHandler} />,
     },
     updatechapter: {
       title: 'تعديل شابتر',
       component: (
-        <ChapterForm handler={updateChapterHandler} chapter={dataToBeUpdated} />
+        <ChapterForm
+          onSubmit={updateChapterHandler}
+          chapter={dataToBeUpdated}
+        />
       ),
     },
   }
@@ -181,42 +181,27 @@ const NewCourse = () => {
         <Group grow>
           <Select
             mb="xl"
-            label="اي مجال"
+            label="اي سنة"
             placeholder="اختر"
             required
-            {...form.getInputProps('branch')}
-            data={[
-              {value: 'maths', label: 'رياضيات'},
-              {value: 'physics', label: 'فيزياء'},
-              {value: 'biology', label: 'علوم'},
-              {value: 'french', label: 'فرنسية'},
-            ]}
+            {...form.getInputProps('grade')}
+            data={categories ? categories.grades : []}
           />
           <Select
             mb="xl"
-            label="اي مجال"
+            label="اي شعبة"
             placeholder="اختر"
             required
             {...form.getInputProps('branch')}
-            data={[
-              {value: 'maths', label: 'رياضيات'},
-              {value: 'physics', label: 'فيزياء'},
-              {value: 'biology', label: 'علوم'},
-              {value: 'french', label: 'فرنسية'},
-            ]}
+            data={categories ? categories.branchs : []}
           />
           <Select
             mb="xl"
-            label="اي مجال"
+            label="اي مادة"
             placeholder="اختر"
             required
-            {...form.getInputProps('branch')}
-            data={[
-              {value: 'maths', label: 'رياضيات'},
-              {value: 'physics', label: 'فيزياء'},
-              {value: 'biology', label: 'علوم'},
-              {value: 'french', label: 'فرنسية'},
-            ]}
+            {...form.getInputProps('subject')}
+            data={categories ? categories.subjects : []}
           />
         </Group>
         <Group align="end" mb="xs">
@@ -344,19 +329,9 @@ const NewCourse = () => {
             </Accordion.Item>
           ))}
         </Accordion>
-        <Group position="right">
-          <Button
-            type="reset"
-            color="red"
-            onClick={() => {
-              // reset metadata and content
-              form.reset()
-            }}
-          >
-            إعادة
-          </Button>
+        <div>
           <Button type="submit">اضف</Button>
-        </Group>
+        </div>
       </form>
 
       <Modal

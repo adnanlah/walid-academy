@@ -1,11 +1,11 @@
-import Layout from '../../components/Layout'
-import ContentLayout from '../../components/ContentLayout'
-import MyContainer from '../../components/MyContainer'
-import SignupForm from '../../components/SignupForm'
-import {createStyles} from '@mantine/styles'
 import {Col, Grid, Group, Text, ThemeIcon, Title} from '@mantine/core'
 import {InfoCircledIcon} from '@modulz/radix-icons'
-import {lorem} from '../../util/lib'
+import Layout from 'layouts/Layout'
+import ContentLayout from 'layouts/ContentLayout'
+import MyContainer from 'components/MyContainer'
+import SignupForm from 'components/SignupForm'
+import {createStyles} from '@mantine/styles'
+import {lorem} from 'util/helpers'
 
 const useStyles = createStyles(theme => {
   return {
@@ -50,11 +50,11 @@ const useStyles = createStyles(theme => {
   }
 })
 
-export default function Signup() {
+export default function Signup({divisions}) {
   const {classes} = new useStyles()
 
   return (
-    <>
+    <main>
       <section className={classes.form}>
         <MyContainer>
           <Grid gutter={75} style={{minHeight: '100vh'}}>
@@ -75,7 +75,7 @@ export default function Signup() {
             </Col>
             <Col span={7}>
               <div>
-                <SignupForm />
+                <SignupForm divisions={divisions} />
               </div>
             </Col>
           </Grid>
@@ -132,8 +132,27 @@ export default function Signup() {
           </Grid>
         </MyContainer>
       </section>
-    </>
+    </main>
   )
+}
+
+export async function getStaticProps() {
+  const response = await fetch(`https://my.backend/divisions`)
+
+  if (!response.ok) {
+    // redirect to 404 page
+    return {
+      notFound: true,
+    }
+  }
+
+  const data = await response.json()
+
+  return {
+    props: {
+      divisions: data,
+    },
+  }
 }
 
 Signup.getLayout = function getLayout(page) {

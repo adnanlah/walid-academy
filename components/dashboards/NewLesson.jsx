@@ -3,8 +3,7 @@ import {useForm} from '@mantine/hooks'
 import {useReducer, useState} from 'react'
 import LessonForm from './LessonForm'
 import QuizForm from './QuizForm'
-
-const nextId = array => array[array.length - 1].id + 1
+import {nextId} from '../../util/helpers'
 
 const quizReducer = (state, action) => {
   const {options, questions} = state
@@ -86,7 +85,7 @@ const quizReducer = (state, action) => {
   }
 }
 
-const Newlesson = ({addLessonHandler, lesson}) => {
+const Newlesson = ({onSubmit, lesson}) => {
   // WIZARD FORM
   const [page, setPage] = useState(0)
 
@@ -145,19 +144,19 @@ const Newlesson = ({addLessonHandler, lesson}) => {
       </div>
       <Group>
         {page === 0 && (
-          <Button onClick={() => setPage(1)}>Proceed to Quiz form</Button>
+          <Button onClick={() => setPage(1)}>المرور الى الكويز</Button>
         )}
         {page === 1 && (
-          <Button onClick={() => setPage(0)}>Go back to Lesson form</Button>
+          <Button onClick={() => setPage(0)}>الرجوع الى الدرس</Button>
         )}
         <Button
           onClick={() => {
             const isFormValid = form.validate()
             if (isFormValid)
-              addLessonHandler({...form.values, quiz: {questions, options}})
+              onSubmit({...form.values, quiz: {questions, options}})
           }}
         >
-          Submit lesson
+          اضف الدرس
         </Button>
       </Group>
     </div>

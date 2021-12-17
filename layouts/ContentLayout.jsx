@@ -4,7 +4,6 @@ export default function ContentLayout({children}) {
   return (
     <Box
       sx={theme => ({
-        minHeight: '60vh',
         backgroundColor:
           theme.colorScheme === 'light'
             ? theme.colors.gray[0]

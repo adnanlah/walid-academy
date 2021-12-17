@@ -1,17 +1,7 @@
 import {Box, Group, Text} from '@mantine/core'
 import {SquareIcon, CheckboxIcon, BoxModelIcon} from '@modulz/radix-icons'
 
-const Option = ({
-  option,
-  question,
-  isChecked,
-  isCorrectAnswer,
-  handler,
-  showResults,
-}) => {
-  const successColor = '#C6DAB7'
-  const failColor = '#FF9292'
-
+const Option = ({option, isChecked, isCorrectAnswer, handler, showResults}) => {
   const optionBgL = showResults
     ? isCorrectAnswer
       ? '#C6DAB7'
@@ -48,7 +38,7 @@ const Option = ({
       })}
       onClick={() => {
         if (showResults) return
-        handler(option.id, question.id)
+        handler(option.id)
       }}
     >
       <Group>

@@ -1,9 +1,8 @@
-import {Box} from '@mantine/core'
 import Option from './Option'
 
-const Questionoptions = ({question, checkHandle, userAnswers, showResults}) => {
+const Questionoptions = ({question, checkHandle, userAttempt, showResults}) => {
   return (
-    <Box>
+    <div>
       {question.options.map(option => {
         return (
           <Option
@@ -11,13 +10,12 @@ const Questionoptions = ({question, checkHandle, userAnswers, showResults}) => {
             handler={checkHandle}
             showResults={showResults}
             option={option}
-            question={question}
-            isChecked={userAnswers[question.id] === option.id}
+            isChecked={userAttempt === option.id}
             isCorrectAnswer={question.correctAnswer === option.id}
           />
         )
       })}
-    </Box>
+    </div>
   )
 }
 

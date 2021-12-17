@@ -1,8 +1,9 @@
-import {ActionIcon, Box, Group} from '@mantine/core'
+import {Group} from '@mantine/core'
 import {usePagination} from '@mantine/hooks'
 import {DotFilledIcon, DotIcon} from '@modulz/radix-icons'
 
 const Quizpagination = ({page, total, onChange}) => {
+  // if onChange is undefined, the pagination will be unclickable and unnavigable
   const pagination = usePagination({
     page,
     total,
@@ -15,15 +16,25 @@ const Quizpagination = ({page, total, onChange}) => {
   }
 
   const dotsList = pagination.range.map(i => {
+    const style = {
+      cursor: onChange ? 'pointer' : undefined,
+    }
     return (
-      <ActionIcon key={i} onClick={() => onClickHandler(i)}>
+      <div
+        key={i}
+        onClick={() => {
+          if (!onChange) return
+          onClickHandler(i)
+        }}
+        style={style}
+      >
         {i === pagination.active && (
           <DotFilledIcon style={{width: 30, height: 30}} />
         )}
         {i !== pagination.active && (
           <DotIcon style={{DotIcon: 30, height: 30}} />
         )}
-      </ActionIcon>
+      </div>
     )
   })
 

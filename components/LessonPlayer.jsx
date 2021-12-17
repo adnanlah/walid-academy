@@ -8,7 +8,7 @@ const LessonItem = ({children, href, currentLesson, ...props}) => {
         noWrap
         align="start"
         sx={theme => ({
-          backgroundColor: currentLesson ? theme.colors.indigo : null,
+          backgroundColor: currentLesson ? theme.colors.indigo : undefined,
 
           width: '100%',
           margin: 0,
@@ -16,7 +16,7 @@ const LessonItem = ({children, href, currentLesson, ...props}) => {
           '&:hover': {
             cursor: 'pointer',
             backgroundColor: currentLesson
-              ? null
+              ? undefined
               : theme.colorScheme === 'light'
               ? theme.colors.indigo[1]
               : theme.colors.dark[6],
@@ -25,7 +25,7 @@ const LessonItem = ({children, href, currentLesson, ...props}) => {
             color:
               currentLesson && theme.colorScheme === 'light'
                 ? 'white !important'
-                : null,
+                : undefined,
           },
         })}
       >
@@ -45,7 +45,7 @@ LessonItem.Content = function LessonItemContent({children, ...restProps}) {
   )
 }
 
-const Lessonplayer = ({lesson, lessonId, course}) => {
+const Lessonplayer = ({lesson, course}) => {
   const [accordionState, onAccordionChange] = useState(() => {
     const obj = {}
     course.content.forEach((c, idx) => {
@@ -57,19 +57,19 @@ const Lessonplayer = ({lesson, lessonId, course}) => {
   const courseNavigation = course.content.map(c => {
     return (
       <Accordion.Item key={c.id} label={c.title}>
-        {c.lessons.map((lesson, idx) => {
+        {c.lessons.map((lessonItem, idx) => {
           return (
             <LessonItem
-              currentLesson={parseInt(lessonId) === parseInt(lesson.id)}
-              key={lesson.id}
-              href={`${lesson.id}`}
+              currentLesson={parseInt(lesson.id) === parseInt(lessonItem.id)}
+              key={lessonItem.id}
+              href={`${lessonItem.id}`}
             >
               <LessonItem.Number>
-                <Text>{idx}</Text>
+                <Text>{idx + 1}</Text>
               </LessonItem.Number>
               <LessonItem.Content>
                 <Text size="sm" mb="xs" weight={500}>
-                  {lesson.title}
+                  {lessonItem.title}
                 </Text>
                 <Text size="xs" color="dimmed">
                   7 دقائق

@@ -8,13 +8,13 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@mantine/core": "^3.3.5",
-    "@mantine/dates": "^3.3.5",
-    "@mantine/hooks": "^3.3.5",
-    "@mantine/modals": "^3.3.5",
-    "@mantine/next": "^3.3.5",
-    "@mantine/notifications": "^3.3.5",
-    "@mantine/rte": "^3.3.5",
+    "@mantine/core": "^3.4.0",
+    "@mantine/dates": "^3.4.0",
+    "@mantine/hooks": "^3.4.0",
+    "@mantine/modals": "^3.4.0",
+    "@mantine/next": "^3.4.0",
+    "@mantine/notifications": "^3.4.0",
+    "@mantine/rte": "^3.4.0",
     "@modulz/radix-icons": "^4.0.0",
     "dayjs": "^1.10.7",
     "msw": "^0.35.0",
@@ -23,7 +23,7 @@
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "supermemo": "^2.0.17",
-    "swr": "^1.1.0"
+    "swr": "^1.1.1"
   },
   "devDependencies": {
     "eslint": "7.32.0",
