@@ -17,7 +17,7 @@ import {
 } from '@modulz/radix-icons'
 import Layout from 'layouts/Layout'
 import ContentLayout from 'layouts/ContentLayout'
-import Comments from 'components/comments/Comments'
+import Comments from 'components/Comments/Comments'
 import Quiz from 'components/Quiz/Quiz'
 import LessonPlayer from 'components/LessonPlayer'
 import MyBreadcrumbs from 'components/MyBreadcrumbs'

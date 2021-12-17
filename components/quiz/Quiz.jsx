@@ -1,5 +1,5 @@
 import {Button, Center, Group, Paper, Popover, Text} from '@mantine/core'
-import {useState, useReducer} from 'react'
+import {useState} from 'react'
 import DottedPagination from '../DottedPagination'
 import {ReloadIcon, StarFilledIcon} from '@modulz/radix-icons'
 import QuestionOptions from './QuestionOptions'
