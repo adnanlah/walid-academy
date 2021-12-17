@@ -1,6 +1,6 @@
 import {Box, Paper, Title} from '@mantine/core'
-import Layout from 'components/Layout'
-import ContentLayout from 'components/ContentLayout'
+import Layout from 'layouts/Layout'
+import ContentLayout from 'layouts/ContentLayout'
 import MyContainer from 'components/MyContainer'
 import CoursesShowcase from 'components/CoursesShowcase'
 
