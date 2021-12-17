@@ -46,16 +46,6 @@ const useStyles = createStyles(theme => {
   }
 })
 
-function NavItem({href, children, ...restProps}) {
-  return (
-    <Box mx="xs" {...restProps}>
-      <Link href={href} passHref>
-        <Anchor variant="text">{children}</Anchor>
-      </Link>
-    </Box>
-  )
-}
-
 function Nav() {
   const [opened, setOpened] = useState(false)
   const {classes, cx} = useStyles()
@@ -69,9 +59,7 @@ function Nav() {
       </div>
 
       <div className={cx(classes.navLinks, classes.navLinksStart)}>
-        <NavItem href="/blog">المدونة</NavItem>
-
-        <NavItem href="/forum">المنتدى</NavItem>
+        <NavItem href="/browse">اكتشف</NavItem>
 
         <Divider orientation="vertical" size="xs" />
 
@@ -83,7 +71,11 @@ function Nav() {
           <Text>تسجيل دخول</Text>
         </Box>
 
-        <Button color="dark">ابدا من هنا</Button>
+        <Link href="/signup" passHref>
+          <Anchor>
+            <Button color="dark">ابدا من هنا</Button>
+          </Anchor>
+        </Link>
 
         <NavItem href="/dashboard">
           <ActionIcon mr="md" size="lg" variant="outline">
@@ -112,6 +104,16 @@ function Nav() {
         />
       </Modal>
     </nav>
+  )
+}
+
+function NavItem({href, children, ...restProps}) {
+  return (
+    <Box mx="xs" {...restProps}>
+      <Link href={href} passHref>
+        <Anchor variant="text">{children}</Anchor>
+      </Link>
+    </Box>
   )
 }
 
