@@ -1,6 +1,5 @@
 import {Badge, Box, Button, Group} from '@mantine/core'
-import {useState} from '@mantine/hooks'
-import React from 'react'
+import {useState} from 'react'
 
 const Fileinput = ({color = 'dark', buttonContent, ...props}) => {
   const [files, setFiles] = useState(null)
