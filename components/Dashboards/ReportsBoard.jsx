@@ -1,8 +1,14 @@
 import {Anchor, Center, List, Pagination, ThemeIcon, Title} from '@mantine/core'
 import {ChatBubbleIcon, ExclamationTriangleIcon} from '@modulz/radix-icons'
+import {useState} from 'react'
 import {lorem} from '../../util/helpers'
 
 const Reports = () => {
+  const [text20, setText20] = useState('')
+
+  useEffect(() => {
+    setText20(lorem(20))
+  }, [])
   return (
     <div>
       <Title order={3} mb="xl">
@@ -23,7 +29,7 @@ const Reports = () => {
             </ThemeIcon>
           }
         >
-          <Anchor href="/">{lorem(20)}</Anchor>
+          <Anchor href="/">{text20}</Anchor>
         </List.Item>
         <List.Item
           icon={
@@ -32,7 +38,7 @@ const Reports = () => {
             </ThemeIcon>
           }
         >
-          <Anchor href="/">{lorem(20)}</Anchor>
+          <Anchor href="/">{text20}</Anchor>
         </List.Item>
         <List.Item
           icon={
@@ -41,7 +47,7 @@ const Reports = () => {
             </ThemeIcon>
           }
         >
-          <Anchor href="/">{lorem(20)}</Anchor>
+          <Anchor href="/">{text20}</Anchor>
         </List.Item>
       </List>
 

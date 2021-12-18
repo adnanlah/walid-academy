@@ -1,5 +1,4 @@
-import {Anchor, Group, Paper, Text} from '@mantine/core'
-import {lorem} from '../util/helpers'
+import {Anchor, Paper, Text} from '@mantine/core'
 
 const FlashcardCard = ({flashcard, ...restProps}) => {
   return (

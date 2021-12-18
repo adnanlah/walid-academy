@@ -1,6 +1,7 @@
-import {Anchor, Box, Group, Switch, useMantineColorScheme} from '@mantine/core'
+import {Anchor, Box, Group} from '@mantine/core'
 import {useEffect, useState} from 'react'
-import {lorem} from '../util/helpers'
+import MyToggle from 'components/Elements/MyToggle'
+import {lorem} from 'util/helpers'
 
 const FooterLink = ({children, href, ...props}) => {
   return (
@@ -20,8 +21,6 @@ const FooterLink = ({children, href, ...props}) => {
 }
 
 export default function Footer() {
-  const {colorScheme, toggleColorScheme} = useMantineColorScheme()
-  const dark = colorScheme === 'dark'
   const [text5, setText5] = useState('')
 
   useEffect(() => {
@@ -35,13 +34,14 @@ export default function Footer() {
         background:
           theme.colorScheme === 'light'
             ? theme.colors.indigo[9]
-            : theme.colors.dark[9],
+            : theme.colors.dark[1],
       })}
     >
       <div
         style={{
           display: 'flex',
           flexDirection: 'column',
+          alignItems: 'stretch',
           justifyContent: 'space-between',
         }}
       >
@@ -74,12 +74,7 @@ export default function Footer() {
           </div>
         </Group>
         <Box>
-          <Switch
-            size="xl"
-            label={dark ? 'الوضع الليلي' : 'وضغ الضوء'}
-            onChange={() => toggleColorScheme()}
-            color="dark"
-          />
+          <MyToggle />
         </Box>
       </div>
     </Box>
