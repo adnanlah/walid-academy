@@ -12,6 +12,7 @@ import {
   Modal,
   Menu,
   Avatar,
+  Group,
 } from '@mantine/core'
 import {GearIcon} from '@modulz/radix-icons'
 import LoginForm from './LoginForm'
@@ -26,9 +27,6 @@ const useStyles = createStyles(theme => {
           ? theme.colors.gray[0]
           : theme.colors.dark[9],
       padding: `${theme.spacing.md}px 15%`,
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: `center`,
       boxShadow: theme.shadows.xs,
       position: `relative`,
       zIndex: 99,
@@ -113,7 +111,7 @@ function Nav() {
   }, [auth])
 
   return (
-    <nav className={classes.wrapper}>
+    <Group align="stretch" component="nav" noWrap className={classes.wrapper}>
       <div>
         <NavItem href="/">
           <Title order={3}>اكاديمية وليد</Title>
@@ -159,7 +157,7 @@ function Nav() {
           }}
         />
       </Modal>
-    </nav>
+    </Group>
   )
 }
 

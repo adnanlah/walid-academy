@@ -1,7 +1,13 @@
 import {Box, Group, Text} from '@mantine/core'
 import {SquareIcon, CheckboxIcon, BoxModelIcon} from '@modulz/radix-icons'
 
-const Option = ({option, isChecked, isCorrectAnswer, handler, showResults}) => {
+const Option = ({
+  option,
+  isChecked,
+  isCorrectAnswer,
+  onAttempt,
+  showResults,
+}) => {
   const optionBgL = showResults
     ? isCorrectAnswer
       ? '#C6DAB7'
@@ -38,7 +44,7 @@ const Option = ({option, isChecked, isCorrectAnswer, handler, showResults}) => {
       })}
       onClick={() => {
         if (showResults) return
-        handler(option.id)
+        onAttempt(option.id)
       }}
     >
       <Group>

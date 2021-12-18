@@ -15,9 +15,7 @@ const Quiz = ({questions}) => {
   const activeQuestion = questions[activeQuestionIdx]
   const numberOfQuestions = questions.length
 
-  const checkHandle = optionId => {
-    setUserAttempt(optionId)
-  }
+  const userAttemptedHandler = optionId => setUserAttempt(optionId)
 
   const checkAnswer = () => {
     // checking the user's answer
@@ -35,7 +33,7 @@ const Quiz = ({questions}) => {
     setUserAnsweredCorrectly(null)
   }
 
-  const QuestionEndMessage = ({message, icon}) => {
+  const QuestionResultMessage = ({message, icon}) => {
     return (
       <Paper sx={t => ({padding: t.spacing.xl})}>
         <Group>
@@ -61,8 +59,7 @@ const Quiz = ({questions}) => {
     targetButton = <Button onClick={() => nextQuestion()}>السؤال التالي</Button>
   }
 
-  let content
-
+  let content // You either show the questions, or the final result!
   if (activeQuestionIdx < numberOfQuestions) {
     content = (
       <>
@@ -71,7 +68,7 @@ const Quiz = ({questions}) => {
         </Text>
         <QuestionOptions
           question={activeQuestion}
-          checkHandle={checkHandle}
+          onAttempt={userAttemptedHandler}
           userAttempt={userAttempt}
           showResults={showResults}
         />
@@ -138,20 +135,16 @@ const Quiz = ({questions}) => {
           withArrow
           spacing={0}
         >
-          {userAnsweredCorrectly && (
-            <QuestionEndMessage
-              message="احسنت"
-              icon={
+          <QuestionResultMessage
+            message={userAnsweredCorrectly ? 'احسنت' : 'احابة حاطئة'}
+            icon={
+              userAnsweredCorrectly ? (
                 <StarFilledIcon color="gold" style={{width: 40, height: 40}} />
-              }
-            />
-          )}
-          {!userAnsweredCorrectly && (
-            <QuestionEndMessage
-              icon={<ReloadIcon style={{width: 40, height: 40}} />}
-              message="احابة حاطئة"
-            />
-          )}
+              ) : (
+                <ReloadIcon style={{width: 40, height: 40}} />
+              )
+            }
+          />
         </Popover>
 
         <Group>
