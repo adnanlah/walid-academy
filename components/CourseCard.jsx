@@ -2,10 +2,10 @@ import Link from 'next/link'
 import StarRatingDisplay from './StarRatingDisplay'
 import {Anchor, Box, Text, Center} from '@mantine/core'
 
-export default function CourseCard(props) {
+export default function CourseCard({course}) {
   return (
-    <Link href="/courses/1" passHref>
-      <Anchor component="a">
+    <Link href={`/courses/${course.id}`} passHref>
+      <Anchor>
         <Box
           sx={theme => ({
             height: 200,
@@ -18,14 +18,14 @@ export default function CourseCard(props) {
           })}
         >
           <Text weight={700} mb={2}>
-            {props.title}
+            {course.title}
           </Text>
           <Text size="sm" mb={2}>
             اداب وفلسفة
           </Text>
           <Center inline>
             <StarRatingDisplay rating={4} />
-            <Text mr={3}>({props.reviewsCount})</Text>
+            <Text mr={3}>({course.reviewsCount})</Text>
           </Center>
           <Box>
             <Text size="sm">6 ساعات • 22 فيديو</Text>

@@ -33,7 +33,7 @@ const flashcardsReducer = (state, action) => {
   }
 }
 
-const Newflashcard = () => {
+const Newflashcard = ({categories}) => {
   const [flashcardData, setFlashcardData] = useLocalStorageValue({
     key: 'flashcard-data',
     defaultValue: JSON.stringify({
@@ -41,6 +41,8 @@ const Newflashcard = () => {
         title: '',
         description: '',
         branch: null,
+        grade: null,
+        subject: null,
       },
       content: {
         flashcards: [],
@@ -133,21 +135,32 @@ const Newflashcard = () => {
             form.setFieldValue('description', event.currentTarget.value)
           }
         />
-        <Select
-          mb="md"
-          label="اي مجال"
-          placeholder="اختر"
-          required
-          value={form.values.branch}
-          error={form.errors.branch && 'Insert a branch'}
-          onChange={value => form.setFieldValue('branch', value)}
-          data={[
-            {value: 'maths', label: 'رياضيات'},
-            {value: 'physics', label: 'فيزياء'},
-            {value: 'biology', label: 'علوم'},
-            {value: 'french', label: 'فرنسية'},
-          ]}
-        />
+        <Group grow>
+          <Select
+            mb="xl"
+            label="اي سنة"
+            placeholder="اختر"
+            required
+            {...form.getInputProps('grade')}
+            data={categories ? categories.grades : []}
+          />
+          <Select
+            mb="xl"
+            label="اي شعبة"
+            placeholder="اختر"
+            required
+            {...form.getInputProps('branch')}
+            data={categories ? categories.branchs : []}
+          />
+          <Select
+            mb="xl"
+            label="اي مادة"
+            placeholder="اختر"
+            required
+            {...form.getInputProps('subject')}
+            data={categories ? categories.subjects : []}
+          />
+        </Group>
 
         <Button mb="md" onClick={() => setModalOpened('newflashcard')}>
           <Box ml="md">

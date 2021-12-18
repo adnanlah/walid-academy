@@ -16,7 +16,7 @@ export default function CoursesShowcase({api, pagination, ...restProps}) {
   const CoursesList = data?.map((course, idx) => {
     return (
       <Col key={`${course.title}-${idx}`} span={3}>
-        <CourseCard {...course} />
+        <CourseCard course={course} />
       </Col>
     )
   })

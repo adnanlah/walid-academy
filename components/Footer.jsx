@@ -30,7 +30,7 @@ export default function Footer() {
   return (
     <Box
       sx={theme => ({
-        padding: `5% 15%`,
+        padding: `5% 15% 2.5% 15%`,
         background:
           theme.colorScheme === 'light'
             ? theme.colors.indigo[9]

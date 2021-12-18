@@ -15,33 +15,15 @@ import BgLayout from 'layouts/BgLayout'
 import MyContainer from 'components/MyContainer'
 import CoursesShowcase from 'components/CoursesShowcase'
 import Myimage from 'components/MyImage'
-import Flashcardsshowcase from 'components/FlashcardsShowcase'
-import {useEffect, useState} from 'react'
-import {useRouter} from 'next/router'
+import FlashcardsShowcase from 'components/FlashcardsShowcase'
 import {useForm} from '@mantine/hooks'
 
 export default function Browse() {
-  const [queryValue, setQueryValue] = useState('')
-  const router = useRouter()
-  const q = router.query.q
-
   const form = useForm({
     initialValues: {
       query: '',
     },
   })
-
-  const onSearchSubmit = values => {
-    const query = values.query
-
-    window.history.replaceState(null, 'New Page Title', `/search?q=${query}`)
-    setQueryValue(query)
-  }
-
-  useEffect(() => {
-    form.setFieldValue('query', router.query.q)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router.query.q])
 
   return (
     <div>
@@ -54,7 +36,6 @@ export default function Browse() {
               : theme.colors.dark[9],
 
           padding: `${theme.spacing.xl * 2}px 0`,
-
           boxShadow: theme.shadows.md,
         })}
       >
@@ -66,7 +47,7 @@ export default function Browse() {
           <Title style={{color: 'white'}} order={2} mb="xl">
             عزز حياتك المهنية.
           </Title>
-          <form onSubmit={form.onSubmit(onSearchSubmit)}>
+          <form onSubmit={form.onSubmit(values => console.log(values))}>
             <Group align="start" style={{width: '50%'}}>
               <TextInput
                 size="md"
@@ -86,11 +67,11 @@ export default function Browse() {
         </MyContainer>
       </Box>
       <MyContainer component="main" py="xl">
-        <Box component="section">
+        <Box component="section" mb="xl">
           <Title order={2} mb="xl">
             تصفية حسب المواد
           </Title>
-          <Grid mb="xl">
+          <Grid>
             {[...Array(7)].map((_, idx) => (
               <Col span={3} key={idx}>
                 <Anchor href="/">
@@ -134,7 +115,7 @@ export default function Browse() {
           <Title order={2} mb="xl">
             اكتشف الدورات والبرامج
           </Title>
-          <Flashcardsshowcase
+          <FlashcardsShowcase
             pagination={false}
             api={`https://my.backend/flashcards?limit=4`}
           />
