@@ -6,7 +6,7 @@ import MyContainer from 'components/MyContainer'
 import SignupForm from 'components/SignupForm'
 import {createStyles} from '@mantine/styles'
 import {lorem} from 'util/helpers'
-import {useEffect, useRef} from 'react'
+import {useEffect, useState} from 'react'
 
 const useStyles = createStyles(theme => {
   return {
@@ -53,10 +53,10 @@ const useStyles = createStyles(theme => {
 
 export default function Signup({divisions}) {
   const {classes} = new useStyles()
-  const text50 = useRef()
+  const [text50, setText50] = useState('')
 
   useEffect(() => {
-    text50.current = lorem(50)
+    setText50(lorem(50))
   }, [])
 
   return (
