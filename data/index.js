@@ -163,12 +163,125 @@ const chapters = [
   {
     id: 0,
     title: 'الشابتر الاول',
-    courseId: 0,
   },
   {
     id: 1,
     title: 'الشابتر الثاني',
-    courseId: 1,
+  },
+]
+
+const questions = [
+  {
+    id: 1,
+    imageUrl: 'https://placekitten.com/408/287',
+    content: 'السؤاال الاول هو كاالتالي',
+    correctAnswer: 3,
+    options: [
+      {
+        id: 1,
+        content: 'الخيار رقم واحد هنا والخيار الثاني هناك',
+        isCorrent: false,
+      },
+      {
+        id: 2,
+        content: 'الخيار رقم واحد هنا والخيار الثاني هناك',
+        isCorrent: false,
+      },
+      {
+        id: 3,
+        content: 'الخيار رقم واحد هنا والخيار الثاني هناك',
+        isCorrent: false,
+      },
+    ],
+  },
+  {
+    id: 2,
+    imageUrl: 'https://placekitten.com/408/287',
+    content: 'السؤاال الاول هو كاالتالي',
+    correctAnswer: 1,
+    options: [
+      {
+        id: 1,
+        content: 'الخيار رقم واحد هنا والخيار الثاني هناك',
+        isCorrent: false,
+      },
+      {
+        id: 2,
+        content: 'الخيار رقم واحد هنا والخيار الثاني هناك',
+        isCorrent: false,
+      },
+      {
+        id: 3,
+        content: 'الخيار رقم واحد هنا والخيار الثاني هناك',
+        isCorrent: false,
+      },
+      {
+        id: 4,
+        content: 'الخيار رقم واحد هنا والخيار الثاني هناك',
+        isCorrent: true,
+      },
+      {
+        id: 5,
+        content: 'الخيار رقم واحد هنا والخيار الثاني هناك',
+        isCorrent: true,
+      },
+    ],
+  },
+  {
+    id: 3,
+    imageUrl: 'https://placekitten.com/408/287',
+    content: 'السؤاال الاول هو كاالتالي',
+    correctAnswer: 2,
+    options: [
+      {
+        id: 1,
+        content: 'الخيار رقم واحد هنا والخيار الثاني هناك',
+        isCorrent: false,
+      },
+      {
+        id: 2,
+        content: 'الخيار رقم واحد هنا والخيار الثاني هناك',
+        isCorrent: false,
+      },
+      {
+        id: 3,
+        content: 'الخيار رقم واحد هنا والخيار الثاني هناك',
+        isCorrent: false,
+      },
+      {
+        id: 4,
+        content: 'الخيار رقم واحد هنا والخيار الثاني هناك',
+        isCorrent: true,
+      },
+    ],
+  },
+  {
+    id: 4,
+    imageUrl: 'https://placekitten.com/408/287',
+    content: 'السؤاال الاول هو كاالتالي',
+    correctAnswer: 3,
+    options: [
+      {
+        id: 1,
+        content: 'الخيار رقم واحد هنا والخيار الثاني هناك',
+        isCorrent: false,
+      },
+      {
+        id: 2,
+        content: 'الخيار رقم واحد هنا والخيار الثاني هناك',
+        isCorrent: false,
+      },
+      {
+        id: 3,
+        content: 'الخيار رقم واحد هنا والخيار الثاني هناك',
+        isCorrent: false,
+      },
+      {
+        id: 4,
+        content: 'الخيار رقم واحد هنا والخيار الثاني هناك',
+        isCorrent: true,
+      },
+    ],
   },
 ]
 
@@ -182,6 +295,7 @@ const lessons = [
     chapterId: 0,
     courseId: 0,
     length: 120,
+    quiz: questions,
   },
   {
     id: 2,
@@ -202,6 +316,7 @@ const lessons = [
     chapterId: 0,
     courseId: 0,
     length: 120,
+    quiz: questions,
   },
   {
     id: 4,
@@ -223,6 +338,7 @@ const lessons = [
     chapterId: 1,
     courseId: 0,
     length: 120,
+    quiz: questions,
   },
 
   {
@@ -234,6 +350,7 @@ const lessons = [
     chapterId: 1,
     courseId: 0,
     length: 120,
+    quiz: questions,
   },
   {
     id: 7,
@@ -244,120 +361,7 @@ const lessons = [
     chapterId: 1,
     courseId: 0,
     length: 120,
-    quiz: [
-      {
-        id: 1,
-        imageUrl: 'https://placekitten.com/408/287',
-        content: 'السؤاال الاول هو كاالتالي',
-        correctAnswer: 3,
-        options: [
-          {
-            id: 1,
-            content: 'الخيار رقم واحد هنا والخيار الثاني هناك',
-            isCorrent: false,
-          },
-          {
-            id: 2,
-            content: 'الخيار رقم واحد هنا والخيار الثاني هناك',
-            isCorrent: false,
-          },
-          {
-            id: 3,
-            content: 'الخيار رقم واحد هنا والخيار الثاني هناك',
-            isCorrent: false,
-          },
-        ],
-      },
-      {
-        id: 2,
-        imageUrl: 'https://placekitten.com/408/287',
-        content: 'السؤاال الاول هو كاالتالي',
-        correctAnswer: 1,
-        options: [
-          {
-            id: 1,
-            content: 'الخيار رقم واحد هنا والخيار الثاني هناك',
-            isCorrent: false,
-          },
-          {
-            id: 2,
-            content: 'الخيار رقم واحد هنا والخيار الثاني هناك',
-            isCorrent: false,
-          },
-          {
-            id: 3,
-            content: 'الخيار رقم واحد هنا والخيار الثاني هناك',
-            isCorrent: false,
-          },
-          {
-            id: 4,
-            content: 'الخيار رقم واحد هنا والخيار الثاني هناك',
-            isCorrent: true,
-          },
-          {
-            id: 5,
-            content: 'الخيار رقم واحد هنا والخيار الثاني هناك',
-            isCorrent: true,
-          },
-        ],
-      },
-      {
-        id: 3,
-        imageUrl: 'https://placekitten.com/408/287',
-        content: 'السؤاال الاول هو كاالتالي',
-        correctAnswer: 2,
-        options: [
-          {
-            id: 1,
-            content: 'الخيار رقم واحد هنا والخيار الثاني هناك',
-            isCorrent: false,
-          },
-          {
-            id: 2,
-            content: 'الخيار رقم واحد هنا والخيار الثاني هناك',
-            isCorrent: false,
-          },
-          {
-            id: 3,
-            content: 'الخيار رقم واحد هنا والخيار الثاني هناك',
-            isCorrent: false,
-          },
-          {
-            id: 4,
-            content: 'الخيار رقم واحد هنا والخيار الثاني هناك',
-            isCorrent: true,
-          },
-        ],
-      },
-      {
-        id: 4,
-        imageUrl: 'https://placekitten.com/408/287',
-        content: 'السؤاال الاول هو كاالتالي',
-        correctAnswer: 3,
-        options: [
-          {
-            id: 1,
-            content: 'الخيار رقم واحد هنا والخيار الثاني هناك',
-            isCorrent: false,
-          },
-          {
-            id: 2,
-            content: 'الخيار رقم واحد هنا والخيار الثاني هناك',
-            isCorrent: false,
-          },
-          {
-            id: 3,
-            content: 'الخيار رقم واحد هنا والخيار الثاني هناك',
-            isCorrent: false,
-          },
-          {
-            id: 4,
-            content: 'الخيار رقم واحد هنا والخيار الثاني هناك',
-            isCorrent: true,
-          },
-        ],
-      },
-    ],
+    quiz: questions,
   },
 ]
 

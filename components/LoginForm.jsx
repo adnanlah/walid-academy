@@ -1,16 +1,20 @@
 import {
   Anchor,
-  Box,
   Button,
   Center,
   PasswordInput,
   TextInput,
   Title,
 } from '@mantine/core'
-import {useForm} from '@mantine/hooks'
+import {useForm, useLocalStorageValue} from '@mantine/hooks'
 import Link from 'next/link'
 
 const LoginForm = ({closeModal}) => {
+  const [value, setValue] = useLocalStorageValue({
+    key: 'is-authenticated',
+    defaultValue: false,
+  })
+
   const form = useForm({
     initialValues: {
       email: '',
@@ -22,8 +26,27 @@ const LoginForm = ({closeModal}) => {
     },
   })
 
+  const login = ({email}) => {
+    console.log('login func')
+    const requestOptions = {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({email}),
+    }
+
+    fetch('https://my.backend/login', requestOptions)
+      .then(response => response.json())
+      .then(res => {
+        if (res.email) {
+          setValue(true)
+        }
+
+        return res.data
+      })
+  }
+
   return (
-    <form onSubmit={form.onSubmit(values => console.log(values))}>
+    <form onSubmit={form.onSubmit(login)}>
       <Title align="center" mb="xl" order={3}>
         تسجيل دخول
       </Title>
@@ -43,7 +66,7 @@ const LoginForm = ({closeModal}) => {
         {...form.getInputProps('password')}
       />
 
-      <Button fullWidth mb="xs" type="submit">
+      <Button type="submit" fullWidth mb="xs">
         تسجيل دخول
       </Button>
 

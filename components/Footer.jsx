@@ -1,12 +1,5 @@
-import {
-  Anchor,
-  Box,
-  Center,
-  Group,
-  Switch,
-  Text,
-  useMantineColorScheme,
-} from '@mantine/core'
+import {Anchor, Box, Group, Switch, useMantineColorScheme} from '@mantine/core'
+import {useEffect, useState} from 'react'
 import {lorem} from '../util/helpers'
 
 const FooterLink = ({children, href, ...props}) => {
@@ -28,7 +21,12 @@ const FooterLink = ({children, href, ...props}) => {
 
 export default function Footer() {
   const {colorScheme, toggleColorScheme} = useMantineColorScheme()
-  // const dark = colorScheme === 'dark'
+  const dark = colorScheme === 'dark'
+  const [text5, setText5] = useState('')
+
+  useEffect(() => {
+    setText5(lorem(5))
+  }, [])
 
   return (
     <Box
@@ -49,36 +47,36 @@ export default function Footer() {
       >
         <Group position="apart" align="start" style={{marginBottom: '10%'}}>
           <div>
-            <FooterLink href="#">{lorem(3)}</FooterLink>
+            <FooterLink href="#">{text5}</FooterLink>
           </div>
           <div>
             <FooterLink href="#" mb="md">
-              {lorem(3)}
+              {text5}
             </FooterLink>
             <FooterLink href="#" mb="md">
-              {lorem(3)}
+              {text5}
             </FooterLink>
             <FooterLink href="#" mb="md">
-              {lorem(3)}
+              {text5}
             </FooterLink>
           </div>
           <div>
             <FooterLink href="#" mb="md">
-              {lorem(3)}
+              {text5}
             </FooterLink>
             <FooterLink href="#" mb="md">
-              {lorem(3)}
+              {text5}
             </FooterLink>
             <FooterLink href="#" mb="md">
-              {lorem(3)}
+              {text5}
             </FooterLink>
-            <FooterLink href="#">{lorem(3)}</FooterLink>
+            <FooterLink href="#">{text5}</FooterLink>
           </div>
         </Group>
         <Box>
           <Switch
             size="xl"
-            label="Right to Left"
+            label={dark ? 'الوضع الليلي' : 'وضغ الضوء'}
             onChange={() => toggleColorScheme()}
             color="dark"
           />

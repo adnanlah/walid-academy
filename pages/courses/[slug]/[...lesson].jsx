@@ -26,6 +26,25 @@ import {arabicDict} from 'util/academicDict'
 
 const Lesson = ({lesson, course}) => {
   const [quizOpened, setquizOpened] = useState(false)
+  let quizElement = null
+
+  if (lesson.quiz) {
+    quizElement = (
+      <>
+        <Text size="md" mb="xs" weight={700}>
+          تمارين
+        </Text>
+        <div onClick={() => setquizOpened(true)}>
+          <Group>
+            <ThemeIcon color="indigo" size="xl" variant="light">
+              <QuestionMarkIcon />
+            </ThemeIcon>
+            <Text style={{cursor: 'pointer'}}>تمرين 1</Text>
+          </Group>
+        </div>
+      </>
+    )
+  }
   return (
     <main>
       <section style={{width: '80%', margin: '0 auto'}}>
@@ -82,19 +101,7 @@ const Lesson = ({lesson, course}) => {
           <Text>{course.description}</Text>
         </Box>
 
-        <Box mb="md">
-          <Text size="md" mb="xs" weight={700}>
-            تمارين
-          </Text>
-          <div onClick={() => setquizOpened(true)}>
-            <Group>
-              <ThemeIcon color="indigo" size="xl" variant="light">
-                <QuestionMarkIcon />
-              </ThemeIcon>
-              <Text style={{cursor: 'pointer'}}>تمرين 1</Text>
-            </Group>
-          </div>
-        </Box>
+        <Box mb="md">{quizElement}</Box>
 
         <Box mb="md">
           <Text size="md" mb="xs" weight={700}>

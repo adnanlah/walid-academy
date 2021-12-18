@@ -49,7 +49,7 @@ function CustomTitle(props) {
   )
 }
 
-export default function Home({content}) {
+export default function Home({}) {
   const {classes} = useStyles()
 
   function Repeat(props) {
@@ -77,7 +77,7 @@ export default function Home({content}) {
             <SimpleGrid cols={4}>
               <Repeat numTimes={8}>
                 {index => (
-                  <Link href="/courses/1">
+                  <Link key={index} href="/courses/1">
                     <a>
                       <div className={classes.courseItem}>
                         <div className={classes.courseImage}>
@@ -111,7 +111,7 @@ export default function Home({content}) {
             <SimpleGrid cols={4}>
               <Repeat numTimes={4}>
                 {index => (
-                  <div className={classes.courseItem}>
+                  <div key={index} className={classes.courseItem}>
                     <div className={classes.courseImage}></div>
                     <div className={classes.courseTitle}>تمارين</div>
                   </div>

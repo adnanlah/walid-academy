@@ -7,7 +7,6 @@ import {
   chapters,
   reviews,
   flashcards,
-  flashcards2,
   grades,
   branchs,
   subjects,
@@ -79,7 +78,12 @@ export const handlers = [
       )
     }
 
-    course['content'] = chapters.map(c => ({...c, lessons}))
+    // Here I append 2 chapter for each course no matter what
+    // But I only append the lesson which belong to their respective chapter
+    course['content'] = chapters.map(c => ({
+      ...c,
+      lessons: lessons.filter(lesson => lesson.chapterId === c.id),
+    }))
 
     return res(ctx.json(course))
   }),
@@ -182,6 +186,17 @@ export const handlers = [
         provinces,
         districts,
         municipalities,
+      }),
+    )
+  }),
+
+  rest.post('https://my.backend/login', (req, res, ctx) => {
+    console.log('logiiiing handler')
+    const {email} = req.body
+    return res(
+      ctx.json({
+        email,
+        fullname: 'محمد علي',
       }),
     )
   }),

@@ -6,6 +6,7 @@ import MyContainer from 'components/MyContainer'
 import SignupForm from 'components/SignupForm'
 import {createStyles} from '@mantine/styles'
 import {lorem} from 'util/helpers'
+import {useEffect, useRef} from 'react'
 
 const useStyles = createStyles(theme => {
   return {
@@ -52,6 +53,11 @@ const useStyles = createStyles(theme => {
 
 export default function Signup({divisions}) {
   const {classes} = new useStyles()
+  const text50 = useRef()
+
+  useEffect(() => {
+    text50.current = lorem(50)
+  }, [])
 
   return (
     <main>
@@ -93,7 +99,7 @@ export default function Signup({divisions}) {
                   </ThemeIcon>
                   <Text>هل يمكنني الإلغاء في أي وقت؟</Text>
                 </Group>
-                <Text>{lorem(50)}</Text>
+                <Text>{text50}</Text>
               </div>
             </Col>
             <Col span={6}>
@@ -104,7 +110,7 @@ export default function Signup({divisions}) {
                   </ThemeIcon>
                   <Text>هل يمكنني الإلغاء في أي وقت؟</Text>
                 </Group>
-                <Text>{lorem(50)}</Text>
+                <Text>{text50}</Text>
               </div>
             </Col>
             <Col span={6}>
@@ -115,7 +121,7 @@ export default function Signup({divisions}) {
                   </ThemeIcon>
                   <Text>هل يمكنني الإلغاء في أي وقت؟</Text>
                 </Group>
-                <Text>{lorem(50)}</Text>
+                <Text>{text50}</Text>
               </div>
             </Col>
             <Col span={6}>
@@ -126,7 +132,7 @@ export default function Signup({divisions}) {
                   </ThemeIcon>
                   <Text>هل يمكنني الإلغاء في أي وقت؟</Text>
                 </Group>
-                <Text>{lorem(50)}</Text>
+                <Text>{text50}</Text>
               </div>
             </Col>
           </Grid>
