@@ -34,7 +34,7 @@ export default function Footer() {
         background:
           theme.colorScheme === 'light'
             ? theme.colors.indigo[9]
-            : theme.colors.dark[1],
+            : theme.colors.dark[9],
       })}
     >
       <div
