@@ -1,6 +1,6 @@
 import {Box, Paper, Title} from '@mantine/core'
 import Layout from 'layouts/Layout'
-import ContentLayout from 'layouts/ContentLayout'
+import BgLayout from 'layouts/BgLayout'
 import MyContainer from 'components/MyContainer'
 import CoursesShowcase from 'components/CoursesShowcase'
 
@@ -30,7 +30,7 @@ export default function User({user}) {
 User.getLayout = function getLayout(page) {
   return (
     <Layout>
-      <ContentLayout>{page}</ContentLayout>
+      <BgLayout>{page}</BgLayout>
     </Layout>
   )
 }

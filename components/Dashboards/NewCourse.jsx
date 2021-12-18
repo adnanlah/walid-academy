@@ -158,7 +158,7 @@ const NewCourse = ({categories}) => {
 
   return (
     <div>
-      <Title order={4} mb="md">
+      <Title order={4} mb="xl">
         إنشاء كورس جديد
       </Title>
       <form
@@ -167,13 +167,13 @@ const NewCourse = ({categories}) => {
         })}
       >
         <TextInput
-          mb="xs"
+          mb="md"
           label="غنوان الكورس"
           required
           {...form.getInputProps('title')}
         />
         <Textarea
-          mb="xs"
+          mb="md"
           label="نبدة عن الكورس"
           required
           {...form.getInputProps('description')}
@@ -204,7 +204,7 @@ const NewCourse = ({categories}) => {
             data={categories ? categories.subjects : []}
           />
         </Group>
-        <Group align="end" mb="xs">
+        <Group align="end" mb="md">
           <Button onClick={() => setModalOpened('newchapter')}>
             شابتر جديد
           </Button>
@@ -217,7 +217,7 @@ const NewCourse = ({categories}) => {
           styles={theme => {
             return {
               item: {
-                marginBottom: theme.spacing.xs,
+                marginBottom: theme.spacing.md,
               },
               control: {
                 textAlign: 'right',
@@ -235,13 +235,13 @@ const NewCourse = ({categories}) => {
               label={chapter.name}
             >
               <Group
-                sx={theme => ({padding: theme.spacing.xs})}
+                sx={theme => ({padding: theme.spacing.md})}
                 position="apart"
-                mb="xs"
+                mb="md"
               >
                 <div>
                   <Button
-                    ml="xs"
+                    ml="md"
                     onClick={() => {
                       setChapterId(chapter.id)
                       setModalOpened('newlesson')
@@ -256,7 +256,7 @@ const NewCourse = ({categories}) => {
                       setDataToBeUpdated(chapter)
                       setModalOpened('updatechapter')
                     }}
-                    ml="xs"
+                    ml="md"
                     color="gray"
                   >
                     <Pencil1Icon />
@@ -284,9 +284,9 @@ const NewCourse = ({categories}) => {
                           theme.colorScheme === 'light'
                             ? theme.colors.gray[0]
                             : theme.colors.dark[8],
-                        marginBottom: theme.spacing.xs,
-                        padding: theme.spacing.xs,
-                        borderRadius: theme.spacing.xs,
+                        marginBottom: theme.spacing.md,
+                        padding: theme.spacing.md,
+                        borderRadius: theme.spacing.md,
                       })}
                       position="apart"
                       key={`${lesson.id}-${lessonIdx}-${lesson.content}`}
@@ -306,7 +306,7 @@ const NewCourse = ({categories}) => {
                             setDataToBeUpdated(lesson)
                             setModalOpened('updatelesson')
                           }}
-                          ml="xs"
+                          ml="md"
                           color="gray"
                         >
                           <Pencil1Icon />

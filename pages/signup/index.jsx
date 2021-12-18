@@ -1,7 +1,7 @@
-import {Col, Grid, Group, Text, ThemeIcon, Title} from '@mantine/core'
+import {Button, Col, Grid, Group, Text, ThemeIcon, Title} from '@mantine/core'
 import {InfoCircledIcon} from '@modulz/radix-icons'
 import Layout from 'layouts/Layout'
-import ContentLayout from 'layouts/ContentLayout'
+import BgLayout from 'layouts/BgLayout'
 import MyContainer from 'components/MyContainer'
 import SignupForm from 'components/SignupForm'
 import {createStyles} from '@mantine/styles'
@@ -63,6 +63,13 @@ export default function Signup({divisions}) {
     <main>
       <section className={classes.form}>
         <MyContainer>
+          <Button
+            onClick={() => {
+              throw new Error('clicked')
+            }}
+          >
+            Click for error
+          </Button>
           <Grid gutter={75} style={{minHeight: '100vh'}}>
             <Col span={5}>
               <div className={classes.right}>
@@ -145,6 +152,14 @@ export default function Signup({divisions}) {
 export async function getStaticProps() {
   const response = await fetch(`https://my.backend/divisions`)
 
+  if (response.status === 500) {
+    return {
+      redirect: {
+        destination: '/500',
+      },
+    }
+  }
+
   if (!response.ok) {
     // redirect to 404 page
     return {
@@ -164,7 +179,7 @@ export async function getStaticProps() {
 Signup.getLayout = function getLayout(page) {
   return (
     <Layout>
-      <ContentLayout>{page}</ContentLayout>
+      <BgLayout>{page}</BgLayout>
     </Layout>
   )
 }

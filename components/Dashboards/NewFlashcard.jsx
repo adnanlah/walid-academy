@@ -105,7 +105,7 @@ const Newflashcard = () => {
 
   return (
     <div>
-      <Title order={4} mb="md">
+      <Title order={4} mb="xl">
         إنشاء فلاشكارد جديد
       </Title>
       <form
@@ -114,7 +114,7 @@ const Newflashcard = () => {
         })}
       >
         <TextInput
-          mb="xs"
+          mb="md"
           label="غنوان الفلاشكارد"
           required
           value={form.values.title}
@@ -124,7 +124,7 @@ const Newflashcard = () => {
           }
         />
         <Textarea
-          mb="xs"
+          mb="md"
           label="نبدة عن الفلاشكارد"
           required
           value={form.values.description}
@@ -134,7 +134,7 @@ const Newflashcard = () => {
           }
         />
         <Select
-          mb="xs"
+          mb="md"
           label="اي مجال"
           placeholder="اختر"
           required
@@ -149,20 +149,20 @@ const Newflashcard = () => {
           ]}
         />
 
-        <Button mb="xs" onClick={() => setModalOpened('newflashcard')}>
-          <Box ml="xs">
+        <Button mb="md" onClick={() => setModalOpened('newflashcard')}>
+          <Box ml="md">
             <PlusIcon />
           </Box>
           فلاشكارد جديد
         </Button>
 
-        <Grid gutter="xl" mb="xs">
+        <Grid gutter="xl" mb="md">
           {flashcards.slice(from, to).map(fc => {
             return (
               <Col span={6} key={fc.id}>
                 <Group
                   sx={theme => ({
-                    padding: theme.spacing.xs,
+                    padding: theme.spacing.md,
                     backgroundColor:
                       theme.colorScheme === 'light'
                         ? theme.colors.gray[0]
@@ -204,7 +204,7 @@ const Newflashcard = () => {
             page={activePage}
             onChange={setPage}
             total={numberOfPages}
-            mb="xs"
+            mb="md"
           />
         </Center>
 

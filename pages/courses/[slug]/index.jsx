@@ -22,7 +22,7 @@ import {
   TimerIcon,
 } from '@modulz/radix-icons'
 import Layout from 'layouts/Layout'
-import ContentLayout from 'layouts/ContentLayout'
+import BgLayout from 'layouts/BgLayout'
 import MyContainer from 'components/MyContainer'
 import StarRatingDisplay from 'components/StarRatingDisplay'
 import MyBreadcrumbs from 'components/MyBreadcrumbs'
@@ -241,7 +241,7 @@ const InfoCardItem = ({icon, children, ...restProps}) => {
 Course.getLayout = function getLayout(page) {
   return (
     <Layout>
-      <ContentLayout>{page}</ContentLayout>
+      <BgLayout>{page}</BgLayout>
     </Layout>
   )
 }

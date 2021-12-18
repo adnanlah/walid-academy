@@ -1,6 +1,6 @@
 - componments structure: where should I store the component that I only use in
   one page like Reviews
-- MyContainer
+- MyContainer paddings
 
 # Tasks yet to be done
 

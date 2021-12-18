@@ -8,7 +8,7 @@ import {
   FileTextIcon,
 } from '@modulz/radix-icons'
 import Layout from 'layouts/Layout'
-import ContentLayout from 'layouts/ContentLayout'
+import BgLayout from 'layouts/BgLayout'
 import MyContainer from 'components/MyContainer'
 import NewCourse from 'components/Dashboards/NewCourse'
 import NewFlashcard from 'components/Dashboards/NewFlashcard'
@@ -93,7 +93,7 @@ export default function Dashboard() {
 Dashboard.getLayout = function getLayout(page) {
   return (
     <Layout>
-      <ContentLayout>{page}</ContentLayout>
+      <BgLayout>{page}</BgLayout>
     </Layout>
   )
 }

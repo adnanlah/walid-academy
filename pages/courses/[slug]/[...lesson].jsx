@@ -16,7 +16,7 @@ import {
   TwitterLogoIcon,
 } from '@modulz/radix-icons'
 import Layout from 'layouts/Layout'
-import ContentLayout from 'layouts/ContentLayout'
+import BgLayout from 'layouts/BgLayout'
 import Comments from 'components/Comments/Comments'
 import Quiz from 'components/Quiz/Quiz'
 import LessonPlayer from 'components/LessonPlayer'
@@ -154,7 +154,7 @@ const Lesson = ({lesson, course}) => {
 Lesson.getLayout = function getLayout(page) {
   return (
     <Layout>
-      <ContentLayout>{page}</ContentLayout>
+      <BgLayout>{page}</BgLayout>
     </Layout>
   )
 }

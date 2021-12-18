@@ -11,7 +11,7 @@ import {
 } from '@mantine/core'
 import {MagnifyingGlassIcon} from '@modulz/radix-icons'
 import Layout from 'layouts/Layout'
-import ContentLayout from 'layouts/ContentLayout'
+import BgLayout from 'layouts/BgLayout'
 import MyContainer from 'components/MyContainer'
 import CoursesShowcase from 'components/CoursesShowcase'
 import Myimage from 'components/MyImage'
@@ -147,7 +147,7 @@ export default function Browse() {
 Browse.getLayout = function getLayout(page) {
   return (
     <Layout>
-      <ContentLayout>{page}</ContentLayout>
+      <BgLayout>{page}</BgLayout>
     </Layout>
   )
 }

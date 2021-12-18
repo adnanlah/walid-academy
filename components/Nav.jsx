@@ -129,7 +129,7 @@ function Nav() {
 
         <Link href="/signup" passHref>
           <Anchor>
-            <Button color="dark">ابدا من هنا</Button>
+            <Button>ابدا من هنا</Button>
           </Anchor>
         </Link>
 

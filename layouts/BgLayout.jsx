@@ -1,6 +1,6 @@
 import {Box} from '@mantine/core'
 
-export default function ContentLayout({children}) {
+export default function BgLayout({children}) {
   return (
     <Box
       sx={theme => ({

@@ -1,7 +1,7 @@
 import {ActionIcon, Avatar, Box, Group, Text, Title} from '@mantine/core'
 import {Share1Icon, TwitterLogoIcon} from '@modulz/radix-icons'
 import Layout from 'layouts/Layout'
-import ContentLayout from 'layouts/ContentLayout'
+import BgLayout from 'layouts/BgLayout'
 import MyBreadcrumbs from 'components/MyBreadcrumbs'
 import Flashcard from 'components/Flashcards/Flashcard'
 
@@ -71,7 +71,7 @@ export default function Flashcards({flashcard}) {
 Flashcards.getLayout = function getLayout(page) {
   return (
     <Layout>
-      <ContentLayout>{page}</ContentLayout>
+      <BgLayout>{page}</BgLayout>
     </Layout>
   )
 }

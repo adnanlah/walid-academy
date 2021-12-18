@@ -1,5 +1,5 @@
 import Layout from 'layouts/Layout'
-import ContentLayout from 'layouts/ContentLayout'
+import BgLayout from 'layouts/BgLayout'
 
 const Settings = () => {
   return <div>User settings</div>
@@ -8,7 +8,7 @@ const Settings = () => {
 Settings.getLayout = function getLayout(page) {
   return (
     <Layout>
-      <ContentLayout>{page}</ContentLayout>
+      <BgLayout>{page}</BgLayout>
     </Layout>
   )
 }
