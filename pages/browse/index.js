@@ -75,7 +75,7 @@ export default function Browse() {
             {[...Array(7)].map((_, idx) => (
               <Col span={3} key={idx}>
                 <Anchor href="/">
-                  <Group>
+                  <Group noWrap>
                     <Myimage
                       width={70}
                       height={70}

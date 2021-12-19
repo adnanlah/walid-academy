@@ -104,9 +104,7 @@ const Flashcard = ({flashcardData}) => {
 
       <Progress
         radius={0}
-        color="dark"
         value={Math.ceil(((cardIdx + 1) / lengthOfSessionCards) * 100)}
-        striped
       />
       {/* <Group position="apart">
         <Title order={4}>Session: {session}</Title>

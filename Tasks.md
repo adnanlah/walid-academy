@@ -1,9 +1,16 @@
-- componments structure: where should I store the component that I only use in
-  one page like Reviews
 - MyContainer paddings
 - dark mode
-- handlers names
-- use page
+- course card teacher name
+- course discuss bubble icon color
+- review 0 starts by default
+- hover over lesson
+- lesson player border bottom on hover
+- hover over coursegrid cards
+- spacing between sections
+- flashcard card bg in dark mode
+- flashcard is slow in loading
+- disable flashcard options before reading the answer
+- flashcard score
 
 # Tasks yet to be done
 

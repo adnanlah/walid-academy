@@ -9,6 +9,10 @@ const branchs = [
   {value: 'math', label: 'شعبة رياضيات'},
   {value: 'management', label: 'شعبة تسيير واقتصاد'},
   {value: 'science', label: 'شعبة علوم طبيعة وحياة'},
+  {value: 'lit', label: 'شعبة علوم طبيعة وحياة'},
+  {value: 'langues', label: 'شعبة علوم طبيعة وحياة'},
+  {value: 'science', label: 'شعبة علوم طبيعة وحياة'},
+  {value: 'science', label: 'شعبة علوم طبيعة وحياة'},
 ]
 
 const subjects = [

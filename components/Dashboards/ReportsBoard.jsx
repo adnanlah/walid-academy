@@ -1,6 +1,6 @@
 import {Anchor, Center, List, Pagination, ThemeIcon, Title} from '@mantine/core'
 import {ChatBubbleIcon, ExclamationTriangleIcon} from '@modulz/radix-icons'
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import {lorem} from '../../util/helpers'
 
 const Reports = () => {
