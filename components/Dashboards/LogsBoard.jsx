@@ -1,5 +1,5 @@
 import {Center, List, Pagination, Title} from '@mantine/core'
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import {lorem} from '../../util/helpers'
 
 const Logs = () => {
