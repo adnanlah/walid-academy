@@ -63,13 +63,6 @@ export default function Signup({divisions}) {
     <main>
       <section className={classes.form}>
         <MyContainer>
-          <Button
-            onClick={() => {
-              throw new Error('clicked')
-            }}
-          >
-            Click for error
-          </Button>
           <Grid gutter={75} style={{minHeight: '100vh'}}>
             <Col span={5}>
               <div className={classes.right}>
