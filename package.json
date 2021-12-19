@@ -23,6 +23,8 @@
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-toggle": "^4.1.2",
+    "stylis": "^4.0.13",
+    "stylis-plugin-rtl": "^2.1.1",
     "supermemo": "^2.0.17",
     "swr": "^1.1.1"
   },

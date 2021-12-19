@@ -1,16 +1,8 @@
-import {Center, Group, Progress, Title} from '@mantine/core'
+import {Center, Progress} from '@mantine/core'
 import {useCallback, useEffect, useRef, useState} from 'react'
 import {supermemo} from './supermemo'
+import {shuffleArray} from 'util/helpers'
 import Card from './Card'
-
-const shuffleArray = arr => {
-  const newArr = arr.slice()
-  for (let i = newArr.length - 1; i > 0; i--) {
-    const rand = Math.floor(Math.random() * (i + 1))
-    ;[newArr[i], newArr[rand]] = [newArr[rand], newArr[i]]
-  }
-  return newArr
-}
 
 const practice = (flashcard, grade, session) => {
   const {interval, repetition, efactor} = supermemo(flashcard, grade)
@@ -94,7 +86,7 @@ const Flashcard = ({flashcardData}) => {
         <Card
           key={Math.random()}
           card={sessionCards[cardIdx]}
-          reviewHandler={reviewHandler}
+          onReview={reviewHandler}
         />
       )}
 

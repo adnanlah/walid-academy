@@ -13,9 +13,9 @@ import {MagnifyingGlassIcon} from '@modulz/radix-icons'
 import Layout from 'layouts/Layout'
 import BgLayout from 'layouts/BgLayout'
 import MyContainer from 'components/MyContainer'
-import CoursesShowcase from 'components/CoursesShowcase'
+import CoursesGrid from 'components/CoursesGrid'
 import Myimage from 'components/MyImage'
-import FlashcardsShowcase from 'components/FlashcardsShowcase'
+import FlashcardsGrid from 'components/FlashcardsGrid'
 import {useForm} from '@mantine/hooks'
 
 export default function Browse() {
@@ -97,25 +97,27 @@ export default function Browse() {
           <Title order={4} mb="xl">
             اكتشف الدورات والبرامج
           </Title>
-          <CoursesShowcase
+          <CoursesGrid
             mb="xl"
             pagination={false}
-            api={`https://my.backend/courses?limit=4`}
+            size={4}
+            api={`https://my.backend/courses`}
           />
 
           <Title order={4} mb="xl">
             اكتشف الدورات والبرامج
           </Title>
-          <CoursesShowcase
+          <CoursesGrid
             pagination={false}
-            api={`https://my.backend/courses?limit=4`}
+            size={4}
+            api={`https://my.backend/courses`}
           />
         </Box>
         <Box component="section">
           <Title order={2} mb="xl">
             اكتشف الدورات والبرامج
           </Title>
-          <FlashcardsShowcase
+          <FlashcardsGrid
             pagination={false}
             api={`https://my.backend/flashcards?limit=4`}
           />

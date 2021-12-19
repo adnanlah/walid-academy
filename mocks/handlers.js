@@ -31,11 +31,11 @@ export const handlers = [
     // const offset = req.url.searchParams.get('offset')
     // const limit = req.url.searchParams.get('limit')
 
-    if (isNaN(parseInt(userId))) return res(ctx.status(404))
+    if (isNaN(parseInt(userId))) return res(ctx.status(403))
 
-    const courses = getItemsByUserId(userId, courses)
+    const userCourses = getItemsByUserId(userId, courses)
 
-    if (!courses) {
+    if (!userCourses) {
       return res(
         ctx.status(404),
         ctx.json({

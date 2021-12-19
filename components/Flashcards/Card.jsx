@@ -2,7 +2,7 @@ import {Button, Center, Group, Text} from '@mantine/core'
 import {EyeNoneIcon} from '@modulz/radix-icons'
 import {useState} from 'react'
 
-export default function Card({card, reviewHandler}) {
+export default function Card({card, onReview}) {
   const [isDisplayAnswer, setIsDisplayAnswer] = useState(false)
 
   let backElement
@@ -55,35 +55,35 @@ export default function Card({card, reviewHandler}) {
           <Button
             variant="filled"
             color="green"
-            onClick={() => reviewHandler(card.id, 5)}
+            onClick={() => onReview(card.id, 5)}
           >
             اجابة مثالية
           </Button>
           <Button
             variant="filled"
             color="teal"
-            onClick={() => reviewHandler(card.id, 4)}
+            onClick={() => onReview(card.id, 4)}
           >
             اجابة صحيحة لكن بعد تردد
           </Button>
           <Button
             variant="filled"
             color="cyan"
-            onClick={() => reviewHandler(card.id, 3)}
+            onClick={() => onReview(card.id, 3)}
           >
             اجابة خاطئة لكن سهلة التذكر
           </Button>
           <Button
             variant="filled"
             color="indigo"
-            onClick={() => reviewHandler(card.id, 2)}
+            onClick={() => onReview(card.id, 2)}
           >
             اجابة خاطئة لكن صعبة التذكر
           </Button>
           <Button
             variant="filled"
             color="grape"
-            onClick={() => reviewHandler(card.id, 0)}
+            onClick={() => onReview(card.id, 0)}
           >
             اجابة خاطئة تماما
           </Button>

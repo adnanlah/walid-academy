@@ -2,7 +2,7 @@ import {Box, Paper, Title} from '@mantine/core'
 import Layout from 'layouts/Layout'
 import BgLayout from 'layouts/BgLayout'
 import MyContainer from 'components/MyContainer'
-import CoursesShowcase from 'components/CoursesShowcase'
+import CoursesGrid from 'components/CoursesGrid'
 
 export default function User({user}) {
   return (
@@ -21,7 +21,10 @@ export default function User({user}) {
         <Title order={4} mb="md">
           دروسي ({user.coursesCount})
         </Title>
-        <CoursesShowcase api={`https://my.backend/users/${user.id}/courses`} />
+        <CoursesGrid
+          api={`https://my.backend/users/${user.id}/courses`}
+          size={4}
+        />
       </Box>
     </MyContainer>
   )

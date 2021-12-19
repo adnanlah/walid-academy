@@ -16,7 +16,7 @@ import {
 } from '@mantine/core'
 import {GearIcon} from '@modulz/radix-icons'
 import LoginForm from './LoginForm'
-import {useEffect, useRef, useState} from 'react'
+import {useEffect, useState} from 'react'
 import {useLocalStorageValue} from '@mantine/hooks'
 
 const useStyles = createStyles(theme => {
@@ -55,11 +55,11 @@ function Nav() {
   })
 
   const [opened, setOpened] = useState(false)
-  const [menu, setMenu] = useState(false)
+  const [menuElement, setMenuElement] = useState(false)
 
   useEffect(() => {
     if (!JSON.parse(auth)) {
-      setMenu(
+      setMenuElement(
         <Box
           mx="md"
           style={{cursor: 'pointer'}}
@@ -69,8 +69,9 @@ function Nav() {
         </Box>,
       )
     } else {
-      setMenu(
+      setMenuElement(
         <Menu
+          trigger="hover"
           placement="end"
           gutter={10}
           withArrow
@@ -123,7 +124,7 @@ function Nav() {
 
         <Divider orientation="vertical" size="xs" />
 
-        {menu}
+        {menuElement}
 
         <Link href="/signup" passHref>
           <Anchor>

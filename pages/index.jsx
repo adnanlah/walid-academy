@@ -2,6 +2,7 @@ import Link from 'next/link'
 import {Input, Title, createStyles, SimpleGrid, Box} from '@mantine/core'
 import MyContainer from 'components/MyContainer'
 import Layout from 'layouts/Layout'
+import BgLayout from 'layouts/BgLayout'
 
 const useStyles = createStyles(theme => {
   return {
@@ -130,7 +131,11 @@ export default function Home({}) {
 }
 
 Home.getLayout = function getLayout(page) {
-  return <Layout>{page}</Layout>
+  return (
+    <Layout>
+      <BgLayout>{page}</BgLayout>
+    </Layout>
+  )
 }
 
 export function getStaticProps() {

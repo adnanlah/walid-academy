@@ -5,6 +5,7 @@ import {
   ColorSchemeProvider,
 } from '@mantine/core'
 import {useLocalStorageValue} from '@mantine/hooks'
+import rtlPlugin from 'stylis-plugin-rtl'
 
 export function GlobalStyles() {
   return (
@@ -34,6 +35,7 @@ export default function BaseLayout({children}) {
   return (
     <>
       <ColorSchemeProvider
+        emotionOptions={{key: 'mantine', stylisPlugins: [rtlPlugin]}}
         colorScheme={colorScheme}
         toggleColorScheme={toggleColorScheme}
       >

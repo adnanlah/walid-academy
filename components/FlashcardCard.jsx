@@ -1,46 +1,43 @@
 import {Anchor, Paper, Text} from '@mantine/core'
+import Link from 'next/link'
 
 const FlashcardCard = ({flashcard, ...restProps}) => {
   return (
-    <Paper
-      padding="lg"
-      sx={theme => ({
-        height: `11rem`,
-        borderBottom: '4px solid',
-        borderBottomColor: 'transparent',
-        transition: 'all .12s ease-in',
-        '&:hover': {
-          borderBottomColor: theme.colors.cyan,
-        },
-      })}
-      {...restProps}
-    >
-      <div
-        style={{
-          height: '100%',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-        }}
-      >
-        <div>
-          <Anchor
-            href={`/flashcards/${flashcard.id}`}
-            color="dark"
-            variant="text"
-            weight={700}
+    <Link href={`/flashcards/${flashcard.id}`} passHref {...restProps}>
+      <Anchor>
+        <Paper
+          padding="lg"
+          sx={theme => ({
+            height: `11rem`,
+            borderBottom: '4px solid',
+            borderBottomColor: 'transparent',
+            transition: 'all .12s ease-in',
+            '&:hover': {
+              borderBottomColor: theme.colors.cyan,
+            },
+          })}
+        >
+          <div
+            style={{
+              height: '100%',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+            }}
           >
-            {flashcard.title}
-          </Anchor>
-          <Text mb="xl" size="sm">
-            {flashcard.cards.length} بطاقة
-          </Text>
-        </div>
-        <Anchor href={`/users/1`} color="dark" variant="text">
-          {flashcard.user.name}
-        </Anchor>
-      </div>
-    </Paper>
+            <div>
+              <Text weight={700} mb={2}>
+                {flashcard.title}
+              </Text>
+              <Text mb="xl" size="sm">
+                {flashcard.cards.length} بطاقة
+              </Text>
+            </div>
+            <Text color="dimmed">{flashcard.user.name}</Text>
+          </div>
+        </Paper>
+      </Anchor>
+    </Link>
   )
 }
 
