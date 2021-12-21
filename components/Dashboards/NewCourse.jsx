@@ -60,8 +60,13 @@ const courseReducer = (state, action) => {
 }
 
 const NewCourse = ({categories}) => {
+  const [accordionState, onAccordionChange] = useState({0: true})
+  const [chapterId, setChapterId] = useState('')
+  const [modalOpened, setModalOpened] = useState(false)
+  const [dataToBeUpdated, setDataToBeUpdated] = useState({})
+
   const [courseData, setCourseData] = useLocalStorageValue({
-    key: 'course-data123',
+    key: 'course-data001',
     defaultValue: JSON.stringify({
       metadata: {
         title: '',
@@ -89,20 +94,17 @@ const NewCourse = ({categories}) => {
     },
   })
 
-  const [accordionState, onAccordionChange] = useState({0: true})
-  const [chapterId, setChapterId] = useState('')
-  const [modalOpened, setModalOpened] = useState(false)
-  const [dataToBeUpdated, setDataToBeUpdated] = useState({})
-
-  const [{chapters, lessons}, dispatch] = useReducer(
-    courseReducer,
-    courseDataObject.content,
-  )
+  const [{chapters, lessons}, dispatch] = useReducer(courseReducer, {
+    ...courseDataObject.content,
+  })
 
   useEffect(() => {
     // store data to local storage after every dispatch
     setCourseData(
-      JSON.stringify({form: form.values, content: {chapters, lessons}}),
+      JSON.stringify({
+        metadata: {...form.values},
+        content: {chapters, lessons},
+      }),
     )
   }, [setCourseData, form.values, chapters, lessons])
 
@@ -156,12 +158,135 @@ const NewCourse = ({categories}) => {
     },
   }
 
+  const contentReview = (
+    <Accordion
+      mb="xl"
+      state={accordionState}
+      onChange={onAccordionChange}
+      multiple
+      styles={theme => {
+        return {
+          item: {
+            marginBottom: theme.spacing.md,
+          },
+          control: {
+            backgroundColor:
+              theme.colorScheme === 'light'
+                ? theme.colors.gray[2]
+                : theme.colors.dark[9],
+          },
+        }
+      }}
+    >
+      {chapters.map(chapter => (
+        <Accordion.Item
+          key={`${chapter.id}-${chapter.name}`}
+          label={chapter.name}
+        >
+          <Group
+            sx={theme => ({padding: theme.spacing.md})}
+            position="apart"
+            mb="md"
+          >
+            <Button
+              onClick={() => {
+                setChapterId(chapter.id)
+                setModalOpened('newlesson')
+              }}
+            >
+              درس جديد
+            </Button>
+            <Group>
+              <ActionIcon
+                onClick={() => {
+                  setDataToBeUpdated(chapter)
+                  setModalOpened('updatechapter')
+                }}
+                ml="md"
+                color="gray"
+              >
+                <Pencil1Icon />
+              </ActionIcon>
+              <ActionIcon
+                color="red"
+                onClick={() => {
+                  dispatch({
+                    type: 'deletechapter',
+                    payload: {id: chapter.id},
+                  })
+                }}
+              >
+                <Cross2Icon />
+              </ActionIcon>
+            </Group>
+          </Group>
+          <div>
+            {lessons
+              .filter(lesson => lesson.chapterId === chapter.id)
+              .map((lesson, lessonIdx) => (
+                <Group
+                  sx={theme => ({
+                    backgroundColor:
+                      theme.colorScheme === 'light'
+                        ? theme.colors.gray[0]
+                        : theme.colors.dark[8],
+                    marginBottom: theme.spacing.md,
+                    padding: theme.spacing.md,
+                    borderRadius: theme.spacing.md,
+                  })}
+                  position="apart"
+                  key={`${lesson.id}-${lesson.title}`}
+                >
+                  <Group>
+                    <Text weight={700}>
+                      {lessonIdx + 1}
+                      {'. '}
+                      {'درس'}
+                      {': '}
+                    </Text>
+                    <Text>{lesson.title}</Text>
+                    <span>
+                      {lesson.quiz?.questions?.length > 1 && <CubeIcon />}
+                      {lesson.files?.length > 0 && <FileIcon />}
+                    </span>
+                  </Group>
+                  <Group>
+                    <ActionIcon
+                      onClick={() => {
+                        setDataToBeUpdated(lesson)
+                        setModalOpened('updatelesson')
+                      }}
+                      ml="md"
+                      color="gray"
+                    >
+                      <Pencil1Icon />
+                    </ActionIcon>
+                    <ActionIcon
+                      onClick={() => {
+                        dispatch({
+                          type: 'deletelesson',
+                          payload: {id: lesson.id},
+                        })
+                      }}
+                      color="red"
+                    >
+                      <Cross2Icon />
+                    </ActionIcon>
+                  </Group>
+                </Group>
+              ))}
+          </div>
+        </Accordion.Item>
+      ))}
+    </Accordion>
+  )
+
   const [mounted, setMounted] = useState(false)
   useEffect(() => {
     setMounted(true)
   }, [])
 
-  // if (!mounted) return <h1>Not mounted</h1>
+  // if (true) return <h1>Not mounted</h1>
 
   return (
     <div>
@@ -174,12 +299,14 @@ const NewCourse = ({categories}) => {
         })}
       >
         <TextInput
+          size="md"
           mb="md"
           label="غنوان الكورس"
           required
           {...form.getInputProps('title')}
         />
         <Textarea
+          size="md"
           mb="md"
           label="نبدة عن الكورس"
           required
@@ -187,6 +314,7 @@ const NewCourse = ({categories}) => {
         />
         <Group grow>
           <Select
+            size="md"
             mb="xl"
             label="اي سنة"
             placeholder="اختر"
@@ -195,6 +323,7 @@ const NewCourse = ({categories}) => {
             data={categories ? categories.grades : []}
           />
           <Select
+            size="md"
             mb="xl"
             label="اي شعبة"
             placeholder="اختر"
@@ -203,6 +332,7 @@ const NewCourse = ({categories}) => {
             data={categories ? categories.branchs : []}
           />
           <Select
+            size="md"
             mb="xl"
             label="اي مادة"
             placeholder="اختر"
@@ -216,124 +346,9 @@ const NewCourse = ({categories}) => {
             شابتر جديد
           </Button>
         </Group>
-        <Accordion
-          mb="xl"
-          state={accordionState}
-          onChange={onAccordionChange}
-          multiple
-          styles={theme => {
-            return {
-              item: {
-                marginBottom: theme.spacing.md,
-              },
-              control: {
-                backgroundColor:
-                  theme.colorScheme === 'light'
-                    ? theme.colors.gray[2]
-                    : theme.colors.dark[9],
-              },
-            }
-          }}
-        >
-          {chapters.map(chapter => (
-            <Accordion.Item
-              key={`${chapter.id}-${chapter.name}`}
-              label={chapter.name}
-            >
-              <Group
-                sx={theme => ({padding: theme.spacing.md})}
-                position="apart"
-                mb="md"
-              >
-                <Button
-                  onClick={() => {
-                    setChapterId(chapter.id)
-                    setModalOpened('newlesson')
-                  }}
-                >
-                  درس جديد
-                </Button>
-                <Group>
-                  <ActionIcon
-                    onClick={() => {
-                      setDataToBeUpdated(chapter)
-                      setModalOpened('updatechapter')
-                    }}
-                    ml="md"
-                    color="gray"
-                  >
-                    <Pencil1Icon />
-                  </ActionIcon>
-                  <ActionIcon
-                    color="red"
-                    onClick={() => {
-                      dispatch({
-                        type: 'deletechapter',
-                        payload: {id: chapter.id},
-                      })
-                    }}
-                  >
-                    <Cross2Icon />
-                  </ActionIcon>
-                </Group>
-              </Group>
-              <div>
-                {lessons
-                  .filter(lesson => lesson.chapterId === chapter.id)
-                  .map((lesson, lessonIdx) => (
-                    <Group
-                      sx={theme => ({
-                        backgroundColor:
-                          theme.colorScheme === 'light'
-                            ? theme.colors.gray[0]
-                            : theme.colors.dark[8],
-                        marginBottom: theme.spacing.md,
-                        padding: theme.spacing.md,
-                        borderRadius: theme.spacing.md,
-                      })}
-                      position="apart"
-                      key={`${lesson.id}-${lessonIdx}-${lesson.content}`}
-                    >
-                      <Group>
-                        <Text weight={700}>
-                          {lessonIdx + 1}
-                          {'. '}
-                          {'درس'}
-                          {': '}
-                        </Text>
-                        <Text>{lesson.title}</Text>
-                        {lesson.quiz?.questions.length > 1 && <CubeIcon />}
-                        {lesson.files?.length && <FileIcon />}
-                      </Group>
-                      <Group>
-                        <ActionIcon
-                          onClick={() => {
-                            setDataToBeUpdated(lesson)
-                            setModalOpened('updatelesson')
-                          }}
-                          ml="md"
-                          color="gray"
-                        >
-                          <Pencil1Icon />
-                        </ActionIcon>
-                        <ActionIcon
-                          onClick={() => {
-                            dispatch({
-                              type: 'deletelesson',
-                              payload: {id: lesson.id},
-                            })
-                          }}
-                          color="red"
-                        >
-                          <Cross2Icon />
-                        </ActionIcon>
-                      </Group>
-                    </Group>
-                  ))}
-              </div>
-            </Accordion.Item>
-          ))}
-        </Accordion>
+
+        {contentReview}
+
         <div>
           <Button type="submit">اضف</Button>
         </div>

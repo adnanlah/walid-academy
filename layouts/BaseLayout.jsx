@@ -21,7 +21,7 @@ export function GlobalStyles() {
 }
 
 const baseSize = 13
-const marginSize = 4
+const marginSize = 2
 
 export default function BaseLayout({children}) {
   const [colorScheme, setColorScheme] = useLocalStorageValue({

@@ -17,10 +17,10 @@ import {
 } from '@modulz/radix-icons'
 import Layout from 'layouts/Layout'
 import BgLayout from 'layouts/BgLayout'
-import Comments from 'components/Comments/Comments'
-import Quiz from 'components/Quiz/Quiz'
-import LessonPlayer from 'components/LessonPlayer'
-import MyBreadcrumbs from 'components/MyBreadcrumbs'
+import Comments from '@/components/Comments/Comments'
+import QuizPlayer from '@/components/Quiz/QuizPlayer'
+import LessonPlayer from '@/components/LessonPlayer'
+import MyBreadcrumbs from '@/components/MyBreadcrumbs'
 import {useState} from 'react'
 import {arabicDict} from 'util/academicDict'
 
@@ -144,7 +144,7 @@ const Lesson = ({lesson, course}) => {
             },
           }}
         >
-          <Quiz questions={lesson.quiz} />
+          <QuizPlayer questions={lesson.quiz} />
         </Modal>
       </Box>
     </main>

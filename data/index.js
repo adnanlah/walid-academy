@@ -154,17 +154,14 @@ const questionsAndOptions = [
       {
         id: 1,
         content: 'الخيار رقم واحد هنا والخيار الثاني هناك',
-        isCorrent: false,
       },
       {
         id: 2,
         content: 'الخيار رقم واحد هنا والخيار الثاني هناك',
-        isCorrent: false,
       },
       {
         id: 3,
         content: 'الخيار رقم واحد هنا والخيار الثاني هناك',
-        isCorrent: false,
       },
     ],
   },
@@ -177,27 +174,22 @@ const questionsAndOptions = [
       {
         id: 1,
         content: 'الخيار رقم واحد هنا والخيار الثاني هناك',
-        isCorrent: false,
       },
       {
         id: 2,
         content: 'الخيار رقم واحد هنا والخيار الثاني هناك',
-        isCorrent: false,
       },
       {
         id: 3,
         content: 'الخيار رقم واحد هنا والخيار الثاني هناك',
-        isCorrent: false,
       },
       {
         id: 4,
         content: 'الخيار رقم واحد هنا والخيار الثاني هناك',
-        isCorrent: true,
       },
       {
         id: 5,
         content: 'الخيار رقم واحد هنا والخيار الثاني هناك',
-        isCorrent: true,
       },
     ],
   },
@@ -210,22 +202,18 @@ const questionsAndOptions = [
       {
         id: 1,
         content: 'الخيار رقم واحد هنا والخيار الثاني هناك',
-        isCorrent: false,
       },
       {
         id: 2,
         content: 'الخيار رقم واحد هنا والخيار الثاني هناك',
-        isCorrent: false,
       },
       {
         id: 3,
         content: 'الخيار رقم واحد هنا والخيار الثاني هناك',
-        isCorrent: false,
       },
       {
         id: 4,
         content: 'الخيار رقم واحد هنا والخيار الثاني هناك',
-        isCorrent: true,
       },
     ],
   },
@@ -238,26 +226,39 @@ const questionsAndOptions = [
       {
         id: 1,
         content: 'الخيار رقم واحد هنا والخيار الثاني هناك',
-        isCorrent: false,
       },
       {
         id: 2,
         content: 'الخيار رقم واحد هنا والخيار الثاني هناك',
-        isCorrent: false,
       },
       {
         id: 3,
         content: 'الخيار رقم واحد هنا والخيار الثاني هناك',
-        isCorrent: false,
       },
       {
         id: 4,
         content: 'الخيار رقم واحد هنا والخيار الثاني هناك',
-        isCorrent: true,
       },
     ],
   },
 ]
+
+const quiz = {
+  questions: generate(4, index => {
+    return {
+      id: index,
+      content: lorem(10),
+      correctAnswer: 0,
+    }
+  }),
+  options: generate(16, index => {
+    return {
+      id: index,
+      questionId: random(0, 3),
+      content: lorem(20),
+    }
+  }),
+}
 
 const lessons = generate(6, index => {
   return {

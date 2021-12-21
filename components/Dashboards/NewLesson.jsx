@@ -85,7 +85,7 @@ const quizReducer = (state, action) => {
   }
 }
 
-const Newlesson = ({onSubmit, lesson}) => {
+const Newlesson = ({lesson, onSubmit}) => {
   // WIZARD FORM
   const [activePage, setPage] = useState(0)
 
@@ -146,6 +146,7 @@ const Newlesson = ({onSubmit, lesson}) => {
         <Button
           onClick={() => {
             const isFormValid = form.validate()
+            // if (isFormValid) console.log({...form.values, quiz})
             if (isFormValid) onSubmit({...form.values, quiz})
           }}
         >
