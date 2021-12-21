@@ -27,6 +27,8 @@ const LessonForm = ({form}) => {
       />
       <FileInput
         mb="xs"
+        value={form.values.files}
+        onChange={files => form.setValues({files})}
         buttonContent={
           <Group spacing="xs">
             <FileIcon />

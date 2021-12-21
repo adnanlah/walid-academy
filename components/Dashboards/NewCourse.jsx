@@ -8,12 +8,12 @@ import {
   ActionIcon,
   Select,
 } from '@mantine/core'
+import {Cross2Icon, CubeIcon, FileIcon, Pencil1Icon} from '@modulz/radix-icons'
 import {TextInput, Button} from '@mantine/core'
 import {useReducer, useState, useEffect} from 'react'
 import {useLocalStorageValue, useForm} from '@mantine/hooks'
 import NewLesson from './NewLesson'
 import ChapterForm from './ChapterForm'
-import {Cross2Icon, Pencil1Icon} from '@modulz/radix-icons'
 import {nextId} from '../../util/helpers'
 
 const courseReducer = (state, action) => {
@@ -61,7 +61,7 @@ const courseReducer = (state, action) => {
 
 const NewCourse = ({categories}) => {
   const [courseData, setCourseData] = useLocalStorageValue({
-    key: 'course-data1',
+    key: 'course-data123',
     defaultValue: JSON.stringify({
       metadata: {
         title: '',
@@ -156,6 +156,13 @@ const NewCourse = ({categories}) => {
     },
   }
 
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  // if (!mounted) return <h1>Not mounted</h1>
+
   return (
     <div>
       <Title order={4} mb="xl">
@@ -220,7 +227,6 @@ const NewCourse = ({categories}) => {
                 marginBottom: theme.spacing.md,
               },
               control: {
-                textAlign: 'right',
                 backgroundColor:
                   theme.colorScheme === 'light'
                     ? theme.colors.gray[2]
@@ -239,17 +245,14 @@ const NewCourse = ({categories}) => {
                 position="apart"
                 mb="md"
               >
-                <div>
-                  <Button
-                    ml="md"
-                    onClick={() => {
-                      setChapterId(chapter.id)
-                      setModalOpened('newlesson')
-                    }}
-                  >
-                    درس جديد
-                  </Button>
-                </div>
+                <Button
+                  onClick={() => {
+                    setChapterId(chapter.id)
+                    setModalOpened('newlesson')
+                  }}
+                >
+                  درس جديد
+                </Button>
                 <Group>
                   <ActionIcon
                     onClick={() => {
@@ -262,13 +265,13 @@ const NewCourse = ({categories}) => {
                     <Pencil1Icon />
                   </ActionIcon>
                   <ActionIcon
+                    color="red"
                     onClick={() => {
                       dispatch({
                         type: 'deletechapter',
                         payload: {id: chapter.id},
                       })
                     }}
-                    color="red"
                   >
                     <Cross2Icon />
                   </ActionIcon>
@@ -299,6 +302,8 @@ const NewCourse = ({categories}) => {
                           {': '}
                         </Text>
                         <Text>{lesson.title}</Text>
+                        {lesson.quiz?.questions.length > 1 && <CubeIcon />}
+                        {lesson.files?.length && <FileIcon />}
                       </Group>
                       <Group>
                         <ActionIcon

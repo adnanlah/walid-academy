@@ -10,7 +10,8 @@ import {
 import {PlusIcon, Cross2Icon, CheckIcon} from '@modulz/radix-icons'
 import InputAddon from '../InputAddon'
 
-const QuizForm = ({dispatch, questions, options}) => {
+const QuizForm = ({dispatch, quiz}) => {
+  const {questions, options} = quiz
   return (
     <div>
       <form>

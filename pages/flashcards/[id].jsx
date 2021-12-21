@@ -3,7 +3,7 @@ import {Share1Icon, TwitterLogoIcon} from '@modulz/radix-icons'
 import Layout from 'layouts/Layout'
 import BgLayout from 'layouts/BgLayout'
 import MyBreadcrumbs from 'components/MyBreadcrumbs'
-import Flashcard from 'components/Flashcards/Flashcard'
+import FlashcardPlayer from '@/components/Flashcards/FlashcardPlayer'
 
 export default function Flashcards({flashcard}) {
   const categories = [
@@ -20,7 +20,7 @@ export default function Flashcards({flashcard}) {
       }}
     >
       <Box component="section">
-        <Flashcard flashcardData={flashcard.cards} />
+        <FlashcardPlayer flashcardData={flashcard.cards} />
       </Box>
 
       <Box
@@ -77,13 +77,15 @@ Flashcards.getLayout = function getLayout(page) {
 }
 
 export async function getServerSideProps({params, res}) {
+  // const response = await fetch(
+  //   `https://my.backend/users/${user.id}/flashcards/${params.id}`,
+  // )
   const response = await fetch(`https://my.backend/flashcards/${params.id}`)
 
   if (!response.ok) {
     return {
       redirect: {
-        destination: '/',
-        permanent: false,
+        notFound: true,
       },
     }
   }

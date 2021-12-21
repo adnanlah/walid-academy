@@ -3,6 +3,7 @@ import {Input, Title, createStyles, SimpleGrid, Box} from '@mantine/core'
 import MyContainer from 'components/MyContainer'
 import Layout from 'layouts/Layout'
 import BgLayout from 'layouts/BgLayout'
+import Repeat from 'components/Repeat'
 
 const useStyles = createStyles(theme => {
   return {
@@ -52,14 +53,6 @@ function CustomTitle(props) {
 
 export default function Home({}) {
   const {classes} = useStyles()
-
-  function Repeat(props) {
-    let items = []
-    for (let i = 0; i < props.numTimes; i++) {
-      items.push(props.children(i))
-    }
-    return items
-  }
 
   return (
     <>

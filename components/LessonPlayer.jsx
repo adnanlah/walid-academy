@@ -153,7 +153,6 @@ const Lessonplayer = ({lesson, course}) => {
                 onChange={onAccordionChange}
                 multiple
                 styles={{
-                  label: {textAlign: 'right'},
                   content: {padding: 0},
                 }}
               >

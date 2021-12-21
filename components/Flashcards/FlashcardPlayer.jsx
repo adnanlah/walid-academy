@@ -1,21 +1,8 @@
 import {Center, Progress} from '@mantine/core'
 import {useCallback, useEffect, useRef, useState} from 'react'
-import {supermemo} from './supermemo'
+import {supermemo} from 'util/supermemo'
 import {shuffleArray} from 'util/helpers'
 import Card from './Card'
-
-const practice = (flashcard, grade, session) => {
-  const {interval, repetition, efactor} = supermemo(flashcard, grade)
-  const dueSession = session + interval
-  const newFlashcard = {
-    ...flashcard,
-    dueSession,
-    interval,
-    repetition,
-    efactor,
-  }
-  return newFlashcard
-}
 
 const Flashcard = ({flashcardData}) => {
   const [session, setSession] = useState(0)
@@ -114,6 +101,19 @@ const Flashcard = ({flashcardData}) => {
       </Group> */}
     </div>
   )
+}
+
+const practice = (flashcard, grade, session) => {
+  const {interval, repetition, efactor} = supermemo(flashcard, grade)
+  const dueSession = session + interval
+  const newFlashcard = {
+    ...flashcard,
+    dueSession,
+    interval,
+    repetition,
+    efactor,
+  }
+  return newFlashcard
 }
 
 export default Flashcard

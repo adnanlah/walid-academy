@@ -35,7 +35,7 @@ const flashcardsReducer = (state, action) => {
 
 const Newflashcard = ({categories}) => {
   const [flashcardData, setFlashcardData] = useLocalStorageValue({
-    key: 'flashcard-data',
+    key: 'flashcard-data2',
     defaultValue: JSON.stringify({
       form: {
         title: '',

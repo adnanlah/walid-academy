@@ -3,11 +3,11 @@ import CourseCard from './CourseCard'
 import {useState} from 'react'
 import useSWR from 'swr'
 
-export default function CoursesShowcase({api, pagination, size, ...restProps}) {
+export default function CoursesGrid({api, pagination, size, ...restProps}) {
   const [activePage, setPage] = useState(1)
   const {data, error} = useSWR(`${api}?page=${activePage}&limit=${size}`)
 
-  if (error) return console.log('error is ', error)
+  if (error) console.log('error in coursesgrid is ', error)
   if (error) return <Center>فشل في التحميل</Center>
 
   if (data) console.log('data', data)

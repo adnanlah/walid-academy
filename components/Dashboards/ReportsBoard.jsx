@@ -52,7 +52,7 @@ const Reports = () => {
       </List>
 
       <Center>
-        <Pagination></Pagination>
+        <Pagination />
       </Center>
     </div>
   )

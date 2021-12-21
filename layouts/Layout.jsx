@@ -1,10 +1,3 @@
-import {
-  MantineProvider,
-  NormalizeCSS,
-  Global,
-  ColorSchemeProvider,
-} from '@mantine/core'
-import {useLocalStorageValue} from '@mantine/hooks'
 import Nav from 'components/Nav'
 import Footer from 'components/Footer'
 import BaseLayout from './BaseLayout'

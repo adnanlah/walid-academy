@@ -4,7 +4,7 @@ import FlashcardCard from './FlashcardCard'
 
 import useSWR from 'swr'
 
-const Flashcardsshowcase = ({api, pagination, ...restProps}) => {
+const FlashcardsGrid = ({api, pagination, ...restProps}) => {
   const {data: flashcards, error} = useSWR(`${api}`)
   const [activePage, setPage] = useState(1)
 
@@ -31,4 +31,4 @@ const Flashcardsshowcase = ({api, pagination, ...restProps}) => {
   )
 }
 
-export default Flashcardsshowcase
+export default FlashcardsGrid

@@ -1,20 +1,18 @@
 import {Badge, Box, Button, Group} from '@mantine/core'
 import {useState} from 'react'
 
-const Fileinput = ({color = 'dark', buttonContent, ...props}) => {
-  const [files, setFiles] = useState(null)
-
+const Fileinput = ({color = 'dark', buttonContent, value, onChange}) => {
   const items = []
-  for (const prop in files) {
+  for (const prop in value) {
     items.push(
-      <Badge color="gray" radius="xs">
-        {files[prop].name}
+      <Badge key={`${prop}-${value[prop].name}`} color="gray" radius="xs">
+        {value[prop].name}
       </Badge>,
     )
   }
 
   return (
-    <Box {...props}>
+    <Box>
       <Group>
         <div>
           <label htmlFor="file-upload">
@@ -28,7 +26,7 @@ const Fileinput = ({color = 'dark', buttonContent, ...props}) => {
             type="file"
             multiple
             accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,image/*,video/*,.pdf"
-            onChange={event => setFiles(event.target.files)}
+            onChange={event => onChange(event.target.files)}
           />
         </div>
         <div>

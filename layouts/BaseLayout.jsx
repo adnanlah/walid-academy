@@ -20,8 +20,8 @@ export function GlobalStyles() {
   )
 }
 
-const baseSize = 14
-const marginSize = 3
+const baseSize = 13
+const marginSize = 4
 
 export default function BaseLayout({children}) {
   const [colorScheme, setColorScheme] = useLocalStorageValue({
@@ -41,6 +41,12 @@ export default function BaseLayout({children}) {
       >
         <MantineProvider
           styles={{
+            Accordion: {
+              label: {textAlign: 'right'},
+              control: {
+                textAlign: 'right',
+              },
+            },
             TextInput: {
               input: {
                 textAlign: 'right',

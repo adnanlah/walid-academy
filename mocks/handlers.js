@@ -150,8 +150,7 @@ export const handlers = [
   }),
 
   rest.get('https://my.backend/flashcards', (req, res, ctx) => {
-    let limit = parseInt(req.url.searchParams.get('limit'))
-    return res(ctx.json(flashcards.slice(0, limit)))
+    return res(ctx.json(flashcards))
   }),
 
   rest.get('https://my.backend/flashcards/:id', (req, res, ctx) => {

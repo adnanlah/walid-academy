@@ -1,4 +1,4 @@
-import {lorem, random} from '../util/helpers'
+import {lorem, random, generate} from '../util/helpers'
 
 const grades = [
   {value: '3rd-highschool', label: 'سنة ثالثة ثانوي'},
@@ -11,8 +11,6 @@ const branchs = [
   {value: 'science', label: 'شعبة علوم طبيعة وحياة'},
   {value: 'lit', label: 'شعبة علوم طبيعة وحياة'},
   {value: 'langues', label: 'شعبة علوم طبيعة وحياة'},
-  {value: 'science', label: 'شعبة علوم طبيعة وحياة'},
-  {value: 'science', label: 'شعبة علوم طبيعة وحياة'},
 ]
 
 const subjects = [
@@ -106,7 +104,7 @@ const course = {
   description: lorem(50),
 }
 
-const courses = [...Array(10)].map((_, index) => {
+const courses = generate(10, index => {
   return {
     ...course,
     // override
@@ -116,42 +114,14 @@ const courses = [...Array(10)].map((_, index) => {
   }
 })
 
-const reviews = [
-  {
-    id: 0,
+const reviews = generate(6, index => {
+  return {
+    id: index,
     user: {id: 1, name: 'محمد علي'},
-    rating: 0,
-    text: lorem(10),
-  },
-
-  {
-    id: 1,
-    user: {id: 1, name: 'محمد علي'},
-    rating: 1,
-    text: lorem(30),
-  },
-
-  {
-    id: 2,
-    user: {id: 1, name: 'محمد علي'},
-    rating: 2,
-    text: lorem(20),
-  },
-
-  {
-    id: 3,
-    user: {id: 1, name: 'محمد علي'},
-    rating: 3,
-    text: lorem(40),
-  },
-
-  {
-    id: 4,
-    user: {id: 1, name: 'محمد علي'},
-    rating: 4,
-    text: lorem(25),
-  },
-]
+    rating: random(0, 5),
+    text: lorem(random(10, 20)),
+  }
+})
 
 const users = [
   {
@@ -174,7 +144,7 @@ const chapters = [
   },
 ]
 
-const questions = [
+const questionsAndOptions = [
   {
     id: 1,
     imageUrl: 'https://placekitten.com/408/287',
@@ -289,85 +259,17 @@ const questions = [
   },
 ]
 
-const lessons = [
-  {
-    id: 1,
-    type: 'media',
+const lessons = generate(6, index => {
+  return {
+    id: index,
     title: lorem(7),
     description: lorem(20),
     videoUrl: '',
-    chapterId: 0,
-    courseId: 0,
-    length: 120,
-    quiz: questions,
-  },
-  {
-    id: 2,
-    type: 'media',
-    title: lorem(7),
-    description: lorem(20),
-    videoUrl: '',
-    chapterId: 0,
-    courseId: 0,
-    length: 120,
-  },
-  {
-    id: 3,
-    type: 'media',
-    title: lorem(7),
-    description: lorem(20),
-    videoUrl: '',
-    chapterId: 0,
-    courseId: 0,
-    length: 120,
-    quiz: questions,
-  },
-  {
-    id: 4,
-    type: 'media',
-    title: lorem(7),
-    description: lorem(20),
-    videoUrl: '',
-    chapterId: 1,
-    courseId: 0,
-    length: 120,
-  },
-
-  {
-    id: 5,
-    type: 'media',
-    title: lorem(7),
-    description: lorem(20),
-    videoUrl: '',
-    chapterId: 1,
-    courseId: 0,
-    length: 120,
-    quiz: questions,
-  },
-
-  {
-    id: 6,
-    type: 'media',
-    title: lorem(7),
-    description: lorem(20),
-    videoUrl: '',
-    chapterId: 1,
-    courseId: 0,
-    length: 120,
-    quiz: questions,
-  },
-  {
-    id: 7,
-    type: 'quiz',
-    title: lorem(7),
-    description: lorem(20),
-    videoUrl: '',
-    chapterId: 1,
-    courseId: 0,
-    length: 120,
-    quiz: questions,
-  },
-]
+    chapterId: random(0, 1),
+    length: random(15, 120),
+    quiz: questionsAndOptions,
+  }
+})
 
 const attachments = [
   {
@@ -1200,7 +1102,7 @@ const numbersFlashcard = {
   ],
 }
 
-const flashcards = [...Array(10)].map((_, index) => {
+const flashcards = [...Array(8)].map((_, index) => {
   return {
     ...englishFlashcard,
     // override

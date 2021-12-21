@@ -32,39 +32,9 @@ import {useRouter} from 'next/router'
 import {arabicDict} from 'util/academicDict'
 
 export default function Course({course}) {
-  const chaptersList = course.content.map((chapter, idx) => {
-    const lessonsWrapper = (
-      <Box>
-        {chapter.lessons.map(lesson => {
-          return (
-            <LessonItem
-              key={lesson.id}
-              icon={<PlayIcon />}
-              lesson={lesson}
-              measure={lesson.length + ' د'}
-            />
-          )
-        })}
-      </Box>
-    )
-
-    return (
-      <Paper
-        key={idx}
-        component="article"
-        mb="md"
-        radius="xs"
-        sx={theme => ({
-          padding: `${theme.spacing.lg}px ${theme.spacing.xs}px`,
-        })}
-      >
-        <Title order={4} mb="xs" mr="xs">
-          {chapter.title}
-        </Title>
-        <div>{lessonsWrapper}</div>
-      </Paper>
-    )
-  })
+  const chaptersList = course.content.map((chapter, idx) => (
+    <Chapter key={idx} chapter={chapter} />
+  ))
 
   return (
     <>
@@ -93,79 +63,70 @@ export default function Course({course}) {
       </Box>
 
       <MyContainer py="xl">
-        <Grid columns={12}>
+        <Grid>
           <Col component="main" span={8}>
             <section>{chaptersList}</section>
             <section>
-              <Paper padding="md">
+              <Paper padding="lg">
                 <Reviews courseId={1} />
               </Paper>
             </section>
           </Col>
           <Col component="aside" span={4}>
-            <Box style={{height: '300px', backgroundColor: '#000'}}>
-              {/* Black box as a thumbnail */}
-            </Box>
-            <Paper padding="md">
-              <InfoCardItem icon={<AvatarIcon />} mb="xs">
-                <Text component="span" ml="xs">
-                  من تقديم الاستاد
-                </Text>
-                <Link href="/users/1" passHref component="span">
-                  <Anchor component="a" href="/users/1">
-                    {course.user.name}
-                  </Anchor>
-                </Link>
-              </InfoCardItem>
-
-              <InfoCardItem icon={<ChatBubbleIcon />} mb="xs">
-                <Center inline>
-                  <Text ml="xs"> التقييم: </Text>
-                  <StarRatingDisplay rating={course.rating} />
-                </Center>
-              </InfoCardItem>
-
-              <InfoCardItem icon={<GlobeIcon />} mb="md">
-                <Text>اللغة الانجليزية</Text>
-              </InfoCardItem>
-
-              <Box mb="sm">
-                <Text weight={700}>يحتوي الدرس على</Text>
+            <Paper padding={0}>
+              <Box style={{height: '300px', backgroundColor: '#000'}}>
+                {/* Black box as a thumbnail */}
               </Box>
-
-              <InfoCardItem icon={<VideoIcon />} mb="xs">
-                <Text>3 سا و15د</Text>
-              </InfoCardItem>
-
-              <InfoCardItem icon={<FileIcon />} mb="xs">
-                <Text>5 ملقات</Text>
-              </InfoCardItem>
-
-              <InfoCardItem icon={<CubeIcon />} mb="md">
-                <Text>5 تمارين</Text>
-              </InfoCardItem>
-
-              <InfoCardItem icon={<TimerIcon />} mb="md">
-                <Text>اخر تحديث: 3 نوفمبر 2021</Text>
-              </InfoCardItem>
-
-              <Button mb="xs" fullWidth={true} color="primary" radius="xs">
-                أشتراك شهري
-              </Button>
-
-              <Button
-                fullWidth={true}
-                variant="outline"
-                color="dark"
-                radius="xs"
-              >
-                <Center>
-                  <div>نافش الدرس في المنتدى</div>
-                  <ChatBubbleIcon
-                    style={{width: 20, height: 20, marginRight: 12.5}}
-                  />
-                </Center>
-              </Button>
+              <Box sx={theme => ({padding: theme.spacing.lg})}>
+                <InfoCardItem icon={<AvatarIcon />} mb="xs">
+                  <Text component="span" ml="xs">
+                    من تقديم الاستاد
+                  </Text>
+                  <Link href={`/users/${course.user.id}`} passHref>
+                    <Anchor>{course.user.name}</Anchor>
+                  </Link>
+                </InfoCardItem>
+                <InfoCardItem icon={<ChatBubbleIcon />} mb="xs">
+                  <Center inline>
+                    <Text ml="xs"> التقييم: </Text>
+                    <StarRatingDisplay rating={course.rating} />
+                  </Center>
+                </InfoCardItem>
+                <InfoCardItem icon={<GlobeIcon />} mb="md">
+                  <Text>اللغة الانجليزية</Text>
+                </InfoCardItem>
+                <Box mb="sm">
+                  <Text weight={700}>يحتوي الدرس على</Text>
+                </Box>
+                <InfoCardItem icon={<VideoIcon />} mb="xs">
+                  <Text>3 سا و15د</Text>
+                </InfoCardItem>
+                <InfoCardItem icon={<FileIcon />} mb="xs">
+                  <Text>5 ملقات</Text>
+                </InfoCardItem>
+                <InfoCardItem icon={<CubeIcon />} mb="md">
+                  <Text>5 تمارين</Text>
+                </InfoCardItem>
+                <InfoCardItem icon={<TimerIcon />} mb="md">
+                  <Text>اخر تحديث: 3 نوفمبر 2021</Text>
+                </InfoCardItem>
+                <Button mb="xs" fullWidth={true} color="primary" radius="xs">
+                  أشتراك شهري
+                </Button>
+                <Button
+                  fullWidth={true}
+                  variant="outline"
+                  color="gray"
+                  radius="xs"
+                >
+                  <Center>
+                    <div>نافش الدرس في المنتدى</div>
+                    <ChatBubbleIcon
+                      style={{width: 20, height: 20, marginRight: 12.5}}
+                    />
+                  </Center>
+                </Button>
+              </Box>
             </Paper>
           </Col>
         </Grid>
@@ -178,7 +139,7 @@ export default function Course({course}) {
           textAlign: 'center',
         })}
       >
-        <Anchor href={course.forumPostLink}>
+        <Anchor href={course.forumPostLink} variant="text">
           <Center>
             <Text>نافش الدرس في المنتدى</Text>
             <ChatBubbleIcon
@@ -191,6 +152,38 @@ export default function Course({course}) {
   )
 }
 
+function Chapter({chapter}) {
+  const lessonsWrapper = (
+    <Box>
+      {chapter.lessons.map(lesson => {
+        return (
+          <LessonItem
+            key={lesson.id}
+            icon={<PlayIcon />}
+            lesson={lesson}
+            measure={lesson.length + ' د'}
+          />
+        )
+      })}
+    </Box>
+  )
+
+  return (
+    <Paper
+      component="article"
+      mb="md"
+      sx={theme => ({
+        padding: `${theme.spacing.lg}px ${theme.spacing.xs}px`,
+      })}
+    >
+      <Text weight={700} mb="xs" mr="xs">
+        {chapter.title}
+      </Text>
+      <div>{lessonsWrapper}</div>
+    </Paper>
+  )
+}
+
 function LessonItem({icon, lesson, measure, ...restProps}) {
   const router = useRouter()
   const {id, title} = lesson
@@ -199,7 +192,6 @@ function LessonItem({icon, lesson, measure, ...restProps}) {
     <Box
       sx={theme => ({
         padding: theme.spacing.xs,
-        '&:hover': {backgroundColor: theme.colors.gray[1]},
       })}
       {...restProps}
     >
@@ -215,7 +207,15 @@ function LessonItem({icon, lesson, measure, ...restProps}) {
               >
                 {icon}
               </ActionIcon>
-              <span>{title}</span>
+              <Text
+                sx={theme => ({
+                  '&:hover': {
+                    textDecoration: 'underline',
+                  },
+                })}
+              >
+                {title}
+              </Text>
             </Center>
             <Text color="dimmed">
               <span>{measure}</span>

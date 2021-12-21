@@ -1,9 +1,11 @@
 import {ActionIcon, Box, Center, Text} from '@mantine/core'
 import {Cross2Icon} from '@modulz/radix-icons'
 import {useClipboard} from '@mantine/hooks'
+import {useState} from 'react'
 
 const Coupon = () => {
   const clipboard = useClipboard({timeout: 600})
+
   return (
     <Box
       sx={theme => ({

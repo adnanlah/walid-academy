@@ -1,4 +1,4 @@
-import {Button, Center, Group, Text} from '@mantine/core'
+import {Button, Center, Group, Paper, Text} from '@mantine/core'
 import {EyeNoneIcon} from '@modulz/radix-icons'
 import {useState} from 'react'
 
@@ -34,61 +34,67 @@ export default function Card({card, onReview}) {
   }
 
   return (
-    <Center
-      sx={theme => ({
+    <Paper
+      style={{
         position: 'relative',
         height: 500,
-        backgroundColor: 'white',
-      })}
+      }}
     >
-      <Group direction="column" grow>
-        <Text size="lg" align="center" style={{userSelect: 'none'}}>
-          {card.front}
-        </Text>
-        {backElement}
-      </Group>
-      <div style={{position: 'absolute', bottom: 0, padding: 20}}>
-        <Text mb="xs" align="center">
-          كيف كانت اجابتك؟
-        </Text>
-        <Group>
-          <Button
-            variant="filled"
-            color="green"
-            onClick={() => onReview(card.id, 5)}
-          >
-            اجابة مثالية
-          </Button>
-          <Button
-            variant="filled"
-            color="teal"
-            onClick={() => onReview(card.id, 4)}
-          >
-            اجابة صحيحة لكن بعد تردد
-          </Button>
-          <Button
-            variant="filled"
-            color="cyan"
-            onClick={() => onReview(card.id, 3)}
-          >
-            اجابة خاطئة لكن سهلة التذكر
-          </Button>
-          <Button
-            variant="filled"
-            color="indigo"
-            onClick={() => onReview(card.id, 2)}
-          >
-            اجابة خاطئة لكن صعبة التذكر
-          </Button>
-          <Button
-            variant="filled"
-            color="grape"
-            onClick={() => onReview(card.id, 0)}
-          >
-            اجابة خاطئة تماما
-          </Button>
+      <Center>
+        <Group direction="column" grow style={{height: '100%'}}>
+          <Text size="lg" align="center" style={{userSelect: 'none'}}>
+            {card.front}
+          </Text>
+          {backElement}
         </Group>
-      </div>
-    </Center>
+        <div style={{position: 'absolute', bottom: 0, padding: 20}}>
+          <Text mb="xs" align="center">
+            كيف كانت اجابتك؟
+          </Text>
+          <Group>
+            <Button
+              disabled={!isDisplayAnswer}
+              variant="filled"
+              color="green"
+              onClick={() => onReview(card.id, 5)}
+            >
+              اجابة مثالية
+            </Button>
+            <Button
+              disabled={!isDisplayAnswer}
+              variant="filled"
+              color="teal"
+              onClick={() => onReview(card.id, 4)}
+            >
+              اجابة صحيحة لكن بعد تردد
+            </Button>
+            <Button
+              disabled={!isDisplayAnswer}
+              variant="filled"
+              color="cyan"
+              onClick={() => onReview(card.id, 3)}
+            >
+              اجابة خاطئة لكن سهلة التذكر
+            </Button>
+            <Button
+              disabled={!isDisplayAnswer}
+              variant="filled"
+              color="indigo"
+              onClick={() => onReview(card.id, 2)}
+            >
+              اجابة خاطئة لكن صعبة التذكر
+            </Button>
+            <Button
+              disabled={!isDisplayAnswer}
+              variant="filled"
+              color="grape"
+              onClick={() => onReview(card.id, 0)}
+            >
+              اجابة خاطئة تماما
+            </Button>
+          </Group>
+        </div>
+      </Center>
+    </Paper>
   )
 }

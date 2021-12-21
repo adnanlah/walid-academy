@@ -30,7 +30,7 @@ const Logs = () => {
       </List>
 
       <Center>
-        <Pagination></Pagination>
+        <Pagination />
       </Center>
     </div>
   )

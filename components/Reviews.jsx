@@ -56,10 +56,15 @@ const Reviews = ({courseId, ...restProps}) => {
 
   return (
     <div {...restProps}>
-      <Title order={4} mb="md">
+      {/* <Title order={4} mb="md">
         التقييمات
-      </Title>
-      <ReviewForm />
+      </Title> */}
+      <Text weight={700} mb="md">
+        التقييمات
+      </Text>
+      <Box mb="xs">
+        <ReviewForm />
+      </Box>
       <div style={{minHeight: 100, position: 'relative'}}>
         <LoadingOverlay visible={isLoadingInitialData} />
         <Box sx={theme => ({padding: `${theme.spacing.md}px 0`})}>
@@ -82,11 +87,11 @@ const Reviews = ({courseId, ...restProps}) => {
   )
 }
 
-const ReviewForm = () => {
+const ReviewForm = ({...props}) => {
   const form = useForm({
     initialValues: {
       reviewText: '',
-      rating: 1,
+      rating: 0,
     },
 
     validationRules: {
@@ -96,19 +101,30 @@ const ReviewForm = () => {
 
   return (
     <form onSubmit={form.onSubmit(values => console.log(values))}>
-      <StarRatingInput
-        mb="xs"
-        rating={form.values.rating}
-        ratingHandler={value => {
-          form.setFieldValue('rating', value)
-        }}
-      />
-      <Textarea
-        mb="xs"
-        placeholder="اكتب تقييمك هنا"
-        {...form.getInputProps('name')}
-      ></Textarea>
-      <Button type="submit">اضف</Button>
+      <Group align="start" noWrap>
+        <Avatar />
+        <div style={{flexGrow: 2}}>
+          <Text weight={500} mb="xs">
+            مستخدم جديد
+          </Text>
+          <Center inline mb="xs">
+            <Text>تقييمك؟</Text>
+            <StarRatingInput
+              mr="xs"
+              rating={form.values.rating}
+              ratingHandler={value => {
+                form.setFieldValue('rating', value)
+              }}
+            />
+          </Center>
+          <Textarea
+            mb="xs"
+            placeholder="اكتب تقييمك هنا"
+            {...form.getInputProps('name')}
+          ></Textarea>
+          <Button type="submit">اضف</Button>
+        </div>
+      </Group>
     </form>
   )
 }
@@ -118,22 +134,20 @@ const Review = ({review, first = false, ...restProps}) => {
     <div {...restProps}>
       {!first && <Divider my="xl" />}
       <Group align="start" noWrap>
-        <Avatar></Avatar>
+        <Avatar />
         <div>
-          <div>
-            <Box mb="xs">
-              <Anchor
-                variant="text"
-                weight={700}
-                href={`users/${review.user.id}`}
-              >
-                {review.user.name}
-              </Anchor>
-            </Box>
-            <Box mb="xs">
-              <StarRatingDisplay rating={review.rating} />
-            </Box>
-          </div>
+          <Box mb={4}>
+            <Anchor
+              variant="text"
+              weight={500}
+              href={`users/${review.user.id}`}
+            >
+              {review.user.name}
+            </Anchor>
+          </Box>
+          <Box mb="xs">
+            <StarRatingDisplay rating={review.rating} />
+          </Box>
           <Text>{review.text}</Text>
         </div>
       </Group>

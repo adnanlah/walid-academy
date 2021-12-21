@@ -1,4 +1,4 @@
-import {Box, Button, Group} from '@mantine/core'
+import {Button, Group} from '@mantine/core'
 import {useForm} from '@mantine/hooks'
 import {useReducer, useState} from 'react'
 import LessonForm from './LessonForm'
@@ -87,7 +87,7 @@ const quizReducer = (state, action) => {
 
 const Newlesson = ({onSubmit, lesson}) => {
   // WIZARD FORM
-  const [page, setPage] = useState(0)
+  const [activePage, setPage] = useState(0)
 
   // lesson basic information form
   const form = useForm({
@@ -97,7 +97,7 @@ const Newlesson = ({onSubmit, lesson}) => {
           title: '',
           description: '',
           videoUrl: '',
-          file: '',
+          files: [],
           free: false,
         },
     validationRules: {
@@ -108,7 +108,7 @@ const Newlesson = ({onSubmit, lesson}) => {
   })
 
   // lesson quiz data form
-  const [{questions, options}, dispatch] = useReducer(
+  const [quiz, dispatch] = useReducer(
     quizReducer,
     lesson
       ? lesson.quiz
@@ -133,27 +133,20 @@ const Newlesson = ({onSubmit, lesson}) => {
   return (
     <div>
       <div style={{padding: '0 5px'}}>
-        {page === 0 && <LessonForm form={form} />}
-        {page === 1 && (
-          <QuizForm
-            dispatch={dispatch}
-            questions={questions}
-            options={options}
-          />
-        )}
+        {activePage === 0 && <LessonForm form={form} />}
+        {activePage === 1 && <QuizForm dispatch={dispatch} quiz={quiz} />}
       </div>
       <Group>
-        {page === 0 && (
+        {activePage === 0 && (
           <Button onClick={() => setPage(1)}>المرور الى الكويز</Button>
         )}
-        {page === 1 && (
+        {activePage === 1 && (
           <Button onClick={() => setPage(0)}>الرجوع الى الدرس</Button>
         )}
         <Button
           onClick={() => {
             const isFormValid = form.validate()
-            if (isFormValid)
-              onSubmit({...form.values, quiz: {questions, options}})
+            if (isFormValid) onSubmit({...form.values, quiz})
           }}
         >
           اضف الدرس

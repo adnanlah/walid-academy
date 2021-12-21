@@ -35,4 +35,10 @@ const shuffleArray = arr => {
   return newArr
 }
 
-export {random, lorem, nextId, shuffleArray}
+const generate = (num, func) => {
+  return [...Array(num)].map((_, index) => {
+    return func(index)
+  })
+}
+
+export {random, lorem, nextId, shuffleArray, generate}

@@ -11,11 +11,14 @@ const StarRatingInput = ({ratingHandler, rating, ...props}) => {
         index += 1
         let star
         if (index <= (hover || rating))
-          star = <StarFilledIcon color="#FDCC0D" />
-        else star = <StarIcon color="#FDCC0D" />
+          star = (
+            <StarFilledIcon style={{verticalAlign: 'top'}} color="#FDCC0D" />
+          )
+        else star = <StarIcon style={{verticalAlign: 'top'}} color="#FDCC0D" />
         return (
-          <button
+          <span
             style={{
+              display: 'inline-block',
               backgroundColor: 'transparent',
               padding: 0,
               margin: 0,
@@ -23,14 +26,13 @@ const StarRatingInput = ({ratingHandler, rating, ...props}) => {
               outline: 'none',
               cursor: 'pointer',
             }}
-            type="button"
             key={index}
             onClick={() => ratingHandler(index)}
             onMouseEnter={() => setHover(index)}
             onMouseLeave={() => setHover(rating)}
           >
             {star}
-          </button>
+          </span>
         )
       })}
     </Box>
