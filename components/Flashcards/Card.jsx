@@ -5,8 +5,15 @@ import {useState} from 'react'
 export default function Card({card, onReview}) {
   const [isDisplayAnswer, setIsDisplayAnswer] = useState(false)
 
-  let backElement
+  let frontElement = (
+    <div>
+      <Text size="lg" align="center" style={{userSelect: 'none'}}>
+        {card.front}
+      </Text>
+    </div>
+  )
 
+  let backElement
   if (!isDisplayAnswer) {
     backElement = (
       <div
@@ -40,61 +47,61 @@ export default function Card({card, onReview}) {
         height: 500,
       }}
     >
-      <Center>
-        <Group direction="column" grow style={{height: '100%'}}>
-          <Text size="lg" align="center" style={{userSelect: 'none'}}>
-            {card.front}
-          </Text>
+      <Center style={{height: '100%'}}>
+        <Group direction="column" align="center">
+          {frontElement}
           {backElement}
         </Group>
-        <div style={{position: 'absolute', bottom: 0, padding: 20}}>
-          <Text mb="xs" align="center">
-            كيف كانت اجابتك؟
-          </Text>
-          <Group>
-            <Button
-              disabled={!isDisplayAnswer}
-              variant="filled"
-              color="green"
-              onClick={() => onReview(card.id, 5)}
-            >
-              اجابة مثالية
-            </Button>
-            <Button
-              disabled={!isDisplayAnswer}
-              variant="filled"
-              color="teal"
-              onClick={() => onReview(card.id, 4)}
-            >
-              اجابة صحيحة لكن بعد تردد
-            </Button>
-            <Button
-              disabled={!isDisplayAnswer}
-              variant="filled"
-              color="cyan"
-              onClick={() => onReview(card.id, 3)}
-            >
-              اجابة خاطئة لكن سهلة التذكر
-            </Button>
-            <Button
-              disabled={!isDisplayAnswer}
-              variant="filled"
-              color="indigo"
-              onClick={() => onReview(card.id, 2)}
-            >
-              اجابة خاطئة لكن صعبة التذكر
-            </Button>
-            <Button
-              disabled={!isDisplayAnswer}
-              variant="filled"
-              color="grape"
-              onClick={() => onReview(card.id, 0)}
-            >
-              اجابة خاطئة تماما
-            </Button>
-          </Group>
-        </div>
       </Center>
+      <div
+        style={{position: 'absolute', width: '100%', bottom: 0, padding: 20}}
+      >
+        <Text mb="xs" align="center">
+          كيف كانت اجابتك؟
+        </Text>
+        <Group position="center">
+          <Button
+            disabled={!isDisplayAnswer}
+            variant="filled"
+            color="green"
+            onClick={() => onReview(card.id, 5)}
+          >
+            اجابة مثالية
+          </Button>
+          <Button
+            disabled={!isDisplayAnswer}
+            variant="filled"
+            color="teal"
+            onClick={() => onReview(card.id, 4)}
+          >
+            اجابة صحيحة لكن بعد تردد
+          </Button>
+          <Button
+            disabled={!isDisplayAnswer}
+            variant="filled"
+            color="cyan"
+            onClick={() => onReview(card.id, 3)}
+          >
+            اجابة خاطئة لكن سهلة التذكر
+          </Button>
+          <Button
+            disabled={!isDisplayAnswer}
+            variant="filled"
+            color="indigo"
+            onClick={() => onReview(card.id, 2)}
+          >
+            اجابة خاطئة لكن صعبة التذكر
+          </Button>
+          <Button
+            disabled={!isDisplayAnswer}
+            variant="filled"
+            color="grape"
+            onClick={() => onReview(card.id, 0)}
+          >
+            اجابة خاطئة تماما
+          </Button>
+        </Group>
+      </div>
     </Paper>
   )
 }

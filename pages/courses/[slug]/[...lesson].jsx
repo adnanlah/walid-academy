@@ -15,14 +15,16 @@ import {
   Share1Icon,
   TwitterLogoIcon,
 } from '@modulz/radix-icons'
+import dynamic from 'next/dynamic'
 import Layout from 'layouts/Layout'
 import BgLayout from 'layouts/BgLayout'
 import Comments from '@/components/Comments/Comments'
-import QuizPlayer from '@/components/Quiz/QuizPlayer'
 import LessonPlayer from '@/components/LessonPlayer'
 import MyBreadcrumbs from '@/components/MyBreadcrumbs'
 import {useState} from 'react'
 import {arabicDict} from 'util/academicDict'
+
+const QuizPlayer = dynamic(() => import('@/components/Quiz/QuizPlayer'))
 
 const Lesson = ({lesson, course}) => {
   const [quizOpened, setquizOpened] = useState(false)
@@ -144,7 +146,7 @@ const Lesson = ({lesson, course}) => {
             },
           }}
         >
-          <QuizPlayer questions={lesson.quiz} />
+          <QuizPlayer quiz={lesson.quiz} />
         </Modal>
       </Box>
     </main>

@@ -12,9 +12,11 @@ import {Cross2Icon, CubeIcon, FileIcon, Pencil1Icon} from '@modulz/radix-icons'
 import {TextInput, Button} from '@mantine/core'
 import {useReducer, useState, useEffect} from 'react'
 import {useLocalStorageValue, useForm} from '@mantine/hooks'
-import NewLesson from './NewLesson'
 import ChapterForm from './ChapterForm'
 import {nextId} from '../../util/helpers'
+import dynamic from 'next/dynamic'
+
+const NewLesson = dynamic(() => import('./NewLesson'))
 
 const courseReducer = (state, action) => {
   const {chapters, lessons} = state

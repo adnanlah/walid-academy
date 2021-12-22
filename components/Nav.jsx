@@ -26,10 +26,15 @@ const useStyles = createStyles(theme => {
         theme.colorScheme === 'light'
           ? theme.colors.gray[0]
           : theme.colors.dark[9],
-      padding: `${theme.spacing.md}px 15%`,
       boxShadow: theme.shadows.xs,
       position: `relative`,
       zIndex: 99,
+    },
+    inner: {
+      padding: `${theme.spacing.md}px 0`,
+      width: '65%',
+      maxWidth: 1280,
+      margin: '0 auto',
       '& > div': {
         width: `50%`,
       },
@@ -71,7 +76,6 @@ function Nav() {
     } else {
       setMenuElement(
         <Menu
-          trigger="hover"
           placement="end"
           gutter={10}
           withArrow
@@ -102,69 +106,71 @@ function Nav() {
             </Anchor>
           </Menu.Item>
           <Menu.Item icon={<GearIcon />}>
-            <Anchor variant="text" href="/logout">
+            <Anchor
+              variant="text"
+              href="/logout"
+              onClick={() => {
+                setAuth(false)
+              }}
+            >
               خروج
             </Anchor>
           </Menu.Item>
         </Menu>,
       )
     }
-  }, [auth])
+  }, [auth, setAuth])
 
   return (
-    <Group align="stretch" component="nav" noWrap className={classes.wrapper}>
-      <div>
-        <NavItem href="/">
-          <Title order={3}>اكاديمية وليد</Title>
-        </NavItem>
-      </div>
-
-      <div className={cx(classes.navLinks, classes.navLinksStart)}>
-        <NavItem href="/browse">اكتشف</NavItem>
-
-        <Divider orientation="vertical" size="xs" />
-
-        {menuElement}
-
-        <Link href="/signup" passHref>
-          <Anchor>
-            <Button>ابدا من هنا</Button>
-          </Anchor>
-        </Link>
-
-        <Link href="/dashboard" passHref>
-          <ActionIcon mr="md" size="lg" variant="outline">
-            <GearIcon />
-          </ActionIcon>
-        </Link>
-      </div>
-
-      <Modal
-        radius="xl"
-        centered
-        overlayOpacity={0.35}
-        opened={opened}
-        onClose={() => setOpened(false)}
-        size="lg"
-        styles={{
-          body: {
-            padding: '20% 25%',
-          },
-        }}
-      >
-        <LoginForm
-          closeModal={() => {
-            setOpened(false)
+    <nav className={classes.wrapper}>
+      <Group align="stretch" noWrap className={classes.inner}>
+        <div>
+          <NavItem href="/">
+            <Title order={3}>اكاديمية وليد</Title>
+          </NavItem>
+        </div>
+        <div className={cx(classes.navLinks, classes.navLinksStart)}>
+          <NavItem href="/browse">اكتشف</NavItem>
+          <Divider orientation="vertical" size="xs" />
+          {menuElement}
+          <Link href="/signup" passHref>
+            <Anchor>
+              <Button>ابدا من هنا</Button>
+            </Anchor>
+          </Link>
+          <Link href="/dashboard" passHref>
+            <ActionIcon mr="md" size="lg" variant="outline">
+              <GearIcon />
+            </ActionIcon>
+          </Link>
+        </div>
+        <Modal
+          radius="xl"
+          centered
+          overlayOpacity={0.35}
+          opened={opened}
+          onClose={() => setOpened(false)}
+          size="lg"
+          styles={{
+            body: {
+              padding: '20% 25%',
+            },
           }}
-        />
-      </Modal>
-    </Group>
+        >
+          <LoginForm
+            closeModal={() => {
+              setOpened(false)
+            }}
+          />
+        </Modal>
+      </Group>
+    </nav>
   )
 }
 
 function NavItem({href, children, ...restProps}) {
   return (
-    <Box mx="md" {...restProps}>
+    <Box {...restProps}>
       <Link href={href} passHref>
         <Anchor variant="text">{children}</Anchor>
       </Link>

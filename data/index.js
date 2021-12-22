@@ -248,7 +248,7 @@ const quiz = {
     return {
       id: index,
       content: lorem(10),
-      correctAnswer: 0,
+      correctAnswer: 0, // the first option is the correct answer for all questions
     }
   }),
   options: generate(16, index => {
@@ -268,7 +268,7 @@ const lessons = generate(6, index => {
     videoUrl: '',
     chapterId: random(0, 1),
     length: random(15, 120),
-    quiz: questionsAndOptions,
+    quiz: quiz,
   }
 })
 

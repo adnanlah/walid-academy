@@ -8,6 +8,7 @@ const Option = ({
   onAttempt,
   showResults,
 }) => {
+  console.log(option.id, {isCorrectAnswer})
   const optionBgL = showResults
     ? isCorrectAnswer
       ? '#C6DAB7'
@@ -47,7 +48,7 @@ const Option = ({
         onAttempt(option.id)
       }}
     >
-      <Group>
+      <Group noWrap align="start">
         <Box>{icon}</Box>
         <Box>
           <Text style={{flexGrow: 1}}>{option.content}</Text>

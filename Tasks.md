@@ -1,9 +1,10 @@
+# My tasks
+
 - MyContainer paddings
 - flashcard score
-- set accordion style in the layout
-- set quiz in an object {question, options in data}
+- spacings
 
-# Tasks yet to be done
+## Tasks yet to be done
 
 - Create a User/Teacher profile
 - Add pagination to comments
@@ -13,4 +14,3 @@
   the Login form.
 - Add report buttons to Comments, Reviews, and Quiz question.
 - Add Edit button to flashcards in `Components/Dashboard/NewFlashcard`
--

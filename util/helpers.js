@@ -14,7 +14,14 @@ const dict =
 const nextId = array =>
   array[array.length - 1] ? array[array.length - 1].id + 1 : 0
 
-const random = (min, max) => Math.floor(Math.random() * (max - min)) + min
+/**
+ * Returns a random number between min (inclusive) and max (inclusive)
+ */
+const random = (min, max) => {
+  min = Math.ceil(min)
+  max = Math.floor(max)
+  return Math.floor(Math.random() * (max - min + 1)) + min
+}
 
 const lorem = n => {
   const words = []

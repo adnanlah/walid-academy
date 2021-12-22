@@ -1,10 +1,11 @@
 import {Button, Center, Group, Paper, Popover, Text} from '@mantine/core'
 import {useState} from 'react'
 import DottedPagination from '../DottedPagination'
-import {ReloadIcon, StarFilledIcon} from '@modulz/radix-icons'
-import QuestionOptions from './QuestionOptions'
+import {Cross2Icon, StarFilledIcon} from '@modulz/radix-icons'
+import Option from './Option'
 
-const Quiz = ({questions}) => {
+const Quiz = ({quiz}) => {
+  const {questions, options} = quiz
   const [activeQuestionIdx, setQuestionIdx] = useState(0)
   const [points, setPoints] = useState(0)
   const [showResults, setshowResults] = useState(false)
@@ -12,7 +13,6 @@ const Quiz = ({questions}) => {
   const [userAttempt, setUserAttempt] = useState(null)
   const [userAnsweredCorrectly, setUserAnsweredCorrectly] = useState(false)
 
-  const activeQuestion = questions[activeQuestionIdx]
   const numberOfQuestions = questions.length
 
   const userAttemptedHandler = optionId => setUserAttempt(optionId)
@@ -64,14 +64,26 @@ const Quiz = ({questions}) => {
     content = (
       <>
         <Text mb="md" size="lg" weight={500}>
-          {activeQuestion.content}
+          {questions[activeQuestionIdx].content}
         </Text>
-        <QuestionOptions
-          question={activeQuestion}
-          onAttempt={userAttemptedHandler}
-          userAttempt={userAttempt}
-          showResults={showResults}
-        />
+        <div>
+          {options
+            .filter(op => op.questionId === activeQuestionIdx)
+            .map(option => {
+              return (
+                <Option
+                  key={option.id}
+                  onAttempt={userAttemptedHandler}
+                  showResults={showResults}
+                  option={option}
+                  isChecked={userAttempt === option.id}
+                  isCorrectAnswer={
+                    questions[activeQuestionIdx].correctAnswer === option.id
+                  }
+                />
+              )
+            })}
+        </div>
       </>
     )
   } else {
@@ -88,7 +100,7 @@ const Quiz = ({questions}) => {
         <div>
           <Center mb="xl">
             {points < numberOfQuestions / 2 && (
-              <ReloadIcon style={{width: 40, height: 40}} />
+              <Cross2Icon style={{width: 40, height: 40}} />
             )}
             {points > numberOfQuestions / 2 && (
               <StarFilledIcon color="gold" style={{width: 40, height: 40}} />
@@ -141,7 +153,7 @@ const Quiz = ({questions}) => {
               userAnsweredCorrectly ? (
                 <StarFilledIcon color="gold" style={{width: 40, height: 40}} />
               ) : (
-                <ReloadIcon style={{width: 40, height: 40}} />
+                <Cross2Icon style={{width: 40, height: 40}} />
               )
             }
           />

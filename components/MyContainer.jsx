@@ -20,6 +20,7 @@ export default function MyContainer({
   py = 0,
   px = 0,
   children,
+  style,
   ...restProps
 }) {
   const {classes} = useStyles({
@@ -32,7 +33,7 @@ export default function MyContainer({
   return (
     <Box
       className={classes.pad}
-      style={{width: `60%`, margin: `0 auto`}}
+      style={{width: `65%`, maxWidth: 1280, margin: `0 auto`, ...style}}
       {...restProps}
     >
       {children}

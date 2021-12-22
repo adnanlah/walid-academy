@@ -4,13 +4,13 @@ import {supermemo} from 'util/supermemo'
 import {shuffleArray} from 'util/helpers'
 import Card from './Card'
 
-const Flashcard = ({flashcardData}) => {
+const Flashcard = ({cardsData}) => {
   const [session, setSession] = useState(0)
   const [cardIdx, setCardIdx] = useState(0)
   const sessionMax = 15
 
   const cards = useRef(
-    flashcardData.map(c => ({
+    cardsData.map(c => ({
       ...c,
       interval: 0,
       repetition: 0,
