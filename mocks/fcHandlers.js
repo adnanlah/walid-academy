@@ -14,19 +14,12 @@ const handlers = [
   rest.get(
     'https://my.backend/flashcards/:fcId/user/:userId',
     (req, res, ctx) => {
+      console.log('get request fc')
       const {userId, fcId} = req.params
       const user = getItem(userId, users)
-      const fc = getItem(fcId, flashcards)
+      const {cards} = getItem(fcId, flashcards)
       const currentSession = user.flashcardsProgress[fcId].session
-      const sessionLength = 5
-
-      let cards = fc.cards.map(c => ({
-        ...c,
-        interval: 0,
-        repetition: 0,
-        efactor: 2.5,
-        dueSession: 0,
-      }))
+      const sessionLength = 7
 
       const getCards = (cards, sessionNumber, maxOverdue = 0.8) => {
         const overdueLength = Math.floor(sessionLength * maxOverdue)
@@ -51,17 +44,20 @@ const handlers = [
   rest.post(
     'https://my.backend/flashcards/sessionover/:fcId/user/:userId',
     (req, res, ctx) => {
+      console.log('post request fc')
       const {userId, fcId} = req.params
       const user = getItem(userId, users)
-      const {session} = req.body
-      console.log('session i got is: ', session)
-      // store the session in
-      mergeByProp(user.flashcardsProgress.cards, session)
-      console.log(
-        'I merged the new session with the old cards ',
-        user.flashcardsProgress.cards,
+      const {sessionCards} = req.body
+
+      // store the sessionCards in
+      mergeByProp(user.flashcardsProgress[fcId].cards, sessionCards, 'id')
+      // increment the user's session pointer
+      user.flashcardsProgress[fcId].session++
+      return res(
+        ctx.delay(2000),
+        ctx.status(200),
+        ctx.json({message: 'all good'}),
       )
-      return res(ctx.json(flashcards))
     },
   ),
 

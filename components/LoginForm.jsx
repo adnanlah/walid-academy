@@ -27,7 +27,6 @@ const LoginForm = ({closeModal}) => {
   })
 
   const login = ({email}) => {
-    console.log('login func')
     const requestOptions = {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},

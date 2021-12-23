@@ -362,7 +362,7 @@ dummyData.comments = [
 ]
 
 dummyData.englishFlashcard = {
-  id: 1,
+  id: 0,
   title: 'ترجمة لكلمات عربية الى الانجليزية',
   description:
     'ترجمة لكلمات عربية الى الانجليزية ترجمة لكلمات عربية الى الانجليزية ترجمة لكلمات عربية الى الانجليزية',
@@ -870,10 +870,8 @@ dummyData.englishFlashcard = {
 }
 
 dummyData.numbersFlashcard = {
-  id: 1,
-  title: 'مصطلحات تاريخ وجفرافيا',
-  description:
-    'مصطلحات تاريخ وجفرافيا مصطلحات تاريخ وجفرافيا مصطلحات تاريخ وجفرافيا',
+  id: 0,
+  title: 'ارقام',
   user: {id: 1, name: 'محمد علي'},
   subject: 'تاريخ وجفرافيا',
   branch: 'علوم طبيعة حياة',
@@ -1132,13 +1130,30 @@ dummyData.numbersFlashcard = {
   ],
 }
 
+dummyData.numbersFlashcard.cards = dummyData.numbersFlashcard.cards.map(c => ({
+  ...c,
+  interval: 0,
+  repetition: 0,
+  efactor: 2.5,
+  dueSession: 0,
+}))
+
 dummyData.flashcards = generate(8, index => {
   return {
-    ...dummyData.englishFlashcard,
+    ...dummyData.numbersFlashcard,
     // override
     id: index,
+    description: lorem(15),
   }
 })
+
+// let cards = fc.cards.map(c => ({
+//   ...c,
+//   interval: 0,
+//   repetition: 0,
+//   efactor: 2.5,
+//   dueSession: 0,
+// }))
 
 module.exports = {
   dummyData,

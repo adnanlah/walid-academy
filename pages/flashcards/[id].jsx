@@ -20,7 +20,7 @@ export default function Flashcards({flashcard}) {
       }}
     >
       <Box component="section">
-        <FlashcardPlayer cardsData={flashcard.cards} id={flashcard.id} />
+        <FlashcardPlayer id={flashcard.id} />
       </Box>
 
       <Box

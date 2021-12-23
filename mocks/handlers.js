@@ -69,7 +69,7 @@ export const handlers = [
 
     // Here I append 2 chapter for each course no matter what
     // But I only append the lesson which belong to their respective chapter
-    course['content'] = chapters.map(c => ({
+    course['content'] = dummyData.chapters.map(c => ({
       ...c,
       lessons: dummyData.lessons.filter(lesson => lesson.chapterId === c.id),
     }))
@@ -121,10 +121,12 @@ export const handlers = [
 
     if (!cursor) cursor = dummyData.reviews[0]?.id // first page
 
-    const cursorIdx = reviews.findIndex(element => element.id === cursor)
+    const cursorIdx = dummyData.reviews.findIndex(
+      element => element.id === cursor,
+    )
 
-    const data = reviews.slice(cursorIdx, cursorIdx + limit)
-    const data2 = reviews.slice(cursorIdx, cursorIdx + limit + 1)
+    const data = dummyData.reviews.slice(cursorIdx, cursorIdx + limit)
+    const data2 = dummyData.reviews.slice(cursorIdx, cursorIdx + limit + 1)
 
     const nextCursor =
       data.length >= data2.length ? null : data2[data2.length - 1].id

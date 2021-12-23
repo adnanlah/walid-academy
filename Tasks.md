@@ -7,6 +7,9 @@
 - login modal
 - dummy data
 - error handling in handlers (try catch)
+- use myContainer in nav and footer
+- post request cleanup
+- fc breadcrumbs
 
 ## Tasks yet to be done
 
