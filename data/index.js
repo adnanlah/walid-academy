@@ -1,11 +1,13 @@
 import {lorem, random, generate} from '../util/helpers'
 
-const grades = [
+let dummyData = {}
+
+dummyData.grades = [
   {value: '3rd-highschool', label: 'سنة ثالثة ثانوي'},
   {value: '4th-middleschool', label: 'سنة ثانية ثانوي'},
 ]
 
-const branchs = [
+dummyData.branchs = [
   {value: 'math', label: 'شعبة رياضيات'},
   {value: 'management', label: 'شعبة تسيير واقتصاد'},
   {value: 'science', label: 'شعبة علوم طبيعة وحياة'},
@@ -13,13 +15,13 @@ const branchs = [
   {value: 'langues', label: 'شعبة علوم طبيعة وحياة'},
 ]
 
-const subjects = [
+dummyData.subjects = [
   {value: 'math', label: 'رياضيات'},
   {value: 'physics', label: 'فيزياء'},
   {value: 'science', label: 'علوم الطبيعة والحياة'},
 ]
 
-const provinces = [
+dummyData.provinces = [
   {
     value: '01',
     label: 'أدرار',
@@ -42,7 +44,7 @@ const provinces = [
   },
 ]
 
-const districts = [
+dummyData.districts = [
   {
     value: '01',
     label: 'أدرار',
@@ -65,7 +67,7 @@ const districts = [
   },
 ]
 
-const municipalities = [
+dummyData.municipalities = [
   {
     value: '01',
     label: 'أدرار',
@@ -88,7 +90,7 @@ const municipalities = [
   },
 ]
 
-const course = {
+dummyData.course = {
   id: 0,
   title: lorem(6),
   grade: '3rd-highschool',
@@ -104,9 +106,9 @@ const course = {
   description: lorem(50),
 }
 
-const courses = generate(10, index => {
+dummyData.courses = generate(10, index => {
   return {
-    ...course,
+    ...dummyData.course,
     // override
     id: index,
     rating: random(0, 5),
@@ -114,7 +116,7 @@ const courses = generate(10, index => {
   }
 })
 
-const reviews = generate(6, index => {
+dummyData.reviews = generate(6, index => {
   return {
     id: index,
     user: {id: 1, name: 'محمد علي'},
@@ -123,17 +125,44 @@ const reviews = generate(6, index => {
   }
 })
 
-const users = [
+dummyData.users = [
+  {
+    id: 0,
+    name: 'لحرش عدنان',
+    type: 'student',
+    description: '',
+    coursesCount: 0,
+    flashcardsProgress: {
+      0: {
+        session: 0,
+        cards: [],
+      },
+      1: {
+        session: 2,
+        cards: [],
+      },
+    },
+  },
   {
     id: 1,
     name: 'محمد علي',
     type: 'teacher',
     description: '',
     coursesCount: 2,
+    flashcardsProgress: {
+      0: {
+        session: 0,
+        cards: [],
+      },
+      1: {
+        session: 2,
+        cards: [],
+      },
+    },
   },
 ]
 
-const chapters = [
+dummyData.chapters = [
   {
     id: 0,
     title: 'الشابتر الاول',
@@ -144,7 +173,7 @@ const chapters = [
   },
 ]
 
-const questionsAndOptions = [
+dummyData.questionsAndOptions = [
   {
     id: 1,
     imageUrl: 'https://placekitten.com/408/287',
@@ -243,7 +272,7 @@ const questionsAndOptions = [
   },
 ]
 
-const quiz = {
+dummyData.quiz = {
   questions: generate(4, index => {
     return {
       id: index,
@@ -260,7 +289,7 @@ const quiz = {
   }),
 }
 
-const lessons = generate(6, index => {
+dummyData.lessons = generate(6, index => {
   return {
     id: index,
     title: lorem(7),
@@ -268,11 +297,11 @@ const lessons = generate(6, index => {
     videoUrl: '',
     chapterId: random(0, 1),
     length: random(15, 120),
-    quiz: quiz,
+    quiz: dummyData.quiz,
   }
 })
 
-const attachments = [
+dummyData.attachments = [
   {
     id: 1,
     title: 'الملف الاول',
@@ -281,7 +310,7 @@ const attachments = [
   },
 ]
 
-const comments = [
+dummyData.comments = [
   {
     id: 1,
     lessonId: 1,
@@ -332,7 +361,7 @@ const comments = [
   },
 ]
 
-const englishFlashcard = {
+dummyData.englishFlashcard = {
   id: 1,
   title: 'ترجمة لكلمات عربية الى الانجليزية',
   description:
@@ -840,7 +869,7 @@ const englishFlashcard = {
   ],
 }
 
-const numbersFlashcard = {
+dummyData.numbersFlashcard = {
   id: 1,
   title: 'مصطلحات تاريخ وجفرافيا',
   description:
@@ -1103,26 +1132,14 @@ const numbersFlashcard = {
   ],
 }
 
-const flashcards = [...Array(8)].map((_, index) => {
+dummyData.flashcards = generate(8, index => {
   return {
-    ...englishFlashcard,
+    ...dummyData.englishFlashcard,
     // override
     id: index,
   }
 })
 
 module.exports = {
-  courses,
-  users,
-  comments,
-  lessons,
-  reviews,
-  chapters,
-  flashcards,
-  grades,
-  branchs,
-  subjects,
-  provinces,
-  districts,
-  municipalities,
+  dummyData,
 }

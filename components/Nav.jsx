@@ -8,13 +8,12 @@ import {
   Title,
   Divider,
   Text,
-  ActionIcon,
   Modal,
   Menu,
   Avatar,
   Group,
 } from '@mantine/core'
-import {GearIcon} from '@modulz/radix-icons'
+import {AvatarIcon, ExitIcon, GearIcon} from '@modulz/radix-icons'
 import LoginForm from './LoginForm'
 import {useEffect, useState} from 'react'
 import {useLocalStorageValue} from '@mantine/hooks'
@@ -95,20 +94,20 @@ function Nav() {
             },
           }}
         >
-          <Menu.Item icon={<GearIcon />}>
+          <Menu.Item icon={<AvatarIcon />}>
             <Anchor variant="text" href="/settings">
               الاعدادات
             </Anchor>
           </Menu.Item>
           <Menu.Item icon={<GearIcon />}>
             <Anchor variant="text" href="/dashboard">
-              داشبورد
+              لوحة التحكم
             </Anchor>
           </Menu.Item>
-          <Menu.Item icon={<GearIcon />}>
+          <Menu.Item icon={<ExitIcon />}>
             <Anchor
               variant="text"
-              href="/logout"
+              href="#"
               onClick={() => {
                 setAuth(false)
               }}
@@ -131,17 +130,11 @@ function Nav() {
         </div>
         <div className={cx(classes.navLinks, classes.navLinksStart)}>
           <NavItem href="/browse">اكتشف</NavItem>
-          <Divider orientation="vertical" size="xs" />
           {menuElement}
           <Link href="/signup" passHref>
             <Anchor>
               <Button>ابدا من هنا</Button>
             </Anchor>
-          </Link>
-          <Link href="/dashboard" passHref>
-            <ActionIcon mr="md" size="lg" variant="outline">
-              <GearIcon />
-            </ActionIcon>
           </Link>
         </div>
         <Modal

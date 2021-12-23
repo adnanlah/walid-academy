@@ -4,12 +4,6 @@ import Comment from './Comment'
 import {Box, Center, LoadingOverlay, Title} from '@mantine/core'
 import useSWR from 'swr'
 
-async function fetcher(url) {
-  const res = await fetch(url)
-  const json = await res.json()
-  return json
-}
-
 const getReplies = (commentId, comments) =>
   comments
     .filter(c => c.parentId === commentId)
@@ -36,7 +30,6 @@ const Comments = ({lessonId, currentUserId}) => {
 
   const {data, error} = useSWR(
     `https://my.backend/lessons/${lessonId}/comments`,
-    fetcher,
   )
 
   if (error) return <Center>فشل في التحميل</Center>

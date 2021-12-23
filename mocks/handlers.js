@@ -1,19 +1,6 @@
 import {rest} from 'msw'
-import {
-  courses,
-  users,
-  lessons,
-  comments,
-  chapters,
-  reviews,
-  flashcards,
-  grades,
-  branchs,
-  subjects,
-  provinces,
-  districts,
-  municipalities,
-} from '../data/index.js'
+import fcHandlers from './fcHandlers'
+import {dummyData} from '../data/index.js'
 
 const getItem = (id, list) => list.find(e => e.id === parseInt(id))
 const getItems = (id, list) => list.filter(e => e.id === parseInt(id))
@@ -21,9 +8,11 @@ const getItemsByUserId = (id, list) =>
   list.filter(c => parseInt(c.user.id) === parseInt(id))
 
 export const handlers = [
+  ...fcHandlers,
+
   rest.get('https://my.backend/courses', (req, res, ctx) => {
     let limit = parseInt(req.url.searchParams.get('limit'))
-    return res(ctx.json(courses.slice(0, limit)))
+    return res(ctx.json(dummyData.courses.slice(0, limit)))
   }),
 
   rest.get('https://my.backend/users/:userId/courses', (req, res, ctx) => {
@@ -33,7 +22,7 @@ export const handlers = [
 
     if (isNaN(parseInt(userId))) return res(ctx.status(403))
 
-    const userCourses = getItemsByUserId(userId, courses)
+    const userCourses = getItemsByUserId(userId, dummyData.courses)
 
     if (!userCourses) {
       return res(
@@ -50,7 +39,7 @@ export const handlers = [
   rest.get('https://my.backend/courses/:id', (req, res, ctx) => {
     const {id} = req.params
 
-    const course = getItem(id, courses)
+    const course = getItem(id, dummyData.courses)
 
     if (!course) {
       return res(
@@ -67,7 +56,7 @@ export const handlers = [
   rest.get('https://my.backend/courses/:id/full', (req, res, ctx) => {
     const {id} = req.params
 
-    const course = getItem(id, courses)
+    const course = getItem(id, dummyData.courses)
 
     if (!course) {
       return res(
@@ -82,7 +71,7 @@ export const handlers = [
     // But I only append the lesson which belong to their respective chapter
     course['content'] = chapters.map(c => ({
       ...c,
-      lessons: lessons.filter(lesson => lesson.chapterId === c.id),
+      lessons: dummyData.lessons.filter(lesson => lesson.chapterId === c.id),
     }))
 
     return res(ctx.json(course))
@@ -91,7 +80,7 @@ export const handlers = [
   rest.get('https://my.backend/users/:id', (req, res, ctx) => {
     const {id} = req.params
 
-    const user = getItem(id, users)
+    const user = getItem(id, dummyData.users)
 
     if (!user) {
       return res(
@@ -107,7 +96,7 @@ export const handlers = [
 
   rest.get('https://my.backend/lessons/:id', (req, res, ctx) => {
     const {id} = req.params
-    const lesson = getItem(id, lessons)
+    const lesson = getItem(id, dummyData.lessons)
 
     if (!lesson) {
       return res(
@@ -122,7 +111,7 @@ export const handlers = [
   }),
 
   rest.get('https://my.backend/lessons/:id/comments', (req, res, ctx) => {
-    return res(ctx.json(comments))
+    return res(ctx.json(dummyData.comments))
   }),
 
   rest.get('https://my.backend/courses/:id/reviews', (req, res, ctx) => {
@@ -130,7 +119,7 @@ export const handlers = [
     let cursor = parseInt(req.url.searchParams.get('cursor'))
     let limit = parseInt(req.url.searchParams.get('limit'))
 
-    if (!cursor) cursor = reviews[0]?.id // first page
+    if (!cursor) cursor = dummyData.reviews[0]?.id // first page
 
     const cursorIdx = reviews.findIndex(element => element.id === cursor)
 
@@ -149,32 +138,12 @@ export const handlers = [
     )
   }),
 
-  rest.get('https://my.backend/flashcards', (req, res, ctx) => {
-    return res(ctx.json(flashcards))
-  }),
-
-  rest.get('https://my.backend/flashcards/:id', (req, res, ctx) => {
-    const {id} = req.params
-    const flashcard = getItem(id, flashcards)
-
-    if (!flashcard) {
-      return res(
-        ctx.status(404),
-        ctx.json({
-          errorMessage: 'Not found',
-        }),
-      )
-    }
-
-    return res(ctx.json(flashcard))
-  }),
-
   rest.get('https://my.backend/categories', (req, res, ctx) => {
     return res(
       ctx.json({
-        grades,
-        branchs,
-        subjects,
+        grades: dummyData.grades,
+        branchs: dummyData.branchs,
+        subjects: dummyData.subjects,
       }),
     )
   }),
@@ -182,15 +151,14 @@ export const handlers = [
   rest.get('https://my.backend/divisions', (req, res, ctx) => {
     return res(
       ctx.json({
-        provinces,
-        districts,
-        municipalities,
+        provinces: dummyData.provinces,
+        districts: dummyData.districts,
+        municipalities: dummyData.municipalities,
       }),
     )
   }),
 
   rest.post('https://my.backend/login', (req, res, ctx) => {
-    console.log('logiiiing handler')
     const {email} = req.body
     return res(
       ctx.json({

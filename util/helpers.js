@@ -48,4 +48,15 @@ const generate = (num, func) => {
   })
 }
 
-export {random, lorem, nextId, shuffleArray, generate}
+const mergeByProp = (target, source, prop) => {
+  source.forEach(sourceElement => {
+    let targetElement = target.find(targetElement => {
+      return sourceElement[prop] === targetElement[prop]
+    })
+    targetElement
+      ? Object.assign(targetElement, sourceElement)
+      : target.push(sourceElement)
+  })
+}
+
+export {random, lorem, nextId, shuffleArray, generate, mergeByProp}

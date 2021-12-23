@@ -3,6 +3,10 @@
 - MyContainer paddings
 - flashcard score
 - spacings
+- course grid cards
+- login modal
+- dummy data
+- error handling in handlers (try catch)
 
 ## Tasks yet to be done
 

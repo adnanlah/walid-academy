@@ -1,104 +1,71 @@
-import {Center, Progress} from '@mantine/core'
-import {useCallback, useEffect, useRef, useState} from 'react'
+import {Button, Center, Progress} from '@mantine/core'
+import {useEffect, useState} from 'react'
 import {supermemo} from 'util/supermemo'
-import {shuffleArray} from 'util/helpers'
 import Card from './Card'
+import useSWR from 'swr'
 
-const Flashcard = ({cardsData}) => {
-  const [session, setSession] = useState(0)
+const Flashcard = ({id}) => {
+  const [currentSession, setCurrentSession] = useState(null)
+  const [sessionCards, setSessionCards] = useState([])
+  const [difficultCards, setDifficultCards] = useState([])
   const [cardIdx, setCardIdx] = useState(0)
-  const sessionMax = 15
+  const [sessionIsOver, setSessionIsOver] = useState(false)
+  const sessionLength = sessionCards.length
 
-  const cards = useRef(
-    cardsData.map(c => ({
-      ...c,
-      interval: 0,
-      repetition: 0,
-      efactor: 2.5,
-      dueSession: 0,
-    })),
-  )
+  const {data, error} = useSWR(`https://my.backend/flashcards/${id}/user/1`)
 
-  const getCards = useCallback((cards, session, maxOverdue = 0.8) => {
-    const overdueLength = Math.floor(sessionMax * maxOverdue)
-    const overdueCards = cards
-      .filter(c => c.dueSession <= session && c.dueSession !== 0)
-      .slice(0, overdueLength)
-    let newCards = []
-    if (overdueCards.length <= sessionMax) {
-      newCards = cards
-        .filter(c => c.dueSession === 0)
-        .slice(0, sessionMax - overdueCards.length)
+  useEffect(() => {
+    if (data && !sessionCards.length) {
+      setSessionCards(data.sessionCards)
+      setCurrentSession(data.currentSession)
     }
-    return shuffleArray([...overdueCards, ...newCards])
-  }, [])
-
-  const [sessionCards, setSessionCards] = useState(() =>
-    getCards(cards.current, session),
-  )
-
-  const lengthOfSessionCards = sessionCards.length
-
-  const difficultCards = useRef([])
+  }, [data, sessionCards.length])
 
   const nextCard = () => {
-    if (cardIdx === lengthOfSessionCards - 1) {
-      setCardIdx(0)
-      if (difficultCards.current.length > 0) {
-        setSessionCards(difficultCards.current)
-        difficultCards.current = []
+    if (cardIdx === sessionLength - 1) {
+      if (difficultCards.length > 0) {
+        setCardIdx(0)
+        setSessionCards(difficultCards) // <-- set session cards to difficult cards
+        setDifficultCards([])
       } else {
-        setSession(s => s + 1)
+        setSessionIsOver(true)
       }
     } else {
-      setCardIdx(i => Math.min(lengthOfSessionCards - 1, i + 1))
+      setCardIdx(i => Math.min(sessionLength - 1, i + 1))
     }
   }
 
-  useEffect(() => {
-    setSessionCards(getCards(cards.current, session))
-  }, [getCards, session])
-
   const reviewHandler = (cardId, grade) => {
-    const idx = cards.current.findIndex(c => c.id === cardId)
-    const newFlashcard = practice(cards.current[idx], grade, session)
-    cards.current[idx] = newFlashcard
-    if (grade < 4) difficultCards.current.push(newFlashcard)
+    const idx = sessionCards.findIndex(c => c.id === cardId)
+    const newFlashcard = practice(sessionCards[idx], grade, currentSession)
+    sessionCards[idx] = newFlashcard
+    if (grade < 4) setDifficultCards(v => [...v, newFlashcard])
     nextCard()
   }
 
   return (
     <div>
-      {lengthOfSessionCards && (
-        <Card
-          key={Math.random()}
-          card={sessionCards[cardIdx]}
-          onReview={reviewHandler}
-        />
-      )}
-
-      {!lengthOfSessionCards && (
-        <Center
-          sx={theme => ({
-            position: 'relative',
-            height: 500,
-            backgroundColor: theme.colors.blue[0],
-          })}
-        >
-          انتهى
-        </Center>
-      )}
+      <div>
+        {sessionIsOver && <Center>انتهى</Center>}
+        {!sessionIsOver && sessionCards.length && (
+          <Card
+            key={Math.random()}
+            card={sessionCards[cardIdx]}
+            onReview={reviewHandler}
+          />
+        )}
+      </div>
 
       <Progress
         radius={0}
-        value={Math.ceil(((cardIdx + 1) / lengthOfSessionCards) * 100)}
+        value={Math.floor((cardIdx / sessionLength) * 100)}
       />
-      {/* <Group position="apart">
-        <Title order={4}>Session: {session}</Title>
-        <Title order={4}>
-          Difficult length: {difficultCards.current.length}
-        </Title>
-      </Group> */}
+      {/* <div>
+        <div>
+          SessionIsOver: {sessionIsOver ? 'true' : 'false'}
+        </div>
+        <div>Difficult length: {difficultCards.length}</div>
+      </div> */}
     </div>
   )
 }
