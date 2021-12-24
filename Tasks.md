@@ -9,8 +9,8 @@
 - error handling in handlers (try catch)
 - use myContainer in nav and footer
 - post request cleanup
-- fc breadcrumbs
-- quiz bugs
+- useswr error
+  <https://stackoverflow.com/questions/49343024/getting-typeerror-failed-to-fetch-when-the-request-hasnt-actually-failed>
 
 ## Tasks yet to be done
 

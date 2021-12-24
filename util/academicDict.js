@@ -1,11 +1,15 @@
 const dict = {
   '3rd-highschool': {
     arabic: 'السنة الثالثة ثنوي',
-    french: '3eme annee lycee',
+    french: 'abcd efgh',
+  },
+  '4th-middleschool': {
+    arabic: 'السنة الرابعة متوسط',
+    french: 'abcd efgh',
   },
   'science-branch': {
     arabic: 'شعبة علوم الطبيعة والحياة',
-    french: '3eme annee lycee',
+    french: 'abcd efgh',
   },
   'math-branch': {
     arabic: 'شعبة رياضيات',
@@ -39,4 +43,15 @@ const frenchDict = prop => {
   else return 'N existe pas'
 }
 
-export {arabicDict, frenchDict}
+const langDict = {
+  ar: prop => {
+    if (dict[prop]) return dict[prop].arabic
+    else return 'مش موجود'
+  },
+  fr: prop => {
+    if (dict[prop]) return dict[prop].french
+    else return 'N existe pas'
+  },
+}
+
+export {arabicDict, frenchDict, langDict}

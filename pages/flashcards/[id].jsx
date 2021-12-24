@@ -32,11 +32,9 @@ export default function Flashcards({flashcard}) {
         <Box mb="xl">
           <MyBreadcrumbs
             mb="xs"
-            links={[
-              {title: 'qwe', href: '#'},
-              {title: '123', href: '#'},
-              {title: 'zxc', href: '#'},
-            ]}
+            grade={flashcard.grade}
+            subject={flashcard.subject}
+            branch={flashcard.branch}
           />
           <Title order={3}>{flashcard.title}</Title>
         </Box>

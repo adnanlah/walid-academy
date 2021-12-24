@@ -1,25 +1,30 @@
 import {Breadcrumbs, Anchor} from '@mantine/core'
-export default function MyBreadcrumbs({links, ...props}) {
-  const items = links.map((item, index) => (
-    <Anchor href={item.href} key={index}>
-      {item.title}
-    </Anchor>
-  ))
+import {useCategories} from 'hooks/useCategories'
+
+export default function MyBreadcrumbs({
+  links,
+  grade,
+  branch,
+  subject,
+  ...props
+}) {
+  const {categories, isLoading, error} = useCategories()
+
+  if (error) return 'error'
+  if (isLoading) return 'Loading'
+  const items = [
+    <Anchor size="sm" color="dimmed" variant="text" href="#" key={grade}>
+      {categories.grades[0].label}
+    </Anchor>,
+    <Anchor size="sm" color="dimmed" variant="text" href="#" key={branch}>
+      {categories.branchs[0].label}
+    </Anchor>,
+    <Anchor size="sm" color="dimmed" variant="text" href="#" key={subject}>
+      {categories.subjects[0].label}
+    </Anchor>,
+  ]
   return (
-    <Breadcrumbs
-      separator="←"
-      styles={t => ({
-        breadcrumb: {
-          color:
-            t.colorScheme === 'light' ? t.colors.dark[6] : t.colors.dark[2],
-        },
-        separator: {
-          color:
-            t.colorScheme === 'light' ? t.colors.dark[6] : t.colors.dark[2],
-        },
-      })}
-      {...props}
-    >
+    <Breadcrumbs separator="←" {...props}>
       {items}
     </Breadcrumbs>
   )

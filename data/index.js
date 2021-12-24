@@ -8,17 +8,17 @@ dummyData.grades = [
 ]
 
 dummyData.branchs = [
-  {value: 'math', label: 'شعبة رياضيات'},
-  {value: 'management', label: 'شعبة تسيير واقتصاد'},
-  {value: 'science', label: 'شعبة علوم طبيعة وحياة'},
-  {value: 'lit', label: 'شعبة اداب وفلسفة'},
-  {value: 'tm', label: 'شعبة تقني رياضي'},
+  {value: 'math-branch', label: 'شعبة رياضيات'},
+  {value: 'management-branch', label: 'شعبة تسيير واقتصاد'},
+  {value: 'science-branch', label: 'شعبة علوم طبيعة وحياة'},
+  {value: 'lit-branch', label: 'شعبة اداب وفلسفة'},
+  {value: 'tm-branch', label: 'شعبة تقني رياضي'},
 ]
 
 dummyData.subjects = [
-  {value: 'math', label: 'رياضيات'},
-  {value: 'physics', label: 'فيزياء'},
-  {value: 'science', label: 'علوم الطبيعة والحياة'},
+  {value: 'math-subject', label: 'رياضيات'},
+  {value: 'physics-subject', label: 'فيزياء'},
+  {value: 'science-subject', label: 'علوم الطبيعة والحياة'},
 ]
 
 dummyData.provinces = [
@@ -93,9 +93,6 @@ dummyData.municipalities = [
 dummyData.course = {
   id: 0,
   title: lorem(6),
-  grade: '3rd-highschool',
-  subject: 'math',
-  branch: 'science',
   thumbnail: '',
   rating: 4,
   reviewsCount: 3,
@@ -113,6 +110,9 @@ dummyData.courses = generate(10, index => {
     id: index,
     rating: random(0, 5),
     title: lorem(6),
+    grade: dummyData.grades[random(0, dummyData.grades.length - 1)].value,
+    subject: dummyData.subjects[random(0, dummyData.subjects.length - 1)].value,
+    branch: dummyData.branchs[random(0, dummyData.branchs.length - 1)].value,
   }
 })
 
@@ -372,9 +372,9 @@ dummyData.englishFlashcard = {
   description:
     'ترجمة لكلمات عربية الى الانجليزية ترجمة لكلمات عربية الى الانجليزية ترجمة لكلمات عربية الى الانجليزية',
   user: {id: 1, name: 'محمد علي'},
-  grade: '3rd-highschool',
-  subject: 'math',
-  branch: 'science',
+  grade: dummyData.grades[random(0, dummyData.grades.length - 1)].value,
+  subject: dummyData.subjects[random(0, dummyData.subjects.length - 1)].value,
+  branch: dummyData.branchs[random(0, dummyData.branchs.length - 1)].value,
   cards: [
     {
       back: 'proceed; continue; pursue',
@@ -878,9 +878,9 @@ dummyData.numbersFlashcard = {
   id: 0,
   title: 'ارقام',
   user: {id: 1, name: 'محمد علي'},
-  subject: 'تاريخ وجفرافيا',
-  branch: 'علوم طبيعة حياة',
-  grade: 'سنة ثالثة ثنوي',
+  grade: dummyData.grades[random(0, dummyData.grades.length - 1)].value,
+  subject: dummyData.subjects[random(0, dummyData.subjects.length - 1)].value,
+  branch: dummyData.branchs[random(0, dummyData.branchs.length - 1)].value,
   cards: [
     {
       back: 'Zero',

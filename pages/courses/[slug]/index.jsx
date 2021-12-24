@@ -29,7 +29,6 @@ import MyBreadcrumbs from 'components/MyBreadcrumbs'
 import Reviews from 'components/Reviews'
 import Link from 'next/link'
 import {useRouter} from 'next/router'
-import {arabicDict} from 'util/academicDict'
 
 export default function Course({course}) {
   const chaptersList = course.content.map((chapter, idx) => (
@@ -51,11 +50,10 @@ export default function Course({course}) {
         <MyContainer>
           <Box mb="xs">
             <MyBreadcrumbs
-              links={[
-                {title: arabicDict(course.grade), href: '#'},
-                {title: arabicDict(course.branch), href: '#'},
-                {title: arabicDict(course.subject), href: '#'},
-              ]}
+              mb="xs"
+              grade={course.grade}
+              subject={course.subject}
+              branch={course.branch}
             />
           </Box>
           <Title order={2}>{course.title}</Title>
