@@ -9,11 +9,12 @@ const Quiz = ({quiz}) => {
   const [activeQuestionIdx, setQuestionIdx] = useState(0)
   const [points, setPoints] = useState(0)
   const [showResults, setshowResults] = useState(false)
-
   const [userAttempt, setUserAttempt] = useState(null)
   const [userAnsweredCorrectly, setUserAnsweredCorrectly] = useState(false)
+  const [quizIsOver, setQuizIsOver] = useState(false)
 
   const numberOfQuestions = questions.length
+  const finalQuestion = activeQuestionIdx === numberOfQuestions - 1
 
   const userAttemptedHandler = optionId => setUserAttempt(optionId)
 
@@ -49,18 +50,20 @@ const Quiz = ({quiz}) => {
   }
 
   let targetButton
-  if (!showResults) {
+  if (!showResults && !quizIsOver) {
     targetButton = (
-      <Button disabled={!userAttempt} onClick={() => checkAnswer()}>
+      <Button disabled={userAttempt === null} onClick={() => checkAnswer()}>
         اختبر
       </Button>
     )
-  } else {
+  } else if (showResults && !finalQuestion) {
     targetButton = <Button onClick={() => nextQuestion()}>السؤال التالي</Button>
+  } else if (showResults && finalQuestion) {
+    targetButton = <Button onClick={() => setQuizIsOver(true)}>انتهى</Button>
   }
 
   let content // You either show the questions, or the final result!
-  if (activeQuestionIdx < numberOfQuestions) {
+  if (!quizIsOver) {
     content = (
       <>
         <Text mb="md" size="lg" weight={500}>
@@ -103,7 +106,11 @@ const Quiz = ({quiz}) => {
               <Cross2Icon style={{width: 40, height: 40}} />
             )}
             {points > numberOfQuestions / 2 && (
-              <StarFilledIcon color="gold" style={{width: 40, height: 40}} />
+              <Center inline>
+                <StarFilledIcon color="gold" style={{width: 40, height: 40}} />
+                <StarFilledIcon color="gold" style={{width: 40, height: 40}} />
+                <StarFilledIcon color="gold" style={{width: 40, height: 40}} />
+              </Center>
             )}
           </Center>
           <Text align="center" size="xl">

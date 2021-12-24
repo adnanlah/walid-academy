@@ -1,4 +1,13 @@
-import {Button, Center, Loader, Progress, Text, Title} from '@mantine/core'
+import {
+  Button,
+  Center,
+  Group,
+  Loader,
+  Paper,
+  Progress,
+  Text,
+  Title,
+} from '@mantine/core'
 import {useEffect, useState} from 'react'
 import {supermemo} from 'util/supermemo'
 import Card from './Card'
@@ -67,6 +76,7 @@ const Flashcard = ({id}) => {
       if (difficultCards.length > 0) {
         setSessionCards(difficultCards) // <-- set session cards to difficult cards
         setDifficultCards([])
+        setCardIdx(0)
       } else {
         setSessionIsOver(true)
       }
@@ -80,28 +90,39 @@ const Flashcard = ({id}) => {
     const newFlashcard = practice(sessionCards[idx], grade, currentSession)
     sessionCards[idx] = newFlashcard
     if (grade < 4) setDifficultCards(v => [...v, newFlashcard])
+
     nextCard()
   }
 
   return (
     <div>
-      <Title>isValidating: {isValidating}</Title>
       <div>
         {sessionIsOver && (
-          <Center>
-            <Text>انتهى</Text>
-            {postingSession && <Loader />}
-            {!postingSession && (
-              <Button
-                onClick={() => {
-                  setCardIdx(0)
-                  mutate()
-                }}
-              >
-                Next session
-              </Button>
-            )}
-          </Center>
+          <Paper
+            style={{
+              position: 'relative',
+              height: 500,
+            }}
+          >
+            <Center style={{height: '100%'}}>
+              <Group direction="column" align="center">
+                <div>
+                  <Text>انتهى</Text>
+                </div>
+                {postingSession && <Loader />}
+                {!postingSession && (
+                  <Button
+                    onClick={() => {
+                      setCardIdx(0)
+                      mutate()
+                    }}
+                  >
+                    سلسلة جديدة
+                  </Button>
+                )}
+              </Group>
+            </Center>
+          </Paper>
         )}
         {!sessionIsOver && sessionCards.length && (
           <Card
@@ -118,12 +139,6 @@ const Flashcard = ({id}) => {
           sessionIsOver ? 100 : Math.floor((cardIdx / sessionLength) * 100)
         }
       />
-      {/* <div>
-        <div>
-          SessionIsOver: {sessionIsOver ? 'true' : 'false'}
-        </div>
-        <div>Difficult length: {difficultCards.length}</div>
-      </div> */}
     </div>
   )
 }

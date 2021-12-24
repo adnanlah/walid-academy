@@ -10,6 +10,7 @@
 - use myContainer in nav and footer
 - post request cleanup
 - fc breadcrumbs
+- quiz bugs
 
 ## Tasks yet to be done
 

@@ -11,8 +11,8 @@ dummyData.branchs = [
   {value: 'math', label: 'شعبة رياضيات'},
   {value: 'management', label: 'شعبة تسيير واقتصاد'},
   {value: 'science', label: 'شعبة علوم طبيعة وحياة'},
-  {value: 'lit', label: 'شعبة علوم طبيعة وحياة'},
-  {value: 'langues', label: 'شعبة علوم طبيعة وحياة'},
+  {value: 'lit', label: 'شعبة اداب وفلسفة'},
+  {value: 'tm', label: 'شعبة تقني رياضي'},
 ]
 
 dummyData.subjects = [
@@ -272,21 +272,26 @@ dummyData.questionsAndOptions = [
   },
 ]
 
+const ops = generate(20, index => {
+  const j = Math.floor(index / 4)
+  return {
+    id: index,
+    questionId: j,
+    content: lorem(20),
+  }
+})
+
+const qs = generate(5, index => {
+  return {
+    id: index,
+    content: lorem(10),
+    correctAnswer: ops.filter(o => o.questionId === index)[0].id,
+  }
+})
+
 dummyData.quiz = {
-  questions: generate(4, index => {
-    return {
-      id: index,
-      content: lorem(10),
-      correctAnswer: 0, // the first option is the correct answer for all questions
-    }
-  }),
-  options: generate(16, index => {
-    return {
-      id: index,
-      questionId: random(0, 3),
-      content: lorem(20),
-    }
-  }),
+  questions: qs,
+  options: ops,
 }
 
 dummyData.lessons = generate(6, index => {
@@ -1130,7 +1135,7 @@ dummyData.numbersFlashcard = {
   ],
 }
 
-dummyData.numbersFlashcard.cards = dummyData.numbersFlashcard.cards.map(c => ({
+dummyData.englishFlashcard.cards = dummyData.englishFlashcard.cards.map(c => ({
   ...c,
   interval: 0,
   repetition: 0,
@@ -1140,20 +1145,12 @@ dummyData.numbersFlashcard.cards = dummyData.numbersFlashcard.cards.map(c => ({
 
 dummyData.flashcards = generate(8, index => {
   return {
-    ...dummyData.numbersFlashcard,
+    ...dummyData.englishFlashcard,
     // override
     id: index,
     description: lorem(15),
   }
 })
-
-// let cards = fc.cards.map(c => ({
-//   ...c,
-//   interval: 0,
-//   repetition: 0,
-//   efactor: 2.5,
-//   dueSession: 0,
-// }))
 
 module.exports = {
   dummyData,
