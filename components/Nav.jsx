@@ -18,7 +18,7 @@ import LoginForm from './LoginForm'
 import {useEffect, useState} from 'react'
 import MyContainer from './MyContainer'
 import useUser from 'hooks/useUser'
-import {logout} from 'hooks/auth'
+import {logout} from 'util/auth'
 
 const useStyles = createStyles(theme => {
   return {
@@ -81,25 +81,17 @@ function Nav() {
             },
           }}
         >
-          <Menu.Item icon={<AvatarIcon />}>
-            <Anchor variant="text" href="/settings">
-              الاعدادات
-            </Anchor>
+          <Menu.Item icon={<GearIcon />} component="a" href="/dashboard">
+            لوحة التحكم
           </Menu.Item>
-          <Menu.Item icon={<GearIcon />}>
-            <Anchor variant="text" href="/dashboard">
-              لوحة التحكم
-            </Anchor>
-          </Menu.Item>
-          <Menu.Item icon={<ExitIcon />}>
-            <Box
-              onClick={() => {
-                logout()
-                mutate()
-              }}
-            >
-              خروج
-            </Box>
+          <Menu.Item
+            icon={<ExitIcon />}
+            onClick={() => {
+              logout()
+              mutate()
+            }}
+          >
+            <Box>خروج</Box>
           </Menu.Item>
         </Menu>,
       )

@@ -2,7 +2,6 @@
 
 - spacings
 - course grid cards
-- login modal
 - error handling in handlers (try catch)
 - post request cleanup
 - useswr error

@@ -1,6 +1,6 @@
 import useSWR from 'swr'
 
-import userFetcher from './api-user'
+import userFetcher from 'util/api-user'
 
 export default function useUser() {
   const {data, mutate, error} = useSWR('api_user', userFetcher)

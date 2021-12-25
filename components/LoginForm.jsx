@@ -9,7 +9,7 @@ import {
 import {useForm} from '@mantine/hooks'
 import {useEffect} from 'react'
 import Link from 'next/link'
-import {login} from 'hooks/auth'
+import {login} from 'util/auth'
 import useUser from 'hooks/useUser'
 const LoginForm = ({closeModal}) => {
   const {user, mutate, loggedOut} = useUser()
