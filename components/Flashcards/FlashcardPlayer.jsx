@@ -9,6 +9,7 @@ import {
   Title,
 } from '@mantine/core'
 import {useEffect, useState} from 'react'
+import usePost from 'hooks/usePost'
 import {supermemo} from 'util/supermemo'
 import Card from './Card'
 import useSWR from 'swr'
@@ -19,7 +20,12 @@ const Flashcard = ({id}) => {
   const [difficultCards, setDifficultCards] = useState([])
   const [cardIdx, setCardIdx] = useState(0)
   const [sessionIsOver, setSessionIsOver] = useState(false)
-  const [postingSession, setPostingSession] = useState(false)
+  // const [postingSession, setPostingSession] = useState(false)
+  // const [errorPosting, setErrorPosting] = useState(null)
+  const [postRes, apiMethod] = usePost({
+    url: `https://my.backend/flashcards/sessionover/${id}/user/1`,
+    payload: {},
+  })
   const sessionLength = sessionCards.length
 
   const {data, error, isValidating, mutate} = useSWR(
@@ -31,16 +37,8 @@ const Flashcard = ({id}) => {
     },
   )
 
-  // const newSession = () => {
-  //   setCardIdx(0)
-  //   mutate()
-  // }
-
   useEffect(() => {
-    console.log('isValidating 1: ', isValidating)
-    console.log('useEffect data changed')
     if (data) {
-      console.log('isValidating 2: ', isValidating, data)
       setCardIdx(0)
       setSessionIsOver(false)
       setSessionCards(data.sessionCards)
@@ -50,21 +48,19 @@ const Flashcard = ({id}) => {
 
   useEffect(() => {
     if (sessionIsOver) {
-      setPostingSession(true)
-      const requestOptions = {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({sessionCards}),
-      }
-
-      fetch(
-        `https://my.backend/flashcards/sessionover/${id}/user/1`,
-        requestOptions,
-      )
-        .then(response => response.json())
-        .then(res => {
-          setPostingSession(false)
-        })
+      apiMethod({sessionCards})
+      //   fetch(
+      //     `https://my.backend/flashcards/sessionover/${id}/user/1`,
+      //     requestOptions,
+      //   )
+      //     .then(response => {
+      //       if (!response.ok) throw new Error('Error')
+      //       response.json()
+      //     })
+      //     .then(res => {
+      //       setPostingSession(false)
+      //     })
+      //     .catch(err => setErrorPosting(err.message))
     }
 
     return () => {}
@@ -108,9 +104,10 @@ const Flashcard = ({id}) => {
               <Group direction="column" align="center">
                 <div>
                   <Text>انتهى</Text>
+                  {postRes.error && <Text>ERROR</Text>}
                 </div>
-                {postingSession && <Loader />}
-                {!postingSession && (
+                {postRes.isLoading && <Loader />}
+                {!postRes.isLoading && (
                   <Button
                     onClick={() => {
                       setCardIdx(0)

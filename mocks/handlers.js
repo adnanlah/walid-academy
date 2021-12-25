@@ -141,11 +141,6 @@ export const handlers = [
   }),
 
   rest.get('https://my.backend/categories', (req, res, ctx) => {
-    console.log('in server ', {
-      grades: dummyData.grades,
-      branchs: dummyData.branchs,
-      subjects: dummyData.subjects,
-    })
     return res(
       ctx.json({
         grades: dummyData.grades,

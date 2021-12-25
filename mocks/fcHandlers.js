@@ -15,28 +15,31 @@ const handlers = [
     'https://my.backend/flashcards/:fcId/user/:userId',
     (req, res, ctx) => {
       console.log('get request fc')
-      const {userId, fcId} = req.params
-      const user = getItem(userId, users)
-      const {cards} = getItem(fcId, flashcards)
-      const currentSession = user.flashcardsProgress[fcId].session
-      const sessionLength = 7
+      try {
+        const {userId, fcId} = req.params
+        const user = getItem(userId, users)
+        const {cards} = getItem(fcId, flashcards)
+        const currentSession = user.flashcardsProgress?.[fcId]?.session || 0
+        const sessionLength = 7
 
-      const getCards = (cards, sessionNumber, maxOverdue = 0.8) => {
-        const overdueLength = Math.floor(sessionLength * maxOverdue)
-        const overdueCards = cards
-          .filter(c => c.dueSession === sessionNumber && c.dueSession !== 0)
-          .slice(0, overdueLength)
-        let newCards = []
-        if (overdueCards.length <= sessionLength) {
-          newCards = cards
-            .filter(c => c.dueSession === 0)
-            .slice(0, sessionLength - overdueCards.length)
+        const getCards = (cards, sessionNumber, maxOverdue = 0.8) => {
+          const overdueLength = Math.floor(sessionLength * maxOverdue)
+          const overdueCards = cards
+            .filter(c => c.dueSession === sessionNumber && c.dueSession !== 0)
+            .slice(0, overdueLength)
+          let newCards = []
+          if (overdueCards.length <= sessionLength) {
+            newCards = cards
+              .filter(c => c.dueSession === 0)
+              .slice(0, sessionLength - overdueCards.length)
+          }
+          return shuffleArray([...overdueCards, ...newCards])
         }
-        return shuffleArray([...overdueCards, ...newCards])
-      }
 
-      const sessionCards = getCards(cards, currentSession)
-      console.log({currentSession, sessionCards})
+        const sessionCards = getCards(cards, currentSession)
+      } catch (e) {
+        console.log('catched an error in handler: ', e, e.message)
+      }
       return res(ctx.json({currentSession, sessionCards}))
     },
   ),
@@ -45,9 +48,17 @@ const handlers = [
     'https://my.backend/flashcards/sessionover/:fcId/user/:userId',
     (req, res, ctx) => {
       console.log('post request fc')
+      // try {
       const {userId, fcId} = req.params
       const user = getItem(userId, users)
       const {sessionCards} = req.body
+
+      if (!user?.flashcardsProgress?.[fcId]) {
+        user.flashcardsProgress[fcId] = {
+          session: 0,
+          cards: [],
+        }
+      }
 
       // store the sessionCards in
       mergeByProp(user.flashcardsProgress[fcId].cards, sessionCards, 'id')
@@ -58,6 +69,14 @@ const handlers = [
         ctx.status(200),
         ctx.json({message: 'all good'}),
       )
+      // } catch (err) {
+      //   console.log('i catched an error ', err)
+      //   return res(
+      //     ctx.delay(2000),
+      //     ctx.status(500),
+      //     ctx.json({message: `my custom msg is ${err}`}),
+      //   )
+      // }
     },
   ),
 

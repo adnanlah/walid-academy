@@ -6,12 +6,6 @@ import MyBreadcrumbs from 'components/MyBreadcrumbs'
 import FlashcardPlayer from '@/components/Flashcards/FlashcardPlayer'
 
 export default function Flashcards({flashcard}) {
-  const categories = [
-    {title: flashcard.branch, href: '/'},
-    {title: flashcard.grade, href: '/'},
-    {title: flashcard.subject, href: '/'},
-  ]
-
   return (
     <main
       style={{
