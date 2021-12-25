@@ -16,7 +16,9 @@ import {
 import {AvatarIcon, ExitIcon, GearIcon} from '@modulz/radix-icons'
 import LoginForm from './LoginForm'
 import {useEffect, useState} from 'react'
-import {useLocalStorageValue} from '@mantine/hooks'
+import MyContainer from './MyContainer'
+import useUser from 'hooks/useUser'
+import {logout} from 'hooks/auth'
 
 const useStyles = createStyles(theme => {
   return {
@@ -31,9 +33,7 @@ const useStyles = createStyles(theme => {
     },
     inner: {
       padding: `${theme.spacing.md}px 0`,
-      width: '65%',
-      maxWidth: 1280,
-      margin: '0 auto',
+
       '& > div': {
         width: `50%`,
       },
@@ -52,27 +52,14 @@ const useStyles = createStyles(theme => {
 })
 
 function Nav() {
+  const {user, mutate, loggedOut} = useUser()
   const {classes, cx} = useStyles()
-  const [auth, setAuth] = useLocalStorageValue({
-    key: 'is-authenticated',
-    defaultValue: false,
-  })
 
   const [opened, setOpened] = useState(false)
   const [menuElement, setMenuElement] = useState(false)
-
+  // let menuElement
   useEffect(() => {
-    if (!JSON.parse(auth)) {
-      setMenuElement(
-        <Box
-          mx="md"
-          style={{cursor: 'pointer'}}
-          onClick={() => setOpened(true)}
-        >
-          <Text>تسجيل دخول</Text>
-        </Box>,
-      )
-    } else {
+    if (user && !loggedOut) {
       setMenuElement(
         <Menu
           placement="end"
@@ -105,58 +92,69 @@ function Nav() {
             </Anchor>
           </Menu.Item>
           <Menu.Item icon={<ExitIcon />}>
-            <Anchor
-              variant="text"
-              href="#"
+            <Box
               onClick={() => {
-                setAuth(false)
+                logout()
+                mutate()
               }}
             >
               خروج
-            </Anchor>
+            </Box>
           </Menu.Item>
         </Menu>,
       )
+    } else {
+      setMenuElement(
+        <Box
+          mx="md"
+          style={{cursor: 'pointer'}}
+          onClick={() => setOpened(true)}
+        >
+          <Text>تسجيل دخول</Text>
+        </Box>,
+      )
     }
-  }, [auth, setAuth])
+  }, [user, loggedOut, mutate])
 
   return (
     <nav className={classes.wrapper}>
-      <Group align="stretch" noWrap className={classes.inner}>
-        <div>
-          <NavItem href="/">
-            <Title order={3}>اكاديمية وليد</Title>
-          </NavItem>
-        </div>
-        <div className={cx(classes.navLinks, classes.navLinksStart)}>
-          <NavItem href="/browse">اكتشف</NavItem>
-          {menuElement}
-          <Link href="/signup" passHref>
-            <Anchor>
-              <Button>ابدا من هنا</Button>
-            </Anchor>
-          </Link>
-        </div>
-        <Modal
-          radius="xl"
-          centered
-          overlayOpacity={0.35}
-          opened={opened}
-          onClose={() => setOpened(false)}
-          size="lg"
-          styles={{
-            body: {
-              padding: '20% 25%',
-            },
-          }}
-        >
-          <LoginForm
-            closeModal={() => {
-              setOpened(false)
+      <MyContainer>
+        <Group align="stretch" noWrap className={classes.inner}>
+          <div>
+            <NavItem href="/">
+              <Title order={3}>اكاديمية وليد</Title>
+            </NavItem>
+          </div>
+          <div className={cx(classes.navLinks, classes.navLinksStart)}>
+            <NavItem href="/browse">اكتشف</NavItem>
+            {menuElement}
+            <Link href="/signup" passHref>
+              <Anchor>
+                <Button>ابدا من هنا</Button>
+              </Anchor>
+            </Link>
+          </div>
+          <Modal
+            radius="xl"
+            centered
+            overlayOpacity={0.35}
+            opened={opened}
+            onClose={() => setOpened(false)}
+            size="lg"
+            styles={{
+              body: {
+                padding: '20% 25%',
+              },
             }}
-          />
-        </Modal>
-      </Group>
+          >
+            <LoginForm
+              closeModal={() => {
+                setOpened(false)
+              }}
+            />
+          </Modal>
+        </Group>
+      </MyContainer>
     </nav>
   )
 }

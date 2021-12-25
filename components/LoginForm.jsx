@@ -6,15 +6,13 @@ import {
   TextInput,
   Title,
 } from '@mantine/core'
-import {useForm, useLocalStorageValue} from '@mantine/hooks'
+import {useForm} from '@mantine/hooks'
+import {useEffect} from 'react'
 import Link from 'next/link'
-
+import {login} from 'hooks/auth'
+import useUser from 'hooks/useUser'
 const LoginForm = ({closeModal}) => {
-  const [value, setValue] = useLocalStorageValue({
-    key: 'is-authenticated',
-    defaultValue: false,
-  })
-
+  const {user, mutate, loggedOut} = useUser()
   const form = useForm({
     initialValues: {
       email: '',
@@ -26,26 +24,20 @@ const LoginForm = ({closeModal}) => {
     },
   })
 
-  const login = ({email}) => {
-    const requestOptions = {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({email}),
+  useEffect(() => {
+    if (user && !loggedOut) {
+      closeModal()
     }
-
-    fetch('https://my.backend/login', requestOptions)
-      .then(response => response.json())
-      .then(res => {
-        if (res.email) {
-          setValue(true)
-        }
-
-        return res.data
-      })
-  }
+  }, [closeModal, loggedOut, user])
 
   return (
-    <form onSubmit={form.onSubmit(login)}>
+    <form
+      onSubmit={e => {
+        e.preventDefault()
+        login()
+        mutate()
+      }}
+    >
       <Title align="center" mb="xl" order={3}>
         تسجيل دخول
       </Title>

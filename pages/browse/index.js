@@ -41,11 +41,7 @@ export default function Browse() {
       >
         <MyContainer>
           <Title style={{color: 'white'}} order={2} mb="xs">
-            بناء المهارات. احصل على شهادة.
-          </Title>
-
-          <Title style={{color: 'white'}} order={2} mb="xl">
-            عزز حياتك المهنية.
+            طور من مستواك الدراسي
           </Title>
           <form onSubmit={form.onSubmit(values => console.log(values))}>
             <Group align="start" style={{width: '50%'}}>

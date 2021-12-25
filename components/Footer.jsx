@@ -2,6 +2,7 @@ import {Anchor, Box, Group} from '@mantine/core'
 import {useEffect, useState} from 'react'
 import MyToggle from 'components/Elements/MyToggle'
 import {lorem} from 'util/helpers'
+import MyContainer from './MyContainer'
 
 const FooterLink = ({children, href, ...props}) => {
   return (
@@ -30,14 +31,14 @@ export default function Footer() {
   return (
     <Box
       sx={theme => ({
-        padding: `5% 17.5% 2% 17.5%`,
+        paddingTop: theme.spacing.xl * 2,
         background:
           theme.colorScheme === 'light'
             ? theme.colors.indigo[9]
             : theme.colors.dark[9],
       })}
     >
-      <div
+      <MyContainer
         style={{
           display: 'flex',
           flexDirection: 'column',
@@ -73,10 +74,15 @@ export default function Footer() {
             <FooterLink href="#">{text5}</FooterLink>
           </div>
         </Group>
-        <Box>
+        <Group
+          sx={theme => ({
+            padding: `${theme.spacing.xl}px 0`,
+          })}
+          position="right"
+        >
           <MyToggle />
-        </Box>
-      </div>
+        </Group>
+      </MyContainer>
     </Box>
   )
 }

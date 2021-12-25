@@ -1,10 +1,17 @@
 import useSWR from 'swr'
-export function useUser(id) {
-  const {data, error} = useSWR(`https://my.backend/user/${id}`)
+
+import userFetcher from './api-user'
+
+export default function useUser() {
+  const {data, mutate, error} = useSWR('api_user', userFetcher)
+
+  const loading = !data && !error
+  const loggedOut = error && error.status === 403
 
   return {
+    loading,
+    loggedOut,
     user: data,
-    isLoading: !error && !data,
-    isError: error,
+    mutate,
   }
 }

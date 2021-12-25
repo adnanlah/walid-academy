@@ -1,12 +1,9 @@
 # My tasks
 
-- MyContainer paddings
-- flashcard score
 - spacings
 - course grid cards
 - login modal
 - error handling in handlers (try catch)
-- use myContainer in nav and footer
 - post request cleanup
 - useswr error
   <https://stackoverflow.com/questions/49343024/getting-typeerror-failed-to-fetch-when-the-request-hasnt-actually-failed>

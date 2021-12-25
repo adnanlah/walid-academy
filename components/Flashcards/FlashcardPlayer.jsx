@@ -59,22 +59,6 @@ const Flashcard = ({id}) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, sessionIsOver])
 
-  const nextCard = () => {
-    // console.log(cardIdx, session - 1)
-    if (cardIdx === sessionLength - 1) {
-      if (difficultCards.length > 0) {
-        setSessionCards(difficultCards) // <-- set session cards to difficult cards
-        setDifficultCards([])
-        setCardIdx(0)
-      } else {
-        setSessionIsOver(true)
-      }
-    } else {
-      // setCardIdx(i => Math.min(sessionLength - 1, i + 1))
-      setCardIdx(i => i + 1)
-    }
-  }
-
   useEffect(() => {
     if (cardIdx === 0) {
       if (difficultCards.length > 0) {
@@ -91,10 +75,7 @@ const Flashcard = ({id}) => {
     const idx = sessionCards.findIndex(c => c.id === cardId)
     const newFlashcard = practice(sessionCards[idx], grade, currentSession)
     sessionCards[idx] = newFlashcard
-    if (grade < 4) {
-      setDifficultCards(v => [...v, newFlashcard])
-      console.log('i have added a new diff', difficultCards.length)
-    }
+    if (grade < 4) setDifficultCards(v => [...v, newFlashcard])
     setCardIdx(i => (i + 1 === sessionLength ? 0 : i + 1))
   }
 

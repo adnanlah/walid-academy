@@ -165,7 +165,6 @@ export const handlers = [
     return res(
       ctx.json({
         email,
-        fullname: 'محمد علي',
       }),
     )
   }),
