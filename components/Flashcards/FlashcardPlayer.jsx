@@ -20,11 +20,8 @@ const Flashcard = ({id}) => {
   const [difficultCards, setDifficultCards] = useState([])
   const [cardIdx, setCardIdx] = useState(0)
   const [sessionIsOver, setSessionIsOver] = useState(false)
-  // const [postingSession, setPostingSession] = useState(false)
-  // const [errorPosting, setErrorPosting] = useState(null)
   const [postRes, apiMethod] = usePost({
     url: `https://my.backend/flashcards/sessionover/${id}/user/1`,
-    payload: {},
   })
   const sessionLength = sessionCards.length
 
@@ -48,19 +45,12 @@ const Flashcard = ({id}) => {
 
   useEffect(() => {
     if (sessionIsOver) {
-      apiMethod({sessionCards})
-      //   fetch(
-      //     `https://my.backend/flashcards/sessionover/${id}/user/1`,
-      //     requestOptions,
-      //   )
-      //     .then(response => {
-      //       if (!response.ok) throw new Error('Error')
-      //       response.json()
-      //     })
-      //     .then(res => {
-      //       setPostingSession(false)
-      //     })
-      //     .catch(err => setErrorPosting(err.message))
+      const requestOptions = {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({sessionCards}),
+      }
+      apiMethod(requestOptions)
     }
 
     return () => {}

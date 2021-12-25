@@ -48,35 +48,35 @@ const handlers = [
     'https://my.backend/flashcards/sessionover/:fcId/user/:userId',
     (req, res, ctx) => {
       console.log('post request fc')
-      // try {
-      const {userId, fcId} = req.params
-      const user = getItem(userId, users)
-      const {sessionCards} = req.body
+      try {
+        const {userId, fcId} = req.params
+        const user = getItem(userId, users)
+        const {sessionCards} = req.body
 
-      if (!user?.flashcardsProgress?.[fcId]) {
-        user.flashcardsProgress[fcId] = {
-          session: 0,
-          cards: [],
+        if (!user?.flashcardsProgress?.[fcId]) {
+          user.flashcardsProgress[fcId] = {
+            session: 0,
+            cards: [],
+          }
         }
-      }
 
-      // store the sessionCards in
-      mergeByProp(user.flashcardsProgress[fcId].cards, sessionCards, 'id')
-      // increment the user's session pointer
-      user.flashcardsProgress[fcId].session++
-      return res(
-        ctx.delay(2000),
-        ctx.status(200),
-        ctx.json({message: 'all good'}),
-      )
-      // } catch (err) {
-      //   console.log('i catched an error ', err)
-      //   return res(
-      //     ctx.delay(2000),
-      //     ctx.status(500),
-      //     ctx.json({message: `my custom msg is ${err}`}),
-      //   )
-      // }
+        // store the sessionCards in
+        mergeByProp(user.flashcardsProgress[fcId].cards, sessionCards, 'id')
+        // increment the user's session pointer
+        user.flashcardsProgress[fcId].session++
+        return res(
+          ctx.delay(2000),
+          ctx.status(200),
+          ctx.json({message: 'all good'}),
+        )
+      } catch (err) {
+        console.log('i catched an error ', err)
+        return res(
+          ctx.delay(2000),
+          ctx.status(500),
+          ctx.json({message: `my custom msg is ${err}`}),
+        )
+      }
     },
   ),
 
