@@ -132,7 +132,7 @@ dummyData.users = [
     type: 'student',
     description: '',
     coursesCount: 0,
-    flashcardsProgress: null,
+    flashcardsProgress: {},
   },
   {
     id: 1,
@@ -140,7 +140,7 @@ dummyData.users = [
     type: 'teacher',
     description: '',
     coursesCount: 2,
-    flashcardsProgress: null,
+    flashcardsProgress: {},
   },
 ]
 

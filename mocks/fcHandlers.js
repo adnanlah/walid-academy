@@ -37,10 +37,14 @@ const handlers = [
         }
 
         const sessionCards = getCards(cards, currentSession)
-      } catch (e) {
-        console.log('catched an error in handler: ', e, e.message)
+        return res(ctx.json({currentSession, sessionCards}))
+      } catch (err) {
+        return res(
+          ctx.delay(2000),
+          ctx.status(500),
+          ctx.json({message: `my custom msg is ${err}`}),
+        )
       }
-      return res(ctx.json({currentSession, sessionCards}))
     },
   ),
 
@@ -60,14 +64,22 @@ const handlers = [
           }
         }
 
-        // store the sessionCards in
+        if (!user.flashcardsProgress[fcId]) {
+          // first time playing this flashcard
+          user.flashcardsProgress[fcId] = {
+            session: 0,
+            cards: [],
+          }
+        }
+
+        // merge new session cards with the old ones
         mergeByProp(user.flashcardsProgress[fcId].cards, sessionCards, 'id')
         // increment the user's session pointer
         user.flashcardsProgress[fcId].session++
         return res(
           ctx.delay(2000),
           ctx.status(200),
-          ctx.json({message: 'all good'}),
+          ctx.json({message: 'all good', user}),
         )
       } catch (err) {
         console.log('i catched an error ', err)

@@ -6,10 +6,9 @@ import {
   Paper,
   Progress,
   Text,
-  Title,
 } from '@mantine/core'
 import {useEffect, useState} from 'react'
-import usePost from 'hooks/usePost'
+import useFetch from 'hooks/useFetch'
 import {supermemo} from 'util/supermemo'
 import Card from './Card'
 import useSWR from 'swr'
@@ -20,10 +19,13 @@ const Flashcard = ({id}) => {
   const [difficultCards, setDifficultCards] = useState([])
   const [cardIdx, setCardIdx] = useState(0)
   const [sessionIsOver, setSessionIsOver] = useState(false)
-  const [postRes, apiMethod] = usePost({
+  const [postResponse, apiMethod] = useFetch({
     url: `https://my.backend/flashcards/sessionover/${id}/user/1`,
   })
   const sessionLength = sessionCards.length
+  console.log('cardIdx', cardIdx)
+  console.log('sessionCards', sessionCards)
+  console.log('difficultCards', difficultCards)
 
   const {data, error, isValidating, mutate} = useSWR(
     `https://my.backend/flashcards/${id}/user/1`,
@@ -58,6 +60,7 @@ const Flashcard = ({id}) => {
   }, [id, sessionIsOver])
 
   const nextCard = () => {
+    // console.log(cardIdx, session - 1)
     if (cardIdx === sessionLength - 1) {
       if (difficultCards.length > 0) {
         setSessionCards(difficultCards) // <-- set session cards to difficult cards
@@ -67,17 +70,32 @@ const Flashcard = ({id}) => {
         setSessionIsOver(true)
       }
     } else {
-      setCardIdx(i => Math.min(sessionLength - 1, i + 1))
+      // setCardIdx(i => Math.min(sessionLength - 1, i + 1))
+      setCardIdx(i => i + 1)
     }
   }
 
-  const reviewHandler = (cardId, grade) => {
+  useEffect(() => {
+    if (cardIdx === 0) {
+      if (difficultCards.length > 0) {
+        setSessionCards(difficultCards) // <-- set session cards to difficult cards
+        setDifficultCards([])
+      } else {
+        setSessionIsOver(true)
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cardIdx])
+
+  function reviewHandler(cardId, grade) {
     const idx = sessionCards.findIndex(c => c.id === cardId)
     const newFlashcard = practice(sessionCards[idx], grade, currentSession)
     sessionCards[idx] = newFlashcard
-    if (grade < 4) setDifficultCards(v => [...v, newFlashcard])
-
-    nextCard()
+    if (grade < 4) {
+      setDifficultCards(v => [...v, newFlashcard])
+      console.log('i have added a new diff', difficultCards.length)
+    }
+    setCardIdx(i => (i + 1 === sessionLength ? 0 : i + 1))
   }
 
   return (
@@ -94,10 +112,10 @@ const Flashcard = ({id}) => {
               <Group direction="column" align="center">
                 <div>
                   <Text>انتهى</Text>
-                  {postRes.error && <Text>ERROR</Text>}
+                  {postResponse.error && <Text>ERROR</Text>}
                 </div>
-                {postRes.isLoading && <Loader />}
-                {!postRes.isLoading && (
+                {postResponse.isLoading && <Loader />}
+                {!postResponse.isLoading && (
                   <Button
                     onClick={() => {
                       setCardIdx(0)

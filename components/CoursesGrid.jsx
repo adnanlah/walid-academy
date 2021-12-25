@@ -10,8 +10,6 @@ export default function CoursesGrid({api, pagination, size, ...restProps}) {
   if (error) console.log('error in coursesgrid is ', error)
   if (error) return <Center>فشل في التحميل</Center>
 
-  if (data) console.log('data', data)
-
   const setChange = page => {
     setPage(page)
   }
