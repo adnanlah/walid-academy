@@ -32,7 +32,7 @@ const useStyles = createStyles(theme => {
       zIndex: 99,
     },
     inner: {
-      padding: `${theme.spacing.md}px 0`,
+      padding: `${theme.spacing.xs}px 0`,
 
       '& > div': {
         width: `50%`,
@@ -111,10 +111,10 @@ function Nav() {
   return (
     <nav className={classes.wrapper}>
       <MyContainer>
-        <Group align="stretch" noWrap className={classes.inner}>
+        <Group align="center" noWrap className={classes.inner}>
           <div>
             <NavItem href="/">
-              <Title order={3}>اكاديمية وليد</Title>
+              <Title order={5}>اكاديمية وليد</Title>
             </NavItem>
           </div>
           <div className={cx(classes.navLinks, classes.navLinksStart)}>

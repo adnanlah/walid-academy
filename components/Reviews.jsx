@@ -56,9 +56,6 @@ const Reviews = ({courseId, ...restProps}) => {
 
   return (
     <div {...restProps}>
-      {/* <Title order={4} mb="md">
-        التقييمات
-      </Title> */}
       <Text weight={700} mb="md">
         التقييمات
       </Text>

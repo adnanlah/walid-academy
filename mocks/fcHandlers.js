@@ -19,24 +19,34 @@ const handlers = [
         const {userId, fcId} = req.params
         const user = getItem(userId, users)
         const {cards} = getItem(fcId, flashcards)
-        const currentSession = user.flashcardsProgress?.[fcId]?.session || 0
-        const sessionLength = 7
 
-        const getCards = (cards, sessionNumber, maxOverdue = 0.8) => {
-          const overdueLength = Math.floor(sessionLength * maxOverdue)
-          const overdueCards = cards
-            .filter(c => c.dueSession === sessionNumber && c.dueSession !== 0)
-            .slice(0, overdueLength)
-          let newCards = []
-          if (overdueCards.length <= sessionLength) {
-            newCards = cards
-              .filter(c => c.dueSession === 0)
-              .slice(0, sessionLength - overdueCards.length)
+        const sessionLength = 5
+        const firstSessionLength = 5
+
+        if (!user?.flashcardsProgress?.[fcId]) {
+          user.flashcardsProgress[fcId] = {
+            session: 0,
+            cards: cards,
           }
-          return shuffleArray([...overdueCards, ...newCards])
         }
 
-        const sessionCards = getCards(cards, currentSession)
+        const currentSession = user.flashcardsProgress[fcId].session
+        const userCards = user.flashcardsProgress[fcId].cards
+
+        const overdueCards = userCards.filter(
+          c => c.dueSession === currentSession,
+        )
+        if (currentSession === 0) overdueCards.splice(firstSessionLength)
+        let newCards = []
+        if (overdueCards.length < firstSessionLength) {
+          newCards = userCards
+            .filter(c => c.dueSession === 0)
+            .slice(0, sessionLength - overdueCards.length)
+        }
+
+        console.debug({overdueCards, newCards})
+
+        const sessionCards = shuffleArray([...overdueCards, ...newCards])
         return res(ctx.json({currentSession, sessionCards}))
       } catch (err) {
         return res(
@@ -56,21 +66,6 @@ const handlers = [
         const {userId, fcId} = req.params
         const user = getItem(userId, users)
         const {sessionCards} = req.body
-
-        if (!user?.flashcardsProgress?.[fcId]) {
-          user.flashcardsProgress[fcId] = {
-            session: 0,
-            cards: [],
-          }
-        }
-
-        if (!user.flashcardsProgress[fcId]) {
-          // first time playing this flashcard
-          user.flashcardsProgress[fcId] = {
-            session: 0,
-            cards: [],
-          }
-        }
 
         // merge new session cards with the old ones
         mergeByProp(user.flashcardsProgress[fcId].cards, sessionCards, 'id')

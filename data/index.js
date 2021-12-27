@@ -1117,6 +1117,14 @@ dummyData.numbersFlashcard = {
   ],
 }
 
+dummyData.numbersFlashcard.cards = dummyData.numbersFlashcard.cards.map(c => ({
+  ...c,
+  interval: 0,
+  repetition: 0,
+  efactor: 2.5,
+  dueSession: 0,
+}))
+
 dummyData.englishFlashcard.cards = dummyData.englishFlashcard.cards.map(c => ({
   ...c,
   interval: 0,
@@ -1127,7 +1135,7 @@ dummyData.englishFlashcard.cards = dummyData.englishFlashcard.cards.map(c => ({
 
 dummyData.flashcards = generate(8, index => {
   return {
-    ...dummyData.englishFlashcard,
+    ...dummyData.numbersFlashcard,
     // override
     id: index,
     description: lorem(15),

@@ -169,7 +169,7 @@ const NewCourse = ({categories}) => {
       styles={theme => {
         return {
           item: {
-            marginBottom: theme.spacing.md,
+            marginBottom: theme.spacing.xs,
           },
           control: {
             backgroundColor:
@@ -186,7 +186,7 @@ const NewCourse = ({categories}) => {
           label={chapter.name}
         >
           <Group
-            sx={theme => ({padding: theme.spacing.md})}
+            sx={theme => ({padding: theme.spacing.xs})}
             position="apart"
             mb="md"
           >
@@ -232,9 +232,9 @@ const NewCourse = ({categories}) => {
                       theme.colorScheme === 'light'
                         ? theme.colors.gray[0]
                         : theme.colors.dark[8],
-                    marginBottom: theme.spacing.md,
-                    padding: theme.spacing.md,
-                    borderRadius: theme.spacing.md,
+                    marginBottom: theme.spacing.xs,
+                    padding: theme.spacing.xs,
+                    borderRadius: theme.spacing.xs,
                   })}
                   position="apart"
                   key={`${lesson.id}-${lesson.title}`}
@@ -247,10 +247,12 @@ const NewCourse = ({categories}) => {
                       {': '}
                     </Text>
                     <Text>{lesson.title}</Text>
-                    <span>
-                      {lesson.quiz?.questions?.length > 1 && <CubeIcon />}
-                      {lesson.files?.length > 0 && <FileIcon />}
-                    </span>
+                    {lesson.quiz?.questions?.length > 1 && (
+                      <CubeIcon style={{verticalAlign: 'top'}} />
+                    )}
+                    {lesson.files?.length > 0 && (
+                      <FileIcon style={{verticalAlign: 'top'}} />
+                    )}
                   </Group>
                   <Group>
                     <ActionIcon
@@ -292,7 +294,7 @@ const NewCourse = ({categories}) => {
 
   return (
     <div>
-      <Title order={4} mb="xl">
+      <Title order={5} mb="xl">
         إنشاء كورس جديد
       </Title>
       <form
@@ -301,14 +303,14 @@ const NewCourse = ({categories}) => {
         })}
       >
         <TextInput
-          size="md"
+          size="xs"
           mb="md"
           label="غنوان الكورس"
           required
           {...form.getInputProps('title')}
         />
         <Textarea
-          size="md"
+          size="xs"
           mb="md"
           label="نبدة عن الكورس"
           required
@@ -316,7 +318,7 @@ const NewCourse = ({categories}) => {
         />
         <Group grow>
           <Select
-            size="md"
+            size="xs"
             mb="xl"
             label="اي سنة"
             placeholder="اختر"
@@ -325,7 +327,7 @@ const NewCourse = ({categories}) => {
             data={categories ? categories.grades : []}
           />
           <Select
-            size="md"
+            size="xs"
             mb="xl"
             label="اي شعبة"
             placeholder="اختر"
@@ -334,7 +336,7 @@ const NewCourse = ({categories}) => {
             data={categories ? categories.branchs : []}
           />
           <Select
-            size="md"
+            size="xs"
             mb="xl"
             label="اي مادة"
             placeholder="اختر"

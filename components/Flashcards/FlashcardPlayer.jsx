@@ -16,18 +16,13 @@ import useSWR from 'swr'
 const Flashcard = ({id}) => {
   const [currentSession, setCurrentSession] = useState(null)
   const [sessionCards, setSessionCards] = useState([])
-  const [difficultCards, setDifficultCards] = useState([])
   const [cardIdx, setCardIdx] = useState(0)
   const [sessionIsOver, setSessionIsOver] = useState(false)
   const [postResponse, apiMethod] = useFetch({
     url: `https://my.backend/flashcards/sessionover/${id}/user/1`,
   })
   const sessionLength = sessionCards.length
-  console.log('cardIdx', cardIdx)
-  console.log('sessionCards', sessionCards)
-  console.log('difficultCards', difficultCards)
-
-  const {data, error, isValidating, mutate} = useSWR(
+  const {data, error, mutate} = useSWR(
     `https://my.backend/flashcards/${id}/user/1`,
     {
       revalidateIfStale: false,
@@ -43,81 +38,74 @@ const Flashcard = ({id}) => {
       setSessionCards(data.sessionCards)
       setCurrentSession(data.currentSession)
     }
-  }, [data, isValidating])
+  }, [data])
 
   useEffect(() => {
+    // console.log('b4 sending post', sessionIsOver)
     if (sessionIsOver) {
       const requestOptions = {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({sessionCards}),
       }
+      // console.log('sending post', sessionIsOver)
       apiMethod(requestOptions)
     }
 
     return () => {}
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id, sessionIsOver])
-
-  useEffect(() => {
-    if (cardIdx === 0) {
-      if (difficultCards.length > 0) {
-        setSessionCards(difficultCards) // <-- set session cards to difficult cards
-        setDifficultCards([])
-      } else {
-        setSessionIsOver(true)
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cardIdx])
+  }, [apiMethod, sessionCards, sessionIsOver])
 
   function reviewHandler(cardId, grade) {
     const idx = sessionCards.findIndex(c => c.id === cardId)
     const newFlashcard = practice(sessionCards[idx], grade, currentSession)
     sessionCards[idx] = newFlashcard
-    if (grade < 4) setDifficultCards(v => [...v, newFlashcard])
-    setCardIdx(i => (i + 1 === sessionLength ? 0 : i + 1))
+    // add difficult cards to the end of session cards
+    if (grade < 4) setSessionCards(s => [...s, newFlashcard])
+    nextCard()
+  }
+
+  function nextCard() {
+    if (cardIdx < sessionLength - 1) {
+      // the card before the last one
+      setCardIdx(i => i + 1)
+    } else {
+      setSessionIsOver(true)
+    }
   }
 
   return (
     <div>
-      <div>
+      <Paper
+        style={{
+          position: 'relative',
+          height: 500,
+        }}
+      >
         {sessionIsOver && (
-          <Paper
-            style={{
-              position: 'relative',
-              height: 500,
-            }}
-          >
-            <Center style={{height: '100%'}}>
-              <Group direction="column" align="center">
-                <div>
-                  <Text>انتهى</Text>
-                  {postResponse.error && <Text>ERROR</Text>}
-                </div>
-                {postResponse.isLoading && <Loader />}
-                {!postResponse.isLoading && (
-                  <Button
-                    onClick={() => {
-                      setCardIdx(0)
-                      mutate()
-                    }}
-                  >
-                    سلسلة جديدة
-                  </Button>
-                )}
-              </Group>
-            </Center>
-          </Paper>
+          <Center style={{height: '100%'}}>
+            <Group direction="column" align="center">
+              <div>
+                <Text>انتهى</Text>
+                {postResponse.error && <Text>ERROR</Text>}
+              </div>
+              {postResponse.isLoading && <Loader />}
+              {!postResponse.isLoading && (
+                <Button
+                  onClick={() => {
+                    setCardIdx(0)
+                    mutate()
+                  }}
+                >
+                  سلسلة جديدة
+                </Button>
+              )}
+            </Group>
+          </Center>
         )}
         {!sessionIsOver && sessionCards.length && (
-          <Card
-            key={Math.random()}
-            card={sessionCards[cardIdx]}
-            onReview={reviewHandler}
-          />
+          <Card card={sessionCards[cardIdx]} onReview={reviewHandler} />
         )}
-      </div>
+      </Paper>
 
       <Progress
         radius={0}

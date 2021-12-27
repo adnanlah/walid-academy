@@ -41,12 +41,7 @@ export default function Card({card, onReview}) {
   }
 
   return (
-    <Paper
-      style={{
-        position: 'relative',
-        height: 500,
-      }}
-    >
+    <>
       <Center style={{height: '100%'}}>
         <Group direction="column" align="center">
           {frontElement}
@@ -66,6 +61,7 @@ export default function Card({card, onReview}) {
             color="green"
             onClick={() => onReview(card.id, 5)}
           >
+            {/* perfect response */}
             اجابة مثالية
           </Button>
           <Button
@@ -74,6 +70,7 @@ export default function Card({card, onReview}) {
             color="teal"
             onClick={() => onReview(card.id, 4)}
           >
+            {/* correct response after a hesitation */}
             اجابة صحيحة لكن بعد تردد
           </Button>
           <Button
@@ -82,7 +79,8 @@ export default function Card({card, onReview}) {
             color="cyan"
             onClick={() => onReview(card.id, 3)}
           >
-            اجابة خاطئة لكن سهلة التذكر
+            {/* correct response recalled with serious difficulty */}
+            اجابة صحيحة لكن صعبة
           </Button>
           <Button
             disabled={isDisplayAnswer}
@@ -90,7 +88,8 @@ export default function Card({card, onReview}) {
             color="indigo"
             onClick={() => onReview(card.id, 2)}
           >
-            اجابة خاطئة لكن صعبة التذكر
+            {/* incorrect response; where the correct one seemed easy to recall */}
+            اجابة خاطئة لكن سهلة
           </Button>
           <Button
             disabled={isDisplayAnswer}
@@ -98,10 +97,11 @@ export default function Card({card, onReview}) {
             color="grape"
             onClick={() => onReview(card.id, 0)}
           >
+            {/* incorrect response; the correct one remembered */}
             اجابة خاطئة تماما
           </Button>
         </Group>
       </div>
-    </Paper>
+    </>
   )
 }

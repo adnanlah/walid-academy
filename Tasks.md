@@ -1,7 +1,7 @@
 # My tasks
 
 - spacings
-- course grid cards
+- course grid cards and hover
 - error handling in handlers (try catch)
 - post request cleanup
 - useswr error

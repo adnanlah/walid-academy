@@ -49,7 +49,7 @@ export default function Dashboard() {
         align: 'stretch',
       }}
     >
-      <Title mb="xl" order={3}>
+      <Title mb="xl" order={4}>
         لوحة التحكم
       </Title>
       <Tabs

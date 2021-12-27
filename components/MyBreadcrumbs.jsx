@@ -13,13 +13,13 @@ export default function MyBreadcrumbs({
   if (error) return 'error'
   if (isLoading) return 'Loading'
   const items = [
-    <Anchor size="sm" color="dimmed" variant="text" href="#" key={grade}>
+    <Anchor size="sm" variant="text" href="#" key={grade}>
       {categories.grades[0].label}
     </Anchor>,
-    <Anchor size="sm" color="dimmed" variant="text" href="#" key={branch}>
+    <Anchor size="sm" variant="text" href="#" key={branch}>
       {categories.branchs[0].label}
     </Anchor>,
-    <Anchor size="sm" color="dimmed" variant="text" href="#" key={subject}>
+    <Anchor size="sm" variant="text" href="#" key={subject}>
       {categories.subjects[0].label}
     </Anchor>,
   ]

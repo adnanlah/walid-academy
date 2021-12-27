@@ -20,7 +20,7 @@ export function GlobalStyles() {
   )
 }
 
-const baseSize = 13
+const baseSize = 12
 const marginSize = 2
 
 export default function BaseLayout({children}) {
