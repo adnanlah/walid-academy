@@ -56,7 +56,7 @@ export default function Card({card, onReview}) {
         </Text>
         <Group position="center">
           <Button
-            disabled={isDisplayAnswer}
+            disabled={!isDisplayAnswer}
             variant="filled"
             color="green"
             onClick={() => onReview(card.id, 5)}
@@ -65,7 +65,7 @@ export default function Card({card, onReview}) {
             اجابة مثالية
           </Button>
           <Button
-            disabled={isDisplayAnswer}
+            disabled={!isDisplayAnswer}
             variant="filled"
             color="teal"
             onClick={() => onReview(card.id, 4)}
@@ -74,7 +74,7 @@ export default function Card({card, onReview}) {
             اجابة صحيحة لكن بعد تردد
           </Button>
           <Button
-            disabled={isDisplayAnswer}
+            disabled={!isDisplayAnswer}
             variant="filled"
             color="cyan"
             onClick={() => onReview(card.id, 3)}
@@ -83,7 +83,7 @@ export default function Card({card, onReview}) {
             اجابة صحيحة لكن صعبة
           </Button>
           <Button
-            disabled={isDisplayAnswer}
+            disabled={!isDisplayAnswer}
             variant="filled"
             color="indigo"
             onClick={() => onReview(card.id, 2)}
@@ -92,7 +92,7 @@ export default function Card({card, onReview}) {
             اجابة خاطئة لكن سهلة
           </Button>
           <Button
-            disabled={isDisplayAnswer}
+            disabled={!isDisplayAnswer}
             variant="filled"
             color="grape"
             onClick={() => onReview(card.id, 0)}

@@ -3,6 +3,7 @@ import {
   Center,
   Group,
   Loader,
+  LoadingOverlay,
   Paper,
   Progress,
   Text,
@@ -78,9 +79,10 @@ const Flashcard = ({id}) => {
       <Paper
         style={{
           position: 'relative',
-          height: 500,
+          height: '35rem',
         }}
       >
+        <LoadingOverlay visible={!data} />
         {sessionIsOver && (
           <Center style={{height: '100%'}}>
             <Group direction="column" align="center">
@@ -92,7 +94,6 @@ const Flashcard = ({id}) => {
               {!postResponse.isLoading && (
                 <Button
                   onClick={() => {
-                    setCardIdx(0)
                     mutate()
                   }}
                 >

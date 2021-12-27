@@ -1,5 +1,5 @@
 {
-  "name": "fem-tuto",
+  "name": "walid-academy",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -25,7 +25,6 @@
     "react-toggle": "^4.1.2",
     "stylis": "^4.0.13",
     "stylis-plugin-rtl": "^2.1.1",
-    "supermemo": "^2.0.17",
     "swr": "^1.1.1"
   },
   "devDependencies": {

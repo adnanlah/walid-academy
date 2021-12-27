@@ -20,8 +20,7 @@ const handlers = [
         const user = getItem(userId, users)
         const {cards} = getItem(fcId, flashcards)
 
-        const sessionLength = 5
-        const firstSessionLength = 5
+        const minSessionLength = 5
 
         if (!user?.flashcardsProgress?.[fcId]) {
           user.flashcardsProgress[fcId] = {
@@ -36,18 +35,22 @@ const handlers = [
         const overdueCards = userCards.filter(
           c => c.dueSession === currentSession,
         )
-        if (currentSession === 0) overdueCards.splice(firstSessionLength)
+        if (currentSession === 0) overdueCards.splice(minSessionLength)
         let newCards = []
-        if (overdueCards.length < firstSessionLength) {
+        if (overdueCards.length < minSessionLength) {
           newCards = userCards
             .filter(c => c.dueSession === 0)
-            .slice(0, sessionLength - overdueCards.length)
+            .slice(0, minSessionLength - overdueCards.length)
         }
 
         console.debug({overdueCards, newCards})
 
         const sessionCards = shuffleArray([...overdueCards, ...newCards])
-        return res(ctx.json({currentSession, sessionCards}))
+        return res(
+          ctx.delay(20000),
+          ctx.status(200),
+          ctx.json({currentSession, sessionCards}),
+        )
       } catch (err) {
         return res(
           ctx.delay(2000),
