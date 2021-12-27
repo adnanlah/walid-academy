@@ -47,7 +47,7 @@ const handlers = [
 
         const sessionCards = shuffleArray([...overdueCards, ...newCards])
         return res(
-          ctx.delay(20000),
+          ctx.delay(2000),
           ctx.status(200),
           ctx.json({currentSession, sessionCards}),
         )

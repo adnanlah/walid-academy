@@ -1,9 +1,13 @@
 import {Button, Center, Group, Paper, Text} from '@mantine/core'
 import {EyeNoneIcon} from '@modulz/radix-icons'
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 
 export default function Card({card, onReview}) {
   const [isDisplayAnswer, setIsDisplayAnswer] = useState(false)
+
+  useEffect(() => {
+    setIsDisplayAnswer(false)
+  }, [card])
 
   let frontElement = (
     <div>
@@ -18,7 +22,7 @@ export default function Card({card, onReview}) {
     backElement = (
       <div
         style={{
-          padding: '25px 50px',
+          padding: '2rem 4rem',
           border: '1px dashed darkgray',
           cursor: 'pointer',
         }}

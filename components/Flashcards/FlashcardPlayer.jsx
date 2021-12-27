@@ -74,16 +74,19 @@ const Flashcard = ({id}) => {
     }
   }
 
+  if (error) return <Text>ERROR</Text>
+
   return (
     <div>
       <Paper
+        padding={0}
         style={{
           position: 'relative',
           height: '35rem',
         }}
       >
         <LoadingOverlay visible={!data} />
-        {sessionIsOver && (
+        {!!sessionIsOver && (
           <Center style={{height: '100%'}}>
             <Group direction="column" align="center">
               <div>
@@ -103,7 +106,7 @@ const Flashcard = ({id}) => {
             </Group>
           </Center>
         )}
-        {!sessionIsOver && sessionCards.length && (
+        {!!(!sessionIsOver && sessionCards.length) && (
           <Card card={sessionCards[cardIdx]} onReview={reviewHandler} />
         )}
       </Paper>
