@@ -107,7 +107,11 @@ const Flashcard = ({id}) => {
           </Center>
         )}
         {!!(!sessionIsOver && sessionCards.length) && (
-          <Card card={sessionCards[cardIdx]} onReview={reviewHandler} />
+          <Card
+            key={card.id}
+            card={sessionCards[cardIdx]}
+            onReview={reviewHandler}
+          />
         )}
       </Paper>
 

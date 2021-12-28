@@ -5,10 +5,6 @@ import {useEffect, useState} from 'react'
 export default function Card({card, onReview}) {
   const [isDisplayAnswer, setIsDisplayAnswer] = useState(false)
 
-  useEffect(() => {
-    setIsDisplayAnswer(false)
-  }, [card])
-
   let frontElement = (
     <div>
       <Text size="lg" align="center" style={{userSelect: 'none'}}>
