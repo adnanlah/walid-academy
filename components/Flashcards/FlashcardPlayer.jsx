@@ -108,7 +108,7 @@ const Flashcard = ({id}) => {
         )}
         {!!(!sessionIsOver && sessionCards.length) && (
           <Card
-            key={card.id}
+            key={sessionCards[cardIdx].id}
             card={sessionCards[cardIdx]}
             onReview={reviewHandler}
           />
